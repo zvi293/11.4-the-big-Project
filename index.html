@@ -145,27 +145,24 @@
               something amazing.
             </p>
 
-            <!-- ✅ Apps Script Form -->
-            <form class="contact-form" id="contact-form">
-              <!-- Honeypot (hidden) -->
-              <div
-                style="
-                  position: absolute;
-                  left: -9999px;
-                  top: auto;
-                  width: 1px;
-                  height: 1px;
-                  overflow: hidden;
-                "
-              >
-                <label for="company">Company</label>
-                <input
-                  type="text"
-                  id="company"
-                  name="company"
-                  autocomplete="off"
-                />
-              </div>
+            <!-- ✅ Netlify Form -->
+            <form
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+              action="/thank-you.html"
+              class="contact-form"
+            >
+              <!-- Hidden input required by Netlify -->
+              <input type="hidden" name="form-name" value="contact" />
+              <!-- Honeypot for spam protection -->
+              <p hidden>
+                <label>
+                  Don't fill this out if you're human:
+                  <input name="bot-field" />
+                </label>
+              </p>
 
               <div class="form-group">
                 <label for="full-name">Full Name</label>
@@ -203,15 +200,9 @@
                 ></textarea>
               </div>
 
-              <button type="submit" class="submit-btn" id="submit-btn">
+              <button type="submit" class="submit-btn">
                 Send Message
               </button>
-
-              <!-- Status message -->
-              <p
-                id="form-status"
-                style="margin-top: 12px; font-size: 14px; color: #d4d4d4"
-              ></p>
             </form>
 
             <div class="contact-social">
@@ -262,50 +253,6 @@
       <img src="./image/images2.png" alt="GitHub" />
     </a>
 
-    <!-- ✅ Apps Script submit handler -->
-    <script>
-      // 🔴 הדבק כאן את ה-Web App URL של Apps Script
-      const APPS_SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbwFkjBlKsFyHr-S6PLJBu7_6fu8Yiv2xQdZW_JVFSW-TdLhMK9MzgzsBAgi_BGzpe6Y/exec";
 
-      const form = document.getElementById("contact-form");
-      const statusEl = document.getElementById("form-status");
-      const btn = document.getElementById("submit-btn");
-
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        statusEl.textContent = "";
-        btn.disabled = true;
-        btn.style.opacity = "0.8";
-
-        const formData = new FormData(form);
-        const payload = {
-          name: formData.get("name"),
-          email: formData.get("email"),
-          message: formData.get("message"),
-          company: formData.get("company"), // honeypot
-        };
-
-        try {
-          // Apps Script + דפדפן = לרוב יש CORS.
-          // mode:"no-cors" שולח בהצלחה, אבל לא מאפשר לקרוא תשובה.
-          await fetch(APPS_SCRIPT_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
-
-          statusEl.textContent = "✅ Message sent! I’ll get back to you soon.";
-          form.reset();
-        } catch (err) {
-          statusEl.textContent = "❌ Something went wrong. Please try again.";
-          console.error(err);
-        } finally {
-          btn.disabled = false;
-          btn.style.opacity = "1";
-        }
-      });
-    </script>
   </body>
 </html>
