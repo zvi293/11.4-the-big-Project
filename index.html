@@ -146,7 +146,13 @@
             </p>
 
             <!-- ✅ Google Apps Script Form -->
-            <form class="contact-form" id="contact-form">
+            <form
+              class="contact-form"
+              id="contact-form"
+              method="POST"
+              action="https://script.google.com/macros/s/AKfycbzOQrCEXO05TYVKNoTaL8WlndSVXAR5dNNSLT6wpLwUI9-p5Xv_pXx5KPaFeTGUGMCt/exec"
+              target="_self"
+            >
 
               <div class="form-group">
                 <label for="full-name">Full Name</label>
@@ -184,14 +190,9 @@
                 ></textarea>
               </div>
 
-              <button type="submit" class="submit-btn" id="submit-btn">
+              <button type="submit" class="submit-btn">
                 Send Message
               </button>
-
-              <p
-                id="form-status"
-                style="margin-top: 12px; font-size: 14px; color: #d4d4d4"
-              ></p>
             </form>
 
             <div class="contact-social">
@@ -241,53 +242,6 @@
     >
       <img src="./image/images2.png" alt="GitHub" />
     </a>
-    <!-- Apps Script Form Handler -->
-    <script>
-      (function () {
-        var ENDPOINT =
-          "https://script.google.com/macros/s/AKfycbzOQrCEXO05TYVKNoTaL8WlndSVXAR5dNNSLT6wpLwUI9-p5Xv_pXx5KPaFeTGUGMCt/exec";
-
-        var form = document.getElementById("contact-form");
-        var btn = document.getElementById("submit-btn");
-        var statusEl = document.getElementById("form-status");
-
-        form.addEventListener("submit", function (e) {
-          e.preventDefault();
-
-          if (btn.disabled) return;
-          btn.disabled = true;
-          btn.textContent = "Sending...";
-          statusEl.textContent = "";
-          statusEl.style.color = "#d4d4d4";
-
-          var data = new FormData(form);
-
-          fetch(ENDPOINT, {
-            method: "POST",
-            redirect: "follow",
-            body: data,
-          })
-            .then(function (res) {
-              if (!res.ok) throw new Error("HTTP " + res.status);
-              return res.json();
-            })
-            .then(function (json) {
-              if (json.status === "success") {
-                window.location.href = "/thank-you.html";
-              } else {
-                throw new Error(json.message || "Submission failed");
-              }
-            })
-            .catch(function (err) {
-              statusEl.style.color = "#ef4444";
-              statusEl.textContent =
-                "Something went wrong. Please try again.";
-              btn.disabled = false;
-              btn.textContent = "Send Message";
-            });
-        });
-      })();
-    </script>
 
   </body>
 </html>
