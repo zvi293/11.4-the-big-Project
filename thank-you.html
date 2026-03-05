@@ -8,7 +8,14 @@
       name="description"
       content="Thank you for contacting Zvi Moshe - I'll get back to you soon!"
     />
-    <link rel="stylesheet" href="./styel.css" />
+    <link rel="canonical" href="https://nz-web.netlify.app/thank-you.html" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+
+    <link rel="stylesheet" href="./style.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -109,9 +116,9 @@
   </head>
 
   <body>
-    <section class="thank-you-section">
+    <section class="thank-you-section" aria-label="Thank you confirmation">
       <div class="thank-you-card">
-        <div class="check-icon">✓</div>
+        <div class="check-icon" aria-hidden="true">✓</div>
         <h1 class="thank-you-title">Thank You!</h1>
         <p class="thank-you-message">
           Your message has been sent successfully. I'll review it and get back
@@ -125,7 +132,7 @@
     <footer class="site-footer">
       <div class="footer-container">
         <p class="footer-copy">&copy; 2026 Zvi Moshe. All rights reserved.</p>
-        <nav class="footer-links">
+        <nav class="footer-links" aria-label="Footer navigation">
           <a href="./privacy-policy.html">Privacy Policy</a>
           <span class="footer-divider">|</span>
           <a href="./terms.html">Terms of Service</a>

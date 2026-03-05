@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nz-web.netlify.app/sitemap.xml

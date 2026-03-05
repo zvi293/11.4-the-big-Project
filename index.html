@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zvi Moshe | Web Developer</title>
+
+    <!-- Primary Meta -->
     <meta
       name="google-site-verification"
       content="QfFFGc327TVj_aqefhwfii-Gu-uMNlIEL3sHcYC4KAA"
@@ -12,14 +14,58 @@
       name="description"
       content="Premium web development services - building modern, high-performance websites for businesses and brands"
     />
-    <link rel="stylesheet" href="./styel.css" />
+    <link rel="canonical" href="https://nz-web.netlify.app/" />
 
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Zvi Moshe | Web Developer" />
+    <meta property="og:description" content="Premium web development services building modern high-performance websites." />
+    <meta property="og:image" content="/image/20251111_150847.webp" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://nz-web.netlify.app/" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Zvi Moshe | Web Developer" />
+    <meta name="twitter:description" content="Premium web development services building modern high-performance websites." />
+    <meta name="twitter:image" content="/image/20251111_150847.webp" />
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="./style.css" />
+
+    <!-- Google Fonts Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Edu+NSW+ACT+Cursive:wght@400..700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Hero image preload for LCP -->
+    <link
+      rel="preload"
+      as="image"
+      href="./image/laptop-2593016.webp"
+      type="image/webp"
+    />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Zvi Moshe",
+      "jobTitle": "Web Developer",
+      "url": "https://nz-web.netlify.app",
+      "sameAs": [
+        "https://github.com/zvi293"
+      ]
+    }
+    </script>
   </head>
 
   <body>
@@ -30,7 +76,7 @@
       <!-- Hero Section -->
       <section class="top-page">
         <!-- Navigation Bar -->
-        <nav class="nav-bar">
+        <nav class="nav-bar" aria-label="Main navigation">
           <div class="nav-container">
             <a href="#About-myself" class="nav-link">About</a>
             <a href="#My-Skills" class="nav-link">Skills</a>
@@ -61,10 +107,17 @@
       <section id="About-myself" class="About-myself">
         <div class="about-container">
           <div class="about-image">
-            <img
-              src="./image/20251111_150847.jpg"
-              alt="Zvi Moshe - Web Developer"
-            />
+            <picture>
+              <source srcset="./image/20251111_150847.webp" type="image/webp" />
+              <img
+                src="./image/20251111_150847.jpg"
+                alt="Portrait of Zvi Moshe, web developer"
+                width="280"
+                height="280"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
           </div>
 
           <div class="about-content">
@@ -100,31 +153,31 @@
 
         <div class="skills-grid">
           <div class="skill-card">
-            <div class="skill-image wordpress-img"></div>
+            <div class="skill-image wordpress-img" role="img" aria-label="WordPress website development"></div>
             <h3 class="skill-title">Website Development</h3>
-            <p class="skill-text">Website management & development</p>
+            <p class="skill-text">Website management &amp; development</p>
           </div>
 
           <div class="skill-card">
-            <div class="skill-image landing-img"></div>
+            <div class="skill-image landing-img" role="img" aria-label="Digital marketing landing page"></div>
             <h3 class="skill-title">Landing Pages</h3>
             <p class="skill-text">High-converting landing pages</p>
           </div>
 
           <div class="skill-card">
-            <div class="skill-image mobile-img"></div>
+            <div class="skill-image mobile-img" role="img" aria-label="Responsive mobile website design"></div>
             <h3 class="skill-title">Responsive Design</h3>
             <p class="skill-text">Computer and mobile websites</p>
           </div>
 
           <div class="skill-card">
-            <div class="skill-image system-img"></div>
+            <div class="skill-image system-img" role="img" aria-label="System integration and payment solutions"></div>
             <h3 class="skill-title">System Integration</h3>
             <p class="skill-text">Seamless system integration</p>
           </div>
 
           <div class="skill-card">
-            <div class="skill-image design-img"></div>
+            <div class="skill-image design-img" role="img" aria-label="UI/UX design work"></div>
             <h3 class="skill-title">UI/UX Design</h3>
             <p class="skill-text">User-centered design solutions</p>
           </div>
@@ -142,7 +195,7 @@
               something amazing.
             </p>
 
-            <!-- ✅ Google Apps Script Form -->
+            <!-- Google Apps Script Form -->
             <form
               class="contact-form"
               id="contact-form"
@@ -150,6 +203,9 @@
               action="https://script.google.com/macros/s/AKfycbxsAue4IqeTOBZ2CNoNHz48uCvENT5x4yi4xC15VfiZu7v9xNBId77LMZhytSB0rLP0/exec"
               target="_self"
             >
+              <!-- Honeypot anti-spam field -->
+              <input type="text" name="company" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
               <div class="form-group">
                 <label for="full-name">Full Name</label>
                 <input
@@ -159,6 +215,7 @@
                   placeholder="Enter your full name"
                   autocomplete="name"
                   required
+                  aria-required="true"
                 />
               </div>
 
@@ -171,6 +228,7 @@
                   placeholder="example@mail.com"
                   autocomplete="email"
                   required
+                  aria-required="true"
                 />
               </div>
 
@@ -183,10 +241,11 @@
                   rows="4"
                   autocomplete="off"
                   required
+                  aria-required="true"
                 ></textarea>
               </div>
 
-              <button type="submit" class="submit-btn">Send Message</button>
+              <button type="submit" class="submit-btn" aria-label="Send your message">Send Message</button>
             </form>
 
             <div class="contact-social">
@@ -195,8 +254,8 @@
                 <a
                   href="https://wa.me/972587292029"
                   target="_blank"
-                  rel="noopener"
-                  aria-label="WhatsApp"
+                  rel="noopener noreferrer"
+                  aria-label="Chat with me on WhatsApp"
                 >
                   WhatsApp
                 </a>
@@ -204,8 +263,8 @@
                 <a
                   href="https://github.com/zvi293"
                   target="_blank"
-                  rel="noopener"
-                  aria-label="GitHub"
+                  rel="noopener noreferrer"
+                  aria-label="Visit my GitHub profile"
                 >
                   GitHub
                 </a>
@@ -221,27 +280,27 @@
       href="https://wa.me/972587292029"
       class="whatsapp-float"
       target="_blank"
-      rel="noopener"
+      rel="noopener noreferrer"
       aria-label="Chat with me on WhatsApp"
     >
-      <img src="./image/images.png" alt="WhatsApp" />
+      <img src="./image/images.png" alt="WhatsApp icon" width="28" height="28" loading="lazy" decoding="async" />
     </a>
 
     <a
       href="https://github.com/zvi293"
       class="github-float"
       target="_blank"
-      rel="noopener"
-      aria-label="Visit my GitHub"
+      rel="noopener noreferrer"
+      aria-label="Visit my GitHub profile"
     >
-      <img src="./image/images2.png" alt="GitHub" />
+      <img src="./image/images2.png" alt="GitHub icon" width="28" height="28" loading="lazy" decoding="async" />
     </a>
 
     <!-- Footer -->
     <footer class="site-footer">
       <div class="footer-container">
         <p class="footer-copy">&copy; 2026 NZ web. All rights reserved.</p>
-        <nav class="footer-links">
+        <nav class="footer-links" aria-label="Footer navigation">
           <a href="./privacy-policy.html">Privacy Policy</a>
           <span class="footer-divider">|</span>
           <a href="./terms.html">Terms of Service</a>
