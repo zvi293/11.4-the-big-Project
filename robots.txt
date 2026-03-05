@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /thank-you.html
 
 Sitemap: https://nz-web.netlify.app/sitemap.xml

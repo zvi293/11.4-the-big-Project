@@ -1,0 +1,36 @@
+/*
+  Netlify HTTP Headers
+  Docs: https://docs.netlify.com/routing/headers/
+*/
+
+# ── Long-term cache for immutable assets ─────────────────────────────────────
+/image/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/favicon*
+  Cache-Control: public, max-age=31536000, immutable
+
+/apple-touch-icon.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/favicon.ico
+  Cache-Control: public, max-age=31536000, immutable
+
+# ── Medium cache for manifest (changes rarely) ────────────────────────────────
+/site.webmanifest
+  Cache-Control: public, max-age=86400
+
+# ── Short cache for HTML (always fresh) ──────────────────────────────────────
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+# ── Security headers on all responses ────────────────────────────────────────
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  X-XSS-Protection: 1; mode=block
