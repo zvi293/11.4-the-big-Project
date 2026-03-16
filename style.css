@@ -685,6 +685,13 @@ img {
   letter-spacing: 0.015em;
 }
 
+.submit-btn[disabled] {
+  cursor: wait;
+  opacity: 0.75;
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
 .submit-btn:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
@@ -702,6 +709,21 @@ img {
 
 .submit-btn:active {
   transform: translateY(0);
+}
+
+.form-status {
+  min-height: 1.5rem;
+  margin-top: calc(var(--space-sm) * -0.25);
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+}
+
+.form-status.is-info {
+  color: var(--color-text-secondary);
+}
+
+.form-status.is-error {
+  color: #ffb4b4;
 }
 
 /* Contact Social Links */

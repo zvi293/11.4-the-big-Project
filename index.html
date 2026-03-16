@@ -307,6 +307,14 @@
               </div>
 
               <button type="submit" class="submit-btn" aria-label="Send your message">Send Message</button>
+              <p
+                class="form-status"
+                id="form-status"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+                hidden
+              ></p>
             </form>
 
             <div class="contact-social">
@@ -377,5 +385,145 @@
         <a href="#main-content" class="footer-top">&uarr; Back to top</a>
       </div>
     </footer>
+
+    <script>
+      (() => {
+        const formElement = document.getElementById("contact-form");
+
+        if (!formElement) {
+          return;
+        }
+
+        if (!window.fetch || !window.FormData) {
+          return;
+        }
+
+        const submitButton = formElement.querySelector('button[type="submit"]');
+        const statusElement = document.getElementById("form-status");
+        const honeypotField = formElement.elements.namedItem("company");
+        const successRedirectUrl = new URL("/thank-you.html", window.location.origin);
+        const defaultButtonLabel = submitButton ? submitButton.textContent.trim() : "";
+        let isSubmitting = false;
+
+        const setStatusMessage = (message, type = "info") => {
+          if (!statusElement) {
+            return;
+          }
+
+          if (!message) {
+            statusElement.hidden = true;
+            statusElement.textContent = "";
+            statusElement.className = "form-status";
+            statusElement.setAttribute("aria-live", "polite");
+            return;
+          }
+
+          statusElement.hidden = false;
+          statusElement.textContent = message;
+          statusElement.className = `form-status is-${type}`;
+          statusElement.setAttribute(
+            "aria-live",
+            type === "error" ? "assertive" : "polite"
+          );
+        };
+
+        const setSubmittingState = (submitting) => {
+          isSubmitting = submitting;
+
+          if (submitButton) {
+            submitButton.disabled = submitting;
+            submitButton.setAttribute("aria-disabled", String(submitting));
+            submitButton.textContent = submitting ? "Sending..." : defaultButtonLabel;
+          }
+
+          formElement.setAttribute("aria-busy", String(submitting));
+        };
+
+        const submitWithTimeout = async (formData) => {
+          const controller =
+            "AbortController" in window ? new AbortController() : null;
+          const timeoutId = controller
+            ? window.setTimeout(() => controller.abort(), 15000)
+            : null;
+
+          try {
+            const response = await fetch(formElement.action, {
+              method: formElement.method || "POST",
+              body: formData,
+              headers: {
+                Accept: "application/json, text/plain, */*"
+              },
+              signal: controller ? controller.signal : undefined,
+              redirect: "follow",
+              mode: "cors"
+            });
+
+            if (!response.ok) {
+              throw new Error(`Request failed with status ${response.status}`);
+            }
+
+            return response;
+          } catch (error) {
+            // Some Google Apps Script deployments reject CORS reads but still
+            // accept form submissions, so retry with an opaque request.
+            if (error instanceof TypeError) {
+              return fetch(formElement.action, {
+                method: formElement.method || "POST",
+                body: formData,
+                mode: "no-cors",
+                redirect: "follow"
+              });
+            }
+
+            throw error;
+          } finally {
+            if (timeoutId !== null) {
+              window.clearTimeout(timeoutId);
+            }
+          }
+        };
+
+        formElement.addEventListener("submit", async (event) => {
+          if (isSubmitting) {
+            event.preventDefault();
+            return;
+          }
+
+          if (!formElement.checkValidity()) {
+            event.preventDefault();
+            formElement.reportValidity();
+            return;
+          }
+
+          event.preventDefault();
+          setStatusMessage("");
+
+          if (
+            honeypotField &&
+            typeof honeypotField.value === "string" &&
+            honeypotField.value.trim() !== ""
+          ) {
+            return;
+          }
+
+          const formData = new FormData(formElement);
+
+          try {
+            setSubmittingState(true);
+            setStatusMessage("Sending your message...", "info");
+
+            await submitWithTimeout(formData);
+            window.location.assign(successRedirectUrl.toString());
+          } catch (error) {
+            console.error("Contact form submission failed.", error);
+            setStatusMessage(
+              "There was a problem sending your message. Please try again.",
+              "error"
+            );
+            setSubmittingState(false);
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
