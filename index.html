@@ -403,6 +403,7 @@
         const honeypotField = formElement.elements.namedItem("company");
         const successRedirectUrl = new URL("/thank-you.html", window.location.origin);
         const defaultButtonLabel = submitButton ? submitButton.textContent.trim() : "";
+        const redirectDelayMs = 800;
         let isSubmitting = false;
 
         const setStatusMessage = (message, type = "info") => {
@@ -439,48 +440,8 @@
           formElement.setAttribute("aria-busy", String(submitting));
         };
 
-        const submitWithTimeout = async (formData) => {
-          const controller =
-            "AbortController" in window ? new AbortController() : null;
-          const timeoutId = controller
-            ? window.setTimeout(() => controller.abort(), 15000)
-            : null;
-
-          try {
-            const response = await fetch(formElement.action, {
-              method: formElement.method || "POST",
-              body: formData,
-              headers: {
-                Accept: "application/json, text/plain, */*"
-              },
-              signal: controller ? controller.signal : undefined,
-              redirect: "follow",
-              mode: "cors"
-            });
-
-            if (!response.ok) {
-              throw new Error(`Request failed with status ${response.status}`);
-            }
-
-            return response;
-          } catch (error) {
-            // Some Google Apps Script deployments reject CORS reads but still
-            // accept form submissions, so retry with an opaque request.
-            if (error instanceof TypeError) {
-              return fetch(formElement.action, {
-                method: formElement.method || "POST",
-                body: formData,
-                mode: "no-cors",
-                redirect: "follow"
-              });
-            }
-
-            throw error;
-          } finally {
-            if (timeoutId !== null) {
-              window.clearTimeout(timeoutId);
-            }
-          }
+        const redirectToThankYouPage = () => {
+          window.location.assign(successRedirectUrl.toString());
         };
 
         formElement.addEventListener("submit", async (event) => {
@@ -507,15 +468,47 @@
           }
 
           const formData = new FormData(formElement);
+          let redirectTimerId = null;
+          let shouldHandleErrors = true;
 
           try {
             setSubmittingState(true);
             setStatusMessage("Sending your message...", "info");
 
-            await submitWithTimeout(formData);
-            window.location.assign(successRedirectUrl.toString());
+            const submissionRequest = fetch(formElement.action, {
+              method: formElement.method || "POST",
+              body: formData,
+              mode: "no-cors"
+            });
+
+            redirectTimerId = window.setTimeout(() => {
+              shouldHandleErrors = false;
+              redirectToThankYouPage();
+            }, redirectDelayMs);
+
+            submissionRequest.catch((error) => {
+              if (!shouldHandleErrors) {
+                return;
+              }
+
+              if (redirectTimerId !== null) {
+                window.clearTimeout(redirectTimerId);
+              }
+
+              console.error("Contact form submission failed.", error);
+              setStatusMessage(
+                "There was a problem sending your message. Please try again.",
+                "error"
+              );
+              setSubmittingState(false);
+            });
           } catch (error) {
-            console.error("Contact form submission failed.", error);
+            if (redirectTimerId !== null) {
+              window.clearTimeout(redirectTimerId);
+            }
+
+            shouldHandleErrors = false;
+            console.error("Contact form submission failed before dispatch.", error);
             setStatusMessage(
               "There was a problem sending your message. Please try again.",
               "error"

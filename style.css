@@ -686,8 +686,8 @@ img {
 }
 
 .submit-btn[disabled] {
-  cursor: wait;
-  opacity: 0.75;
+  cursor: not-allowed;
+  opacity: 0.6;
   transform: none;
   box-shadow: var(--shadow-sm);
 }
@@ -712,10 +712,14 @@ img {
 }
 
 .form-status {
-  min-height: 1.5rem;
-  margin-top: calc(var(--space-sm) * -0.25);
+  display: block;
+  margin-top: var(--space-xs);
   font-size: var(--font-size-sm);
   line-height: 1.5;
+}
+
+.form-status[hidden] {
+  display: none;
 }
 
 .form-status.is-info {
