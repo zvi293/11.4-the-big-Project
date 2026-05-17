@@ -486,28 +486,32 @@ ul { list-style: none; }
   z-index: 8500;
   flex-direction: column;
   /* CRITICAL — anchor from the top with enough padding to clear the
-     fixed nav header (≈68–88px tall depending on breakpoint) AND any
-     notch / status bar safe-area. Using `max(...)` guarantees a
-     generous baseline of 150px even if `env(safe-area-inset-top)`
-     reports 0 (non-notched devices / older browsers). This prevents
-     the first link ("About") from sliding under the nav. The value
-     was raised from 110px → 150px after testing on Android Chrome,
-     where the visible URL bar + nav padding ate ≥130px before About. */
+     fixed nav header AND any notch / status bar safe-area AND the
+     visible URL bar of mobile Chrome. Bumped to a generous 200px
+     (was 110→150→200) after repeated mobile bug reports where the
+     first link ("About") landed behind the nav header. There is
+     plenty of vertical space below for 7 links + foot, so being
+     generous up top is the safest call. */
   justify-content: flex-start;
-  padding-top:    max(150px, calc(env(safe-area-inset-top, 0px) + 130px));
+  padding-top:    max(200px, calc(env(safe-area-inset-top, 0px) + 180px));
   padding-bottom: max(28px,  calc(env(safe-area-inset-bottom, 0px) + 24px));
   padding-inline: var(--gutter);
   /* If the browser ever needs to scroll-into-view a focused link
      inside this container (keyboard navigation, screen readers),
-     keep the same 150px clearance from the top so the focused link
-     can never land BEHIND the fixed nav header. */
-  scroll-padding-top: max(150px, calc(env(safe-area-inset-top, 0px) + 130px));
-  /* Allow internal scroll IF content exceeds viewport (long phones in
-     landscape). `overscroll-behavior: contain` keeps the page underneath
-     from scrolling when the menu reaches its edge. */
-  overflow-y: auto;
+     keep the same clearance so the focused link can never land
+     BEHIND the fixed nav header. */
+  scroll-padding-top: max(200px, calc(env(safe-area-inset-top, 0px) + 180px));
+  /* HARD LOCK — no internal scrolling allowed.
+     The links + foot are designed to fit on any reasonable phone
+     viewport with the current padding. Disabling scroll completely
+     means there is NO mechanism by which the first link can be
+     pushed out of view — not by URL-bar reflow, not by focus
+     scroll-into-view, not by overscroll bounce, not by anything.
+     If the content somehow overflows on an extreme device, the
+     overflow is clipped (visible foot only) rather than hiding
+     the top items. */
+  overflow: hidden;
   overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
   /* Use 3D transform to force a compositor layer on iOS Safari —
      prevents repaint glitches that could clip the first item during
      the slide-in animation. */
@@ -2071,6 +2075,29 @@ ul { list-style: none; }
 
   /* Re-enable the mobile menu UI itself */
   .mobile-menu { display: flex; }
+
+  /* Extra defensive vertical breathing room between the nav header
+     and the first link ("About") on phones. Belt-and-braces with the
+     padding-top on .mobile-menu — at 980px we are firmly in mobile
+     territory and the URL bar / status bar typically eats more
+     space than on tablets. */
+  .mobile-menu {
+    padding-top: max(200px, calc(env(safe-area-inset-top, 0px) + 180px));
+    scroll-padding-top: max(200px, calc(env(safe-area-inset-top, 0px) + 180px));
+  }
+}
+
+/* True phone viewports — push the link list further down so the
+   first item ("About") sits clearly below the nav header on devices
+   where the visible Chrome / Safari URL bar is tallest. */
+@media (max-width: 700px) {
+  .mobile-menu {
+    padding-top: max(220px, calc(env(safe-area-inset-top, 0px) + 200px));
+    scroll-padding-top: max(220px, calc(env(safe-area-inset-top, 0px) + 200px));
+  }
+  .mobile-menu a {
+    scroll-margin-top: max(220px, calc(env(safe-area-inset-top, 0px) + 200px));
+  }
 }
 
 @media (max-width: 900px) {

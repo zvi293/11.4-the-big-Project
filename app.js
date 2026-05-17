@@ -86,10 +86,6 @@
   const openMenu = () => {
     if (!mobileMenu) return;
     lastFocus = document.activeElement;
-    // Reset scroll BEFORE we animate in. If Safari/Chrome remembered
-    // the scrollTop from before, this snaps it back to the top so the
-    // "About" link is always at the start of the visible area.
-    mobileMenu.scrollTop = 0;
     nav.classList.add("is-open");
     mobileMenu.classList.add("is-open");
     mobileMenu.removeAttribute("inert");
@@ -97,43 +93,28 @@
     navToggle.setAttribute("aria-label", "Close menu");
     document.body.style.overflow = "hidden";
 
-    // ── KEEP scrollTop = 0 across the first ~10 animation frames ──
-    // Some mobile browsers (notably Android Chrome) re-flow the
-    // container as the URL bar collapses or as the transform settles,
-    // and that re-flow can shift the internal scroll position by a
-    // few px — enough to push the first link ("About") behind the
-    // fixed nav header. We hold scrollTop at 0 for ~10 frames to
-    // out-last that re-flow window.
-    let resets = 10;
-    const pin = () => {
-      if (!mobileMenu.classList.contains("is-open")) return;
-      mobileMenu.scrollTop = 0;
-      if (--resets > 0) requestAnimationFrame(pin);
-    };
-    requestAnimationFrame(pin);
+    // ── TOUCH PATH (mobile phones / tablets) ──────────────────────
+    // Do NOTHING else. No focus. No scroll. No timers.
+    // The menu now uses `overflow: hidden` in CSS — there is no
+    // internal scroll position to manage, and there is no way the
+    // first link ("About") can be pushed out of view. Any focus
+    // call on a touch device (even with preventScroll:true) has
+    // historically caused Android Chrome to scroll-into-view the
+    // focused element and hide the first link. The fix is simply
+    // to not do it.
+    if (isTouch) return;
 
-    // Defer the focus until AFTER the slide-in animation finishes.
-    // On touch devices we DELIBERATELY do NOT focus the first link —
-    // even with `preventScroll: true`, mobile browsers (Android
-    // Chrome confirmed) will scroll-into-view the focused element
-    // and push "About" behind the fixed nav header on the next open
-    // cycle. Touch users don't need programmatic focus the way
-    // keyboard / AT users do — the menu is already visible, fully
-    // tappable, and the close button keeps a logical tab order.
-    // For keyboard/AT users we focus the menu CONTAINER itself
-    // (not the first link), so scroll-into-view has no link target
-    // to chase, and the user can Tab into the link list naturally.
+    // ── KEYBOARD / DESKTOP PATH ───────────────────────────────────
+    // For users navigating with a keyboard or assistive tech, we
+    // give focus to the menu CONTAINER itself after the slide-in
+    // animation finishes. Focusing the container (not the first
+    // link) means scroll-into-view has no link to chase, and Tab
+    // moves naturally from container → first link → second link.
     window.setTimeout(() => {
       if (!mobileMenu.classList.contains("is-open")) return;
-      mobileMenu.scrollTop = 0; // final defensive reset
-      if (isTouch) return; // touch path: do not focus, do not scroll
-      // Make the container itself programmatically focusable for
-      // this moment, focus it, then strip the tabindex so the user's
-      // Tab order is preserved.
       mobileMenu.setAttribute("tabindex", "-1");
       try { mobileMenu.focus({ preventScroll: true }); }
       catch (_) { mobileMenu.focus(); }
-      mobileMenu.scrollTop = 0;
     }, MENU_ANIM_MS);
   };
 
