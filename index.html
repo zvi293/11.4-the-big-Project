@@ -2,10 +2,34 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>NZ Web — Studio of Zvi Moshe · Web Development &amp; Design</title>
 
-    <!-- Primary Meta -->
+    <!-- ============ SECURITY HEADERS (meta) ============ -->
+    <!-- Content Security Policy: locks down what the page can load & where it can submit.
+         NOTE: `frame-ancestors` is intentionally omitted here — browsers ignore that
+         directive when CSP is delivered via a <meta> tag (W3C spec). It IS enforced
+         at the HTTP layer via `_headers` (X-Frame-Options: DENY + CSP frame-ancestors). -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        script-src 'self' 'unsafe-inline';
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        font-src 'self' https://fonts.gstatic.com;
+        img-src 'self' data: https://nz-web.netlify.app;
+        connect-src 'self' https://script.google.com https://script.googleusercontent.com;
+        form-action 'self' https://script.google.com;
+        base-uri 'self';
+        object-src 'none';
+        upgrade-insecure-requests;
+      "
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), accelerometer=(), gyroscope=()" />
+
+    <!-- ============ PRIMARY META ============ -->
     <meta
       name="google-site-verification"
       content="QfFFGc327TVj_aqefhwfii-Gu-uMNlIEL3sHcYC4KAA"
@@ -15,7 +39,7 @@
       content="NZ Web is the independent studio of Zvi Moshe — building world-class websites, landing pages, and digital products with obsessive craft and zero filler."
     />
     <link rel="canonical" href="https://nz-web.netlify.app/" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="author" content="Zvi Moshe" />
     <meta name="theme-color" content="#050505" />
     <meta name="color-scheme" content="dark" />
@@ -36,12 +60,14 @@
     <meta property="og:site_name" content="NZ Web" />
     <meta property="og:image" content="https://nz-web.netlify.app/image/20251111_150847.webp" />
     <meta property="og:image:alt" content="Portrait of Zvi Moshe, founder of NZ Web" />
+    <meta property="og:locale" content="en_US" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="NZ Web — Studio of Zvi Moshe" />
     <meta name="twitter:description" content="Custom websites, landing pages, and digital products built with obsessive craft." />
     <meta name="twitter:image" content="https://nz-web.netlify.app/image/20251111_150847.webp" />
+    <meta name="twitter:image:alt" content="Portrait of Zvi Moshe, founder of NZ Web" />
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="./style.css" />
@@ -109,19 +135,19 @@
   <body>
     <a href="#main" class="skip-link">Skip to main content</a>
 
-    <!-- Custom cursor -->
+    <!-- Custom cursor (decorative) -->
     <div class="cursor-dot" aria-hidden="true"></div>
     <div class="cursor-ring" aria-hidden="true"></div>
 
-    <!-- Scroll progress -->
+    <!-- Scroll progress (decorative) -->
     <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
     <!-- ===================== NAV ===================== -->
     <header class="nav" id="nav" aria-label="Main navigation">
       <div class="container nav-row">
-        <a href="#" class="brand" aria-label="NZ Web — home" data-cursor="hover">
-          <span class="mark">N</span>
-          <span>
+        <a href="#" class="brand" aria-label="NZ Web — back to top" data-cursor="hover">
+          <span class="mark" aria-hidden="true">N</span>
+          <span class="brand-text">
             <strong>NZ&nbsp;Web</strong>
             <small>Studio · est. 2024</small>
           </span>
@@ -136,30 +162,32 @@
           <a href="#faq" data-cursor="hover">FAQ</a>
         </nav>
 
-        <a href="#contact" class="nav-cta" data-cursor="hover">
-          <span class="dot" aria-hidden="true"></span>
-          Available for work
-        </a>
+        <div class="nav-actions">
+          <a href="#contact" class="nav-cta" data-cursor="hover" aria-label="Available for work — go to contact">
+            <span class="dot" aria-hidden="true"></span>
+            <span class="nav-cta-text">Available for work</span>
+          </a>
 
-        <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
-          <span></span>
-        </button>
+          <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu" type="button">
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
       </div>
     </header>
 
-    <!-- Mobile menu -->
-    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <!-- Mobile menu — `inert` initially so focus & AT skip it when closed -->
+    <div class="mobile-menu" id="mobileMenu" inert>
       <nav aria-label="Mobile">
-        <a href="#manifesto" data-mobile-link><span>01</span>About</a>
-        <a href="#services" data-mobile-link><span>02</span>Services</a>
-        <a href="#process" data-mobile-link><span>03</span>Process</a>
-        <a href="#work" data-mobile-link><span>04</span>Work</a>
-        <a href="#words" data-mobile-link><span>05</span>Words</a>
-        <a href="#faq" data-mobile-link><span>06</span>FAQ</a>
-        <a href="#contact" data-mobile-link><span>07</span>Contact</a>
+        <a href="#manifesto" data-mobile-link><span aria-hidden="true">01</span>About</a>
+        <a href="#services" data-mobile-link><span aria-hidden="true">02</span>Services</a>
+        <a href="#process" data-mobile-link><span aria-hidden="true">03</span>Process</a>
+        <a href="#work" data-mobile-link><span aria-hidden="true">04</span>Work</a>
+        <a href="#words" data-mobile-link><span aria-hidden="true">05</span>Words</a>
+        <a href="#faq" data-mobile-link><span aria-hidden="true">06</span>FAQ</a>
+        <a href="#contact" data-mobile-link><span aria-hidden="true">07</span>Contact</a>
       </nav>
       <div class="menu-foot">
-        <span>zvi293293@gmail.com</span>
+        <span class="mf-email">zvi293293@gmail.com</span>
         <span>Tel · Aviv</span>
       </div>
     </div>
@@ -171,22 +199,14 @@
           <div class="hero-meta">
             <span><span class="pulse" aria-hidden="true"></span>Studio · Tel Aviv · Worldwide</span>
             <span>Selected work 2024 — 2026</span>
-            <span id="liveClock" aria-live="off">—</span>
+            <span id="liveClock" aria-live="off" aria-atomic="true">—</span>
           </div>
 
-          <h1 class="hero-headline" aria-label="Crafting timeless digital experiences">
-            <span class="hero-line l1"><span>Crafting</span></span>
-            <span class="hero-line l2"><span>timeless <em>digital</em></span></span>
-            <span class="hero-line l3">
-              <span>
-                experiences for
-                <span class="swap" aria-hidden="true">
-                  <b class="is-active">brands.</b>
-                  <b>founders.</b>
-                  <b>studios.</b>
-                  <b>visionaries.</b>
-                </span>
-              </span>
+          <h1 class="hero-headline" aria-label="Crafting timeless digital experiences for brands, founders, studios, and visionaries.">
+            <span class="hero-line l1" aria-hidden="true"><span>Crafting</span></span>
+            <span class="hero-line l2" aria-hidden="true"><span>timeless <em>digital</em></span></span>
+            <span class="hero-line l3" aria-hidden="true">
+              <span><span class="l3-a">experiences</span> <span class="l3-b">for <span class="swap"><b class="is-active">brands.</b><b>founders.</b><b>studios.</b><b>visionaries.</b></span></span></span>
             </span>
           </h1>
 
@@ -200,13 +220,13 @@
               <a href="#work" class="btn btn-primary" data-magnetic data-cursor="hover">
                 See selected work
                 <span class="arrow" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
                 </span>
               </a>
               <a href="#contact" class="btn btn-ghost" data-magnetic data-cursor="hover">
                 Start a project
                 <span class="arrow" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
                 </span>
               </a>
             </div>
@@ -220,16 +240,15 @@
       </section>
 
       <!-- ===================== MARQUEE ===================== -->
-      <section class="marquee" aria-label="What I do">
+      <section class="marquee" aria-label="Services offered">
         <div class="marquee-track" id="marqueeTrack">
-          <!-- Items duplicated by JS for seamless loop -->
-          <div class="marquee-item">Website Development<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
-          <div class="marquee-item">Landing Pages<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
-          <div class="marquee-item">UI / UX Design<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
-          <div class="marquee-item">Responsive Builds<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
-          <div class="marquee-item">Brand &amp; Identity<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
-          <div class="marquee-item">System Integration<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
-          <div class="marquee-item">Performance &amp; SEO<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
+          <div class="marquee-item">Website Development<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
+          <div class="marquee-item">Landing Pages<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
+          <div class="marquee-item">UI / UX Design<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
+          <div class="marquee-item">Responsive Builds<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
+          <div class="marquee-item">Brand &amp; Identity<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
+          <div class="marquee-item">System Integration<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
+          <div class="marquee-item">Performance &amp; SEO<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
         </div>
       </section>
 
@@ -238,7 +257,7 @@
         <div class="container">
           <div class="section-head" data-reveal>
             <div>
-              <div class="section-num">— 01 / About</div>
+              <p class="section-num">— 01 / About</p>
               <h2 class="section-title" id="manifesto-title">
                 A studio of <em>one</em>, working at the edge of code &amp; craft.
               </h2>
@@ -251,13 +270,13 @@
           </div>
 
           <div class="manifesto-grid">
-            <aside class="manifesto-portrait" data-reveal>
+            <aside class="manifesto-portrait" data-reveal aria-label="About the founder">
               <div class="frame">
                 <picture>
                   <source srcset="./image/20251111_150847.webp" type="image/webp" />
                   <img
                     src="./image/20251111_150847.jpg"
-                    alt="Portrait of Zvi Moshe, founder of NZ Web"
+                    alt="Portrait photograph of Zvi Moshe, founder and sole developer at NZ Web, wearing dark clothing against a neutral background."
                     width="640" height="800"
                     loading="lazy" decoding="async"
                   />
@@ -295,7 +314,7 @@
                 If you want something considered, fast, and yours — let's talk.
               </p>
 
-              <ul class="manifesto-pills" aria-label="Toolkit">
+              <ul class="manifesto-pills" aria-label="Toolkit and skills">
                 <li class="pill">HTML / CSS / JS</li>
                 <li class="pill">WordPress</li>
                 <li class="pill">Figma</li>
@@ -305,10 +324,10 @@
                 <li class="pill">Accessibility</li>
               </ul>
 
-              <div class="manifesto-signature">
+              <p class="manifesto-signature" aria-label="Signed, Zvi, founder of NZ Web">
                 Zvi.
                 <small>Founder · NZ Web</small>
-              </div>
+              </p>
             </div>
           </div>
         </div>
@@ -317,24 +336,24 @@
       <!-- ===================== STATS ===================== -->
       <section class="stats" aria-label="By the numbers">
         <div class="container">
-          <div class="stats-grid">
-            <div class="stat" data-reveal>
-              <div class="num"><span data-counter="40" data-suffix="+">0</span></div>
-              <div class="label">Projects shipped</div>
-            </div>
-            <div class="stat" data-reveal data-reveal-delay="1">
-              <div class="num"><span data-counter="98" data-suffix="%">0</span></div>
-              <div class="label">Client retention</div>
-            </div>
-            <div class="stat" data-reveal data-reveal-delay="2">
-              <div class="num"><span data-counter="1.2" data-suffix="s">0</span></div>
-              <div class="label">Avg. load time</div>
-            </div>
-            <div class="stat" data-reveal data-reveal-delay="3">
-              <div class="num"><span data-counter="100" data-suffix="%">0</span></div>
-              <div class="label">Hand-written code</div>
-            </div>
-          </div>
+          <ul class="stats-grid">
+            <li class="stat" data-reveal>
+              <p class="num"><span data-counter="40" data-suffix="+" aria-label="40 plus">0</span></p>
+              <p class="label">Projects shipped</p>
+            </li>
+            <li class="stat" data-reveal data-reveal-delay="1">
+              <p class="num"><span data-counter="98" data-suffix="%" aria-label="98 percent">0</span></p>
+              <p class="label">Client retention</p>
+            </li>
+            <li class="stat" data-reveal data-reveal-delay="2">
+              <p class="num"><span data-counter="1.2" data-suffix="s" aria-label="1.2 seconds">0</span></p>
+              <p class="label">Avg. load time</p>
+            </li>
+            <li class="stat" data-reveal data-reveal-delay="3">
+              <p class="num"><span data-counter="100" data-suffix="%" aria-label="100 percent">0</span></p>
+              <p class="label">Hand-written code</p>
+            </li>
+          </ul>
         </div>
       </section>
 
@@ -343,7 +362,7 @@
         <div class="container">
           <div class="section-head" data-reveal>
             <div>
-              <div class="section-num">— 02 / Services</div>
+              <p class="section-num">— 02 / Services</p>
               <h2 class="section-title" id="services-title">
                 Built for brands that <em>refuse</em> to look like everyone else.
               </h2>
@@ -355,109 +374,109 @@
           </div>
 
           <div class="services-grid">
-            <article class="service" data-cursor="hover" data-tilt>
+            <article class="service" data-cursor="hover" aria-labelledby="svc-1">
               <header class="top">
                 <span>01 · Flagship</span>
                 <span class="ico" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
                     <rect x="3" y="4" width="18" height="14" rx="2"/>
                     <path d="M3 9h18M8 14h8"/>
                   </svg>
                 </span>
               </header>
               <div>
-                <h3>Website <em>Development</em></h3>
+                <h3 id="svc-1">Website <em>Development</em></h3>
                 <p>
                   Custom marketing sites &amp; brand homes — hand-coded, scalable, and engineered
                   for speed. Built to last beyond a redesign cycle and crafted to actually
                   convert.
                 </p>
               </div>
-              <ul class="tags">
+              <ul class="tags" aria-label="Capabilities">
                 <li>Hand-coded</li><li>CMS-ready</li><li>SEO-optimized</li><li>Core Web Vitals</li>
               </ul>
             </article>
 
-            <article class="service" data-cursor="hover" data-tilt>
+            <article class="service" data-cursor="hover" aria-labelledby="svc-2">
               <header class="top">
                 <span>02 · Conversion</span>
                 <span class="ico" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
                     <path d="M3 17l6-6 4 4 8-8"/>
                     <path d="M14 7h7v7"/>
                   </svg>
                 </span>
               </header>
               <div>
-                <h3>Landing <em>Pages</em></h3>
+                <h3 id="svc-2">Landing <em>Pages</em></h3>
                 <p>
                   Sharp, narrative-driven pages built around a single decision — built in days, not months.
                 </p>
               </div>
-              <ul class="tags">
+              <ul class="tags" aria-label="Capabilities">
                 <li>Copy-aware</li><li>A/B ready</li><li>Analytics-wired</li>
               </ul>
             </article>
 
-            <article class="service" data-cursor="hover" data-tilt>
+            <article class="service" data-cursor="hover" aria-labelledby="svc-3">
               <header class="top">
                 <span>03 · Identity</span>
                 <span class="ico" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
                     <circle cx="12" cy="12" r="9"/>
                     <path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/>
                   </svg>
                 </span>
               </header>
               <div>
-                <h3>UI &amp; <em>UX</em></h3>
+                <h3 id="svc-3">UI &amp; <em>UX</em></h3>
                 <p>
                   Clear, opinionated interfaces. Sweating the system so users don't have to think.
                 </p>
               </div>
-              <ul class="tags">
+              <ul class="tags" aria-label="Capabilities">
                 <li>Figma</li><li>Design systems</li><li>Prototyping</li>
               </ul>
             </article>
 
-            <article class="service" data-cursor="hover" data-tilt>
+            <article class="service" data-cursor="hover" aria-labelledby="svc-4">
               <header class="top">
                 <span>04 · Reach</span>
                 <span class="ico" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
                     <rect x="5" y="3" width="14" height="18" rx="2"/>
                     <path d="M12 18h.01"/>
                   </svg>
                 </span>
               </header>
               <div>
-                <h3>Responsive <em>Design</em></h3>
+                <h3 id="svc-4">Responsive <em>Design</em></h3>
                 <p>
                   Built mobile-first, polished across every viewport. The phone shouldn't get
                   the leftovers.
                 </p>
               </div>
-              <ul class="tags">
+              <ul class="tags" aria-label="Capabilities">
                 <li>Fluid type</li><li>Adaptive grids</li><li>Touch-first</li>
               </ul>
             </article>
 
-            <article class="service" data-cursor="hover" data-tilt>
+            <article class="service" data-cursor="hover" aria-labelledby="svc-5">
               <header class="top">
                 <span>05 · Integration</span>
                 <span class="ico" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
                     <path d="M9 3v6M15 3v6M3 9h18M5 9v9a2 2 0 002 2h10a2 2 0 002-2V9"/>
                   </svg>
                 </span>
               </header>
               <div>
-                <h3>System <em>Integration</em></h3>
+                <h3 id="svc-5">System <em>Integration</em></h3>
                 <p>
                   Payments, CRMs, forms, analytics — wired up so your site is a tool, not a brochure.
                 </p>
               </div>
-              <ul class="tags">
+              <ul class="tags" aria-label="Capabilities">
                 <li>Stripe</li><li>Apps Script</li><li>CRM hooks</li><li>Webhooks</li>
               </ul>
             </article>
@@ -470,7 +489,7 @@
         <div class="container">
           <div class="section-head" data-reveal>
             <div>
-              <div class="section-num">— 03 / Process</div>
+              <p class="section-num">— 03 / Process</p>
               <h2 class="section-title" id="process-title">
                 A workflow built for <em>clarity</em>, not for invoices.
               </h2>
@@ -481,32 +500,32 @@
             </p>
           </div>
 
-          <div class="process-grid">
-            <div class="step" data-reveal>
-              <div class="num">01 · Discover</div>
+          <ol class="process-grid">
+            <li class="step" data-reveal>
+              <p class="num">01 · Discover</p>
               <h3>Listen &amp; learn</h3>
               <p>A focused conversation about your business, audience, and the one thing this site has to do. We end with a written brief, not a guess.</p>
-              <div class="dur">Week 1</div>
-            </div>
-            <div class="step" data-reveal data-reveal-delay="1">
-              <div class="num">02 · Design</div>
+              <p class="dur">Week 1</p>
+            </li>
+            <li class="step" data-reveal data-reveal-delay="1">
+              <p class="num">02 · Design</p>
               <h3>Shape the story</h3>
               <p>Wireframes turn into typography, motion, and color in Figma — reviewed live, not in PDFs. Approve once, build with confidence.</p>
-              <div class="dur">Week 2 — 3</div>
-            </div>
-            <div class="step" data-reveal data-reveal-delay="2">
-              <div class="num">03 · Build</div>
+              <p class="dur">Week 2 — 3</p>
+            </li>
+            <li class="step" data-reveal data-reveal-delay="2">
+              <p class="num">03 · Build</p>
               <h3>Code &amp; craft</h3>
               <p>Hand-written HTML, CSS, JS. Every page tested for speed, accessibility, and the small details that separate a website from a brand.</p>
-              <div class="dur">Week 3 — 5</div>
-            </div>
-            <div class="step" data-reveal data-reveal-delay="3">
-              <div class="num">04 · Launch</div>
+              <p class="dur">Week 3 — 5</p>
+            </li>
+            <li class="step" data-reveal data-reveal-delay="3">
+              <p class="num">04 · Launch</p>
               <h3>Ship &amp; support</h3>
               <p>Domain, analytics, SEO basics, and a smooth handoff. Plus 30 days of post-launch care — because launch day is a comma, not a period.</p>
-              <div class="dur">Week 6 +</div>
-            </div>
-          </div>
+              <p class="dur">Week 6 +</p>
+            </li>
+          </ol>
         </div>
       </section>
 
@@ -515,7 +534,7 @@
         <div class="container">
           <div class="section-head" data-reveal>
             <div>
-              <div class="section-num">— 04 / Selected work</div>
+              <p class="section-num">— 04 / Selected work</p>
               <h2 class="section-title" id="work-title">
                 A few <em>recent</em> things I'm proud of.
               </h2>
@@ -527,99 +546,99 @@
           </div>
 
           <div class="work-grid">
-            <a class="case" href="#contact" data-cursor="hover" data-reveal>
+            <a class="case" href="#contact" data-cursor="hover" data-reveal aria-label="Case study: Atelier Studio — flagship marketing site, 2026">
               <div class="thumb">
                 <picture>
                   <source srcset="./image/wordpress-923188.webp" type="image/webp" />
-                  <img src="./image/wordpress-923188.jpg" alt="Atelier — flagship marketing site" loading="lazy" decoding="async" />
+                  <img src="./image/wordpress-923188.jpg" alt="Project thumbnail for Atelier Studio showing a WordPress dashboard and content management interface for a flagship marketing site." loading="lazy" decoding="async" />
                 </picture>
               </div>
               <div class="case-meta">
                 <div>
-                  <div class="case-title">Atelier <em>Studio</em></div>
-                  <div class="case-tags"><span>Marketing site</span><span>WordPress</span><span>CMS</span></div>
+                  <p class="case-title">Atelier <em>Studio</em></p>
+                  <ul class="case-tags" aria-label="Project tags"><li>Marketing site</li><li>WordPress</li><li>CMS</li></ul>
                 </div>
-                <div class="case-cat">2026 · Flagship</div>
+                <p class="case-cat">2026 · Flagship</p>
               </div>
             </a>
 
-            <a class="case" href="#contact" data-cursor="hover" data-reveal data-reveal-delay="1">
+            <a class="case" href="#contact" data-cursor="hover" data-reveal data-reveal-delay="1" aria-label="Case study: Northwind Launch — high-converting landing page, 2026">
               <div class="thumb">
                 <picture>
                   <source srcset="./image/digital-marketing-1433427.webp" type="image/webp" />
-                  <img src="./image/digital-marketing-1433427.jpg" alt="Northwind — high-converting landing page" loading="lazy" decoding="async" />
+                  <img src="./image/digital-marketing-1433427.jpg" alt="Project thumbnail for Northwind Launch displaying digital marketing analytics graphs and conversion-focused design." loading="lazy" decoding="async" />
                 </picture>
               </div>
               <div class="case-meta">
                 <div>
-                  <div class="case-title">Northwind <em>Launch</em></div>
-                  <div class="case-tags"><span>Landing page</span><span>A/B tested</span><span>Conversion</span></div>
+                  <p class="case-title">Northwind <em>Launch</em></p>
+                  <ul class="case-tags" aria-label="Project tags"><li>Landing page</li><li>A/B tested</li><li>Conversion</li></ul>
                 </div>
-                <div class="case-cat">2026 · Launch</div>
+                <p class="case-cat">2026 · Launch</p>
               </div>
             </a>
 
-            <a class="case" href="#contact" data-cursor="hover" data-reveal>
+            <a class="case" href="#contact" data-cursor="hover" data-reveal aria-label="Case study: Lume Mobile — responsive mobile-first redesign, 2025">
               <div class="thumb">
                 <picture>
                   <source srcset="./image/online-2900303.webp" type="image/webp" />
-                  <img src="./image/online-2900303.jpg" alt="Lume — responsive mobile-first redesign" loading="lazy" decoding="async" />
+                  <img src="./image/online-2900303.jpg" alt="Project thumbnail for Lume Mobile showing a responsive online platform on mobile and desktop devices." loading="lazy" decoding="async" />
                 </picture>
               </div>
               <div class="case-meta">
                 <div>
-                  <div class="case-title">Lume <em>Mobile</em></div>
-                  <div class="case-tags"><span>Responsive</span><span>PWA</span><span>Touch-first</span></div>
+                  <p class="case-title">Lume <em>Mobile</em></p>
+                  <ul class="case-tags" aria-label="Project tags"><li>Responsive</li><li>PWA</li><li>Touch-first</li></ul>
                 </div>
-                <div class="case-cat">2025 · Redesign</div>
+                <p class="case-cat">2025 · Redesign</p>
               </div>
             </a>
 
-            <a class="case" href="#contact" data-cursor="hover" data-reveal data-reveal-delay="1">
+            <a class="case" href="#contact" data-cursor="hover" data-reveal data-reveal-delay="1" aria-label="Case study: Meridian Pay — payment platform integration, 2025">
               <div class="thumb">
                 <picture>
                   <source srcset="./image/payment-4334491.webp" type="image/webp" />
-                  <img src="./image/payment-4334491.jpg" alt="Meridian — payment platform integration" loading="lazy" decoding="async" />
+                  <img src="./image/payment-4334491.jpg" alt="Project thumbnail for Meridian Pay illustrating online payments and checkout flow integration." loading="lazy" decoding="async" />
                 </picture>
               </div>
               <div class="case-meta">
                 <div>
-                  <div class="case-title">Meridian <em>Pay</em></div>
-                  <div class="case-tags"><span>Stripe</span><span>Integration</span><span>SaaS</span></div>
+                  <p class="case-title">Meridian <em>Pay</em></p>
+                  <ul class="case-tags" aria-label="Project tags"><li>Stripe</li><li>Integration</li><li>SaaS</li></ul>
                 </div>
-                <div class="case-cat">2025 · Integration</div>
+                <p class="case-cat">2025 · Integration</p>
               </div>
             </a>
 
-            <a class="case" href="#contact" data-cursor="hover" data-reveal>
+            <a class="case" href="#contact" data-cursor="hover" data-reveal aria-label="Case study: Halo System — UI/UX design system, 2025">
               <div class="thumb">
                 <picture>
                   <source srcset="./image/design-9824072.webp" type="image/webp" />
-                  <img src="./image/design-9824072.jpg" alt="Halo — UI / UX design system" loading="lazy" decoding="async" />
+                  <img src="./image/design-9824072.jpg" alt="Project thumbnail for Halo System featuring a UI/UX design system with reusable components." loading="lazy" decoding="async" />
                 </picture>
               </div>
               <div class="case-meta">
                 <div>
-                  <div class="case-title">Halo <em>System</em></div>
-                  <div class="case-tags"><span>UI / UX</span><span>Design system</span><span>Figma</span></div>
+                  <p class="case-title">Halo <em>System</em></p>
+                  <ul class="case-tags" aria-label="Project tags"><li>UI / UX</li><li>Design system</li><li>Figma</li></ul>
                 </div>
-                <div class="case-cat">2025 · Identity</div>
+                <p class="case-cat">2025 · Identity</p>
               </div>
             </a>
 
-            <a class="case" href="#contact" data-cursor="hover" data-reveal data-reveal-delay="1">
+            <a class="case" href="#contact" data-cursor="hover" data-reveal data-reveal-delay="1" aria-label="Case study: Folio Personal — personal brand portfolio, 2024">
               <div class="thumb">
                 <picture>
                   <source srcset="./image/laptop-2593016.webp" type="image/webp" />
-                  <img src="./image/laptop-2593016.jpg" alt="Folio — personal brand portfolio" loading="lazy" decoding="async" />
+                  <img src="./image/laptop-2593016.jpg" alt="Project thumbnail for Folio Personal showing a laptop displaying a portfolio website." loading="lazy" decoding="async" />
                 </picture>
               </div>
               <div class="case-meta">
                 <div>
-                  <div class="case-title">Folio <em>Personal</em></div>
-                  <div class="case-tags"><span>Portfolio</span><span>Brand</span><span>Motion</span></div>
+                  <p class="case-title">Folio <em>Personal</em></p>
+                  <ul class="case-tags" aria-label="Project tags"><li>Portfolio</li><li>Brand</li><li>Motion</li></ul>
                 </div>
-                <div class="case-cat">2024 · Personal</div>
+                <p class="case-cat">2024 · Personal</p>
               </div>
             </a>
           </div>
@@ -628,7 +647,7 @@
             <a href="#contact" class="btn btn-ghost" data-magnetic data-cursor="hover">
               Want to be next?
               <span class="arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
               </span>
             </a>
           </div>
@@ -640,7 +659,7 @@
         <div class="container">
           <div class="section-head" data-reveal>
             <div>
-              <div class="section-num">— 05 / Words</div>
+              <p class="section-num">— 05 / Words</p>
               <h2 class="section-title" id="words-title">
                 Kind words from <em>people</em> I've shipped with.
               </h2>
@@ -651,82 +670,84 @@
             </p>
           </div>
 
-          <div class="testimonials-track" id="quotesTrack">
-            <article class="quote" data-reveal>
-              <svg class="glyph" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 7h4v4H8c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7zm9 0h4v4h-3c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7z"/></svg>
+          <div class="testimonials-viewport">
+          <div class="testimonials-track" id="quotesTrack" role="list" aria-label="Client testimonials">
+            <article class="quote" role="listitem" data-reveal>
+              <svg class="glyph" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M7 7h4v4H8c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7zm9 0h4v4h-3c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7z"/></svg>
               <p>"Zvi rebuilt our entire site in three weeks and it loaded faster than our app. Conversion is up 41% and we haven't touched a thing since."</p>
               <div class="who">
-                <div class="avatar" aria-hidden="true">M</div>
+                <span class="avatar" aria-hidden="true">M</span>
                 <div>
                   <strong>Maya Levin</strong>
                   <span>Founder · Northwind</span>
                 </div>
-                <div class="stars" aria-label="5 out of 5 stars">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                </div>
+                <span class="stars" role="img" aria-label="Rated 5 out of 5 stars">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                </span>
               </div>
             </article>
 
-            <article class="quote" data-reveal data-reveal-delay="1">
-              <svg class="glyph" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 7h4v4H8c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7zm9 0h4v4h-3c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7z"/></svg>
+            <article class="quote" role="listitem" data-reveal data-reveal-delay="1">
+              <svg class="glyph" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M7 7h4v4H8c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7zm9 0h4v4h-3c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7z"/></svg>
               <p>"Calm, fast, opinionated in the best way. He pushed back on the things that mattered and shipped on the things that didn't. Rare combo."</p>
               <div class="who">
-                <div class="avatar" aria-hidden="true">D</div>
+                <span class="avatar" aria-hidden="true">D</span>
                 <div>
                   <strong>Daniel Cohen</strong>
                   <span>CEO · Meridian Pay</span>
                 </div>
-                <div class="stars" aria-label="5 out of 5 stars">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                </div>
+                <span class="stars" role="img" aria-label="Rated 5 out of 5 stars">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                </span>
               </div>
             </article>
 
-            <article class="quote" data-reveal data-reveal-delay="2">
-              <svg class="glyph" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 7h4v4H8c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7zm9 0h4v4h-3c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7z"/></svg>
+            <article class="quote" role="listitem" data-reveal data-reveal-delay="2">
+              <svg class="glyph" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M7 7h4v4H8c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7zm9 0h4v4h-3c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7z"/></svg>
               <p>"We've worked with three agencies before. Zvi is the first who actually cared what our site felt like on a Tuesday morning at 7am on a slow connection."</p>
               <div class="who">
-                <div class="avatar" aria-hidden="true">S</div>
+                <span class="avatar" aria-hidden="true">S</span>
                 <div>
                   <strong>Sarah Halevy</strong>
                   <span>Brand Lead · Lume</span>
                 </div>
-                <div class="stars" aria-label="5 out of 5 stars">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                </div>
+                <span class="stars" role="img" aria-label="Rated 5 out of 5 stars">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                </span>
               </div>
             </article>
 
-            <article class="quote" data-reveal data-reveal-delay="3">
-              <svg class="glyph" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 7h4v4H8c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7zm9 0h4v4h-3c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7z"/></svg>
+            <article class="quote" role="listitem" data-reveal data-reveal-delay="3">
+              <svg class="glyph" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M7 7h4v4H8c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7zm9 0h4v4h-3c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7z"/></svg>
               <p>"He treats a button like a paragraph and a paragraph like a brand. That's the whole pitch. Hire him before he raises his rates."</p>
               <div class="who">
-                <div class="avatar" aria-hidden="true">A</div>
+                <span class="avatar" aria-hidden="true">A</span>
                 <div>
                   <strong>Ari Schwartz</strong>
                   <span>Creative Director · Atelier</span>
                 </div>
-                <div class="stars" aria-label="5 out of 5 stars">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                </div>
+                <span class="stars" role="img" aria-label="Rated 5 out of 5 stars">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
+                </span>
               </div>
             </article>
+          </div>
           </div>
         </div>
       </section>
@@ -736,7 +757,7 @@
         <div class="container narrow">
           <div class="section-head" data-reveal>
             <div>
-              <div class="section-num">— 06 / FAQ</div>
+              <p class="section-num">— 06 / FAQ</p>
               <h2 class="section-title" id="faq-title">
                 Most-asked, <em>plainly</em> answered.
               </h2>
@@ -751,7 +772,7 @@
               <summary>
                 <span>How long does a project usually take?</span>
                 <span class="toggle" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
                 </span>
               </summary>
               <div class="body">
@@ -765,7 +786,7 @@
               <summary>
                 <span>How do you price?</span>
                 <span class="toggle" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
                 </span>
               </summary>
               <div class="body">
@@ -778,7 +799,7 @@
               <summary>
                 <span>Do you use templates or page builders?</span>
                 <span class="toggle" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
                 </span>
               </summary>
               <div class="body">
@@ -792,7 +813,7 @@
               <summary>
                 <span>Will my site be fast and SEO-friendly?</span>
                 <span class="toggle" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
                 </span>
               </summary>
               <div class="body">
@@ -805,7 +826,7 @@
               <summary>
                 <span>What about after launch?</span>
                 <span class="toggle" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
                 </span>
               </summary>
               <div class="body">
@@ -818,7 +839,7 @@
               <summary>
                 <span>Where are you based?</span>
                 <span class="toggle" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
                 </span>
               </summary>
               <div class="body">
@@ -833,7 +854,7 @@
       <!-- ===================== CTA ===================== -->
       <section class="section cta-banner" aria-labelledby="cta-title">
         <div class="container cta-inner" data-reveal>
-          <div class="eyebrow">Let's build</div>
+          <p class="eyebrow">Let's build</p>
           <h2 class="cta-title" id="cta-title">
             Got an idea worth <em>doing right?</em>
           </h2>
@@ -841,13 +862,13 @@
             <a href="#contact" class="btn btn-primary" data-magnetic data-cursor="hover">
               Start a project
               <span class="arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
               </span>
             </a>
-            <a href="mailto:zvi293293@gmail.com" class="btn btn-ghost" data-magnetic data-cursor="hover">
+            <a href="mailto:zvi293293@gmail.com" class="btn btn-ghost" data-magnetic data-cursor="hover" aria-label="Email zvi293293 at gmail dot com">
               zvi293293@gmail.com
               <span class="arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
               </span>
             </a>
           </div>
@@ -859,7 +880,7 @@
         <div class="container">
           <div class="section-head" data-reveal>
             <div>
-              <div class="section-num">— 07 / Contact</div>
+              <p class="section-num">— 07 / Contact</p>
               <h2 class="section-title" id="contact-title">
                 Tell me about your <em>project.</em>
               </h2>
@@ -876,24 +897,32 @@
                 usually faster.
               </p>
 
-              <div class="contact-list">
-                <a href="mailto:zvi293293@gmail.com" data-cursor="hover">
-                  <span>Email</span>
-                  <span class="handle">zvi293293@gmail.com</span>
-                </a>
-                <a href="https://wa.me/972587292029" target="_blank" rel="noopener noreferrer" data-cursor="hover">
-                  <span>WhatsApp</span>
-                  <span class="handle">+972 58 729 2029</span>
-                </a>
-                <a href="https://github.com/zvi293" target="_blank" rel="noopener noreferrer" data-cursor="hover">
-                  <span>GitHub</span>
-                  <span class="handle">@zvi293</span>
-                </a>
-                <a href="https://nz-web.com/" target="_blank" rel="noopener noreferrer" data-cursor="hover">
-                  <span>Studio site</span>
-                  <span class="handle">nz-web.com →</span>
-                </a>
-              </div>
+              <ul class="contact-list" aria-label="Contact channels">
+                <li>
+                  <a href="mailto:zvi293293@gmail.com" data-cursor="hover" aria-label="Email zvi293293 at gmail dot com">
+                    <span>Email</span>
+                    <span class="handle">zvi293293@gmail.com</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://wa.me/972587292029" target="_blank" rel="noopener noreferrer nofollow" data-cursor="hover" data-wa aria-label="Open WhatsApp chat with Zvi at +972 58 729 2029">
+                    <span>WhatsApp</span>
+                    <span class="handle">+972 58 729 2029</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://github.com/zvi293" target="_blank" rel="noopener noreferrer nofollow" data-cursor="hover" aria-label="GitHub profile of Zvi Moshe (@zvi293)">
+                    <span>GitHub</span>
+                    <span class="handle">@zvi293</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://nz-web.com/" target="_blank" rel="noopener noreferrer nofollow" data-cursor="hover" aria-label="Open NZ Web official studio site (opens in new tab)">
+                    <span>Studio site</span>
+                    <span class="handle">nz-web.com →</span>
+                  </a>
+                </li>
+              </ul>
             </div>
 
             <div class="form-card" data-reveal data-reveal-delay="1">
@@ -905,8 +934,16 @@
                 action="https://script.google.com/macros/s/AKfycbxsAue4IqeTOBZ2CNoNHz48uCvENT5x4yi4xC15VfiZu7v9xNBId77LMZhytSB0rLP0/exec"
                 target="_self"
                 novalidate
+                autocomplete="on"
+                spellcheck="true"
               >
-                <input type="text" name="company" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
+                <!-- Honeypot anti-bot: hidden from humans, attractive to bots -->
+                <div class="hp" aria-hidden="true">
+                  <label for="company">Leave this field empty</label>
+                  <input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
+                </div>
+                <!-- Time-stamp anti-bot: bots submit instantly -->
+                <input type="hidden" name="ts" id="form-ts" value="" />
 
                 <div class="form-group">
                   <label for="full-name">Your name</label>
@@ -917,8 +954,13 @@
                     placeholder="Jane Doe"
                     autocomplete="name"
                     required
+                    minlength="2"
+                    maxlength="80"
+                    pattern="[A-Za-zא-ת֐-׿ '\-]{2,80}"
                     aria-required="true"
+                    aria-describedby="name-hint"
                   />
+                  <span id="name-hint" class="hint">Your full name (2–80 characters).</span>
                 </div>
 
                 <div class="form-group">
@@ -930,8 +972,11 @@
                     placeholder="jane@studio.com"
                     autocomplete="email"
                     required
+                    maxlength="160"
                     aria-required="true"
+                    aria-describedby="email-hint"
                   />
+                  <span id="email-hint" class="hint">A valid email address.</span>
                 </div>
 
                 <div class="form-group">
@@ -942,17 +987,25 @@
                     placeholder="Project type, timeline, budget if you have one, anything that helps me say yes faster…"
                     rows="5"
                     required
+                    minlength="10"
+                    maxlength="3000"
                     aria-required="true"
+                    aria-describedby="msg-hint"
                   ></textarea>
+                  <span id="msg-hint" class="hint"><span id="msg-counter">0</span>/3000 characters · 10 minimum.</span>
                 </div>
 
                 <button type="submit" class="submit-btn" aria-label="Send your message">
                   Send message
                   <span class="arrow" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
                   </span>
                 </button>
                 <p class="form-status" id="form-status" role="status" aria-live="polite" aria-atomic="true" hidden></p>
+                <p class="form-foot">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  Submissions are sent securely. I never share your details with third parties.
+                </p>
               </form>
             </div>
           </div>
@@ -961,12 +1014,31 @@
     </main>
 
     <!-- ===================== FLOATING SOCIAL ===================== -->
-    <div class="float-stack" aria-label="Quick contact">
-      <a href="https://wa.me/972587292029" class="float-btn wa" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" data-cursor="hover">
-        <img src="./image/images.png" alt="" width="26" height="26" loading="lazy" decoding="async" />
+    <div class="float-stack" aria-label="Quick contact buttons">
+      <a
+        href="https://wa.me/972587292029"
+        class="float-btn wa"
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+        aria-label="Chat with Zvi on WhatsApp (opens in a new tab)"
+        data-cursor="hover"
+        data-wa
+      >
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true" focusable="false">
+          <path fill="#fff" d="M16.03 5.3c-5.9 0-10.7 4.8-10.7 10.7 0 1.88.5 3.72 1.43 5.34L5.3 26.7l5.5-1.44a10.66 10.66 0 0 0 5.23 1.34c5.9 0 10.7-4.8 10.7-10.7s-4.8-10.7-10.7-10.7zm0 19.55a8.85 8.85 0 0 1-4.52-1.24l-.32-.19-3.27.86.87-3.18-.21-.33a8.84 8.84 0 0 1-1.36-4.7c0-4.9 4-8.88 8.9-8.88s8.88 3.98 8.88 8.88-3.99 8.88-8.97 8.88zm4.88-6.65c-.27-.13-1.6-.79-1.84-.88-.25-.09-.43-.13-.6.13-.18.27-.7.88-.85 1.06-.16.18-.31.2-.58.07-.27-.13-1.14-.42-2.17-1.33-.8-.71-1.34-1.59-1.5-1.86-.16-.27-.02-.41.12-.55.12-.12.27-.31.4-.47.13-.16.18-.27.27-.45.09-.18.04-.34-.02-.47-.07-.13-.6-1.45-.82-1.98-.22-.52-.44-.45-.6-.46-.16-.01-.34-.01-.52-.01-.18 0-.47.07-.72.34-.25.27-.95.93-.95 2.27 0 1.34.97 2.63 1.1 2.82.13.18 1.91 2.91 4.62 4.08.64.28 1.15.45 1.55.58.65.21 1.24.18 1.71.11.52-.08 1.6-.65 1.83-1.28.22-.63.22-1.18.16-1.29-.07-.11-.24-.18-.51-.31z"/>
+        </svg>
       </a>
-      <a href="https://github.com/zvi293" class="float-btn" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile" data-cursor="hover">
-        <img src="./image/images2.png" alt="" width="26" height="26" loading="lazy" decoding="async" />
+      <a
+        href="https://github.com/zvi293"
+        class="float-btn gh"
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+        aria-label="Visit Zvi's GitHub profile (opens in a new tab)"
+        data-cursor="hover"
+      >
+        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">
+          <path fill="#fff" d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-1.93c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.79.55C20.71 21.39 24 17.08 24 12 24 5.65 18.85.5 12 .5z"/>
+        </svg>
       </a>
     </div>
 
@@ -975,47 +1047,47 @@
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand">
-            <div class="wordmark">NZ&nbsp;Web<em style="font-style:italic;color:var(--gold-1)">.</em></div>
+            <p class="wordmark">NZ&nbsp;Web<em>.</em></p>
             <p>
               The independent studio of Zvi Moshe. Crafting timeless, fast,
               honest digital experiences for brands worldwide.
             </p>
           </div>
 
-          <div class="footer-col">
+          <nav class="footer-col" aria-label="Navigate">
             <h4>Navigate</h4>
             <a href="#manifesto">About</a>
             <a href="#services">Services</a>
             <a href="#process">Process</a>
             <a href="#work">Work</a>
             <a href="#faq">FAQ</a>
-          </div>
+          </nav>
 
-          <div class="footer-col">
+          <nav class="footer-col" aria-label="Connect">
             <h4>Connect</h4>
             <a href="mailto:zvi293293@gmail.com">Email</a>
-            <a href="https://wa.me/972587292029" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-            <a href="https://github.com/zvi293" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <a href="https://nz-web.com/" target="_blank" rel="noopener noreferrer">nz-web.com</a>
-          </div>
+            <a href="https://wa.me/972587292029" target="_blank" rel="noopener noreferrer nofollow" data-wa>WhatsApp</a>
+            <a href="https://github.com/zvi293" target="_blank" rel="noopener noreferrer nofollow">GitHub</a>
+            <a href="https://nz-web.com/" target="_blank" rel="noopener noreferrer nofollow">nz-web.com</a>
+          </nav>
 
           <div class="footer-col">
             <h4>Studio</h4>
-            <a href="#">Tel Aviv, IL</a>
-            <a href="#">Worldwide</a>
-            <a href="#">Booking 2026</a>
+            <p>Tel Aviv, IL</p>
+            <p>Worldwide</p>
+            <p>Booking 2026</p>
           </div>
         </div>
 
         <div class="footer-bottom">
           <span>© 2026 NZ Web · All rights reserved</span>
-          <div class="legal">
+          <nav class="legal" aria-label="Legal">
             <a href="./privacy-policy.html">Privacy</a>
             <a href="./terms.html">Terms</a>
-          </div>
+          </nav>
           <a href="#main" class="top-link" data-cursor="hover">
             Back to top
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
           </a>
         </div>
       </div>

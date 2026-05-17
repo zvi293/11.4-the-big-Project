@@ -2,7 +2,8 @@
    NZ WEB — STUDIO EDITION
    Interactive layer: cursor, magnetic CTAs, scroll progress, reveal,
    stat counters, marquee duplicator, word-swap, FAQ animations,
-   nav state, mobile menu, smooth scrolling, contact form handler.
+   nav state, mobile menu (inert-based), smooth scrolling, contact
+   form handler with anti-bot defences, WhatsApp prefilled message.
    ===================================================================== */
 
 (function () {
@@ -12,6 +13,14 @@
   const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+
+  /* ------------------------------------------------------------------
+     CONSTANTS
+     --------------------------------------------------------------- */
+  const WA_MESSAGE = "Hi Zvi! I came across NZ Web and I'd love to talk about a project I have in mind.";
+  const MIN_FILL_SECONDS = 3;
+  const MAX_FILL_HOURS   = 12;
+  const RATE_LIMIT_MS    = 30000;
 
   /* ------------------------------------------------------------------
      1. SCROLL PROGRESS
@@ -42,31 +51,49 @@
   }
 
   /* ------------------------------------------------------------------
-     3. MOBILE MENU
+     3. MOBILE MENU — uses `inert` so closed menu hides from AT cleanly
      --------------------------------------------------------------- */
   const navToggle = document.getElementById("navToggle");
   const mobileMenu = document.getElementById("mobileMenu");
+  let lastFocus = null;
+
+  const closeMenu = () => {
+    if (!mobileMenu) return;
+    nav.classList.remove("is-open");
+    mobileMenu.classList.remove("is-open");
+    mobileMenu.setAttribute("inert", "");
+    navToggle.setAttribute("aria-expanded", "false");
+    navToggle.setAttribute("aria-label", "Open menu");
+    document.body.style.overflow = "";
+    if (lastFocus && typeof lastFocus.focus === "function") {
+      lastFocus.focus();
+      lastFocus = null;
+    }
+  };
+  const openMenu = () => {
+    if (!mobileMenu) return;
+    lastFocus = document.activeElement;
+    nav.classList.add("is-open");
+    mobileMenu.classList.add("is-open");
+    mobileMenu.removeAttribute("inert");
+    navToggle.setAttribute("aria-expanded", "true");
+    navToggle.setAttribute("aria-label", "Close menu");
+    document.body.style.overflow = "hidden";
+    const firstLink = mobileMenu.querySelector("a");
+    if (firstLink) firstLink.focus();
+  };
+
   if (navToggle && mobileMenu) {
-    const close = () => {
-      nav.classList.remove("is-open");
-      mobileMenu.classList.remove("is-open");
-      mobileMenu.setAttribute("aria-hidden", "true");
-      navToggle.setAttribute("aria-expanded", "false");
-      document.body.style.overflow = "";
-    };
-    const open = () => {
-      nav.classList.add("is-open");
-      mobileMenu.classList.add("is-open");
-      mobileMenu.setAttribute("aria-hidden", "false");
-      navToggle.setAttribute("aria-expanded", "true");
-      document.body.style.overflow = "hidden";
-    };
     navToggle.addEventListener("click", () => {
-      mobileMenu.classList.contains("is-open") ? close() : open();
+      mobileMenu.classList.contains("is-open") ? closeMenu() : openMenu();
     });
-    $$("[data-mobile-link]", mobileMenu).forEach((a) => a.addEventListener("click", close));
+    $$("[data-mobile-link]", mobileMenu).forEach((a) =>
+      a.addEventListener("click", () => setTimeout(closeMenu, 200))
+    );
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") close();
+      if (e.key === "Escape" && mobileMenu.classList.contains("is-open")) {
+        closeMenu();
+      }
     });
   }
 
@@ -104,8 +131,7 @@
       };
       tick();
 
-      // Hover effects for interactive elements
-      const hoverSel = "a, button, [data-cursor=\"hover\"], summary, input, textarea, .case, .service, .quote";
+      const hoverSel = 'a, button, [data-cursor="hover"], summary, input, textarea, .case, .service, .quote';
       document.addEventListener("pointerover", (e) => {
         if (e.target.closest && e.target.closest(hoverSel)) {
           document.body.classList.add("is-hovering");
@@ -124,7 +150,7 @@
      --------------------------------------------------------------- */
   if (!isTouch && !prefersReduced) {
     $$("[data-magnetic]").forEach((btn) => {
-      const strength = 0.25;
+      const strength = 0.22;
       btn.addEventListener("pointermove", (e) => {
         const r = btn.getBoundingClientRect();
         const x = e.clientX - (r.left + r.width / 2);
@@ -138,7 +164,7 @@
   }
 
   /* ------------------------------------------------------------------
-     6. REVEAL ON SCROLL (Intersection Observer)
+     6. REVEAL ON SCROLL
      --------------------------------------------------------------- */
   if ("IntersectionObserver" in window) {
     const io = new IntersectionObserver(
@@ -202,6 +228,39 @@
   }
 
   /* ------------------------------------------------------------------
+     8B. TESTIMONIAL CAROUSEL — infinite loop, paused on hover/focus
+     --------------------------------------------------------------- */
+  const quotesTrack = document.getElementById("quotesTrack");
+  if (quotesTrack) {
+    // Duplicate the original quote nodes so the CSS animation can translateX(-50%)
+    // and produce a seamless loop. We clone the actual DOM nodes (not innerHTML)
+    // to keep event listeners, accessibility tree, and any data-* state intact.
+    const originals = Array.from(quotesTrack.children);
+    originals.forEach((node) => {
+      const clone = node.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      clone.setAttribute("tabindex", "-1");
+      // Strip role="listitem" duplicate so AT only sees originals
+      if (clone.getAttribute("role") === "listitem") clone.removeAttribute("role");
+      quotesTrack.appendChild(clone);
+    });
+
+    // Pause animation when a quote is keyboard-focused (better a11y)
+    quotesTrack.addEventListener("focusin", () => quotesTrack.style.animationPlayState = "paused");
+    quotesTrack.addEventListener("focusout", () => quotesTrack.style.animationPlayState = "");
+
+    // Pause when not visible (saves battery, prevents drift)
+    if ("IntersectionObserver" in window) {
+      const visIO = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          quotesTrack.style.animationPlayState = e.isIntersecting ? "" : "paused";
+        });
+      }, { threshold: 0.05 });
+      visIO.observe(quotesTrack);
+    }
+  }
+
+  /* ------------------------------------------------------------------
      9. HERO WORD SWAP
      --------------------------------------------------------------- */
   const swap = document.querySelector(".hero-headline .swap");
@@ -255,10 +314,10 @@
   /* ------------------------------------------------------------------
      12. SUBTLE PARALLAX FOR HERO HEADLINE
      --------------------------------------------------------------- */
-  if (!prefersReduced) {
-    const hero = $(".hero-headline");
+  if (!prefersReduced && !isTouch) {
+    const heroHeadline = $(".hero-headline");
     const heroSection = $(".hero");
-    if (hero && heroSection) {
+    if (heroHeadline && heroSection) {
       let ticking = false;
       const onScroll = () => {
         if (ticking) return;
@@ -267,7 +326,7 @@
           const y = window.scrollY;
           const rect = heroSection.getBoundingClientRect();
           if (rect.bottom > 0) {
-            hero.style.transform = `translateY(${y * 0.08}px)`;
+            heroHeadline.style.transform = `translateY(${y * 0.06}px)`;
           }
           ticking = false;
         });
@@ -292,24 +351,92 @@
   });
 
   /* ------------------------------------------------------------------
-     14. CONTACT FORM HANDLER (preserves existing behaviour)
+     14. WHATSAPP PREFILLED MESSAGE
+        Adds ?text=<English message> to every wa.me link marked data-wa.
      --------------------------------------------------------------- */
+  const enc = encodeURIComponent(WA_MESSAGE);
+  $$('a[data-wa], a[href*="wa.me/"]').forEach((a) => {
+    try {
+      const u = new URL(a.href, window.location.origin);
+      if (/(^|\.)wa\.me$/i.test(u.hostname)) {
+        if (!u.searchParams.has("text")) {
+          a.href = a.href + (a.href.includes("?") ? "&" : "?") + "text=" + enc;
+        }
+      }
+    } catch (_) { /* ignore malformed href */ }
+  });
+
+  /* ------------------------------------------------------------------
+     15. EXTERNAL LINK HARDENING — defence in depth
+     --------------------------------------------------------------- */
+  $$('a[target="_blank"]').forEach((a) => {
+    const rel = (a.getAttribute("rel") || "").split(/\s+/);
+    ["noopener", "noreferrer"].forEach((r) => { if (!rel.includes(r)) rel.push(r); });
+    a.setAttribute("rel", rel.filter(Boolean).join(" "));
+  });
+
+  /* ------------------------------------------------------------------
+     16. CONTACT FORM — hardened
+     --------------------------------------------------------------- */
+
+  // Strip non-printable control chars without using a literal-control-char regex.
+  // Uses character-code filter — safe against source-mangling issues.
+  function stripControl(input) {
+    if (input == null) return "";
+    const s = String(input);
+    let out = "";
+    for (let i = 0; i < s.length; i++) {
+      const c = s.charCodeAt(i);
+      // Keep printable, tab (9), LF (10), CR (13). Drop everything else <32 and 0x7F.
+      if (c === 9 || c === 10 || c === 13 || (c >= 32 && c !== 0x7F)) {
+        out += s.charAt(i);
+      }
+    }
+    return out;
+  }
+
+  function sanitizeField(value, maxLen) {
+    let v = stripControl(value);
+    v = v.replace(/[ \t]+/g, " ");
+    v = v.replace(/\r\n?/g, "\n");
+    v = v.replace(/\n{3,}/g, "\n\n");
+    v = v.trim();
+    if (typeof maxLen === "number" && v.length > maxLen) v = v.slice(0, maxLen);
+    return v;
+  }
+
+  function isValidEmail(e) {
+    return /^[^\s@]+@[^\s@.]+\.[^\s@]{2,}$/.test(e) && e.length <= 160;
+  }
+
   const form = document.getElementById("contact-form");
   if (form && window.fetch && window.FormData) {
     const submit = form.querySelector('button[type="submit"]');
     const statusEl = document.getElementById("form-status");
     const honeypot = form.elements.namedItem("company");
+    const tsField = document.getElementById("form-ts");
     const successUrl = new URL("/thank-you.html", window.location.origin);
     const defaultLabel = submit ? submit.innerHTML : "";
     const delay = 1000;
     let isSubmitting = false;
+
+    const loadedAt = Date.now();
+    if (tsField) tsField.value = String(loadedAt);
+
+    const messageInput = form.querySelector("#message");
+    const counter = document.getElementById("msg-counter");
+    if (messageInput && counter) {
+      const updateCounter = () => { counter.textContent = String(messageInput.value.length); };
+      messageInput.addEventListener("input", updateCounter);
+      updateCounter();
+    }
 
     const onUnload = (e) => {
       if (!isSubmitting) return;
       e.preventDefault();
       e.returnValue = "";
     };
-    const setStatus = (msg, type = "info") => {
+    const setStatus = (msg, type) => {
       if (!statusEl) return;
       if (!msg) {
         statusEl.hidden = true;
@@ -319,7 +446,7 @@
       }
       statusEl.hidden = false;
       statusEl.textContent = msg;
-      statusEl.className = `form-status is-${type}`;
+      statusEl.className = "form-status is-" + (type || "info");
     };
     const setSubmitting = (state) => {
       isSubmitting = state;
@@ -342,6 +469,17 @@
         e.preventDefault();
         return;
       }
+
+      // Rate limit (per browser session, 30s)
+      let lastSent = 0;
+      try { lastSent = parseInt(sessionStorage.getItem("nz_last_submit") || "0", 10); } catch (_) {}
+      if (lastSent && Date.now() - lastSent < RATE_LIMIT_MS) {
+        e.preventDefault();
+        const wait = Math.ceil((RATE_LIMIT_MS - (Date.now() - lastSent)) / 1000);
+        setStatus("Please wait " + wait + "s before sending another message.", "error");
+        return;
+      }
+
       if (!form.checkValidity()) {
         e.preventDefault();
         form.reportValidity();
@@ -349,15 +487,51 @@
       }
       e.preventDefault();
       setStatus("");
+
+      // Honeypot — filled means it's a bot
       if (honeypot && typeof honeypot.value === "string" && honeypot.value.trim() !== "") {
+        setStatus("Submission blocked.", "error");
         return;
       }
+
+      // Time-based check
+      const dt = (Date.now() - loadedAt) / 1000;
+      if (dt < MIN_FILL_SECONDS) {
+        setStatus("That was a little too fast. Please try again in a moment.", "error");
+        return;
+      }
+      if (dt > MAX_FILL_HOURS * 3600 && tsField) {
+        tsField.value = String(Date.now());
+      }
+
       if ("onLine" in navigator && !navigator.onLine) {
         setStatus("You appear to be offline. Please check your connection.", "error");
         return;
       }
 
-      const data = new FormData(form);
+      // Sanitize
+      const nameRaw  = form.elements["name"]  ? form.elements["name"].value  : "";
+      const emailRaw = form.elements["email"] ? form.elements["email"].value : "";
+      const msgRaw   = form.elements["message"] ? form.elements["message"].value : "";
+
+      const name = sanitizeField(nameRaw, 80);
+      const email = sanitizeField(emailRaw, 160).toLowerCase();
+      const message = sanitizeField(msgRaw, 3000);
+
+      if (name.length < 2)        { setStatus("Please enter your name.", "error"); return; }
+      if (!isValidEmail(email))   { setStatus("Please enter a valid email.", "error"); return; }
+      if (message.length < 10)    { setStatus("Please tell me a bit more about your project.", "error"); return; }
+
+      // Build a sanitized FormData
+      const data = new FormData();
+      data.append("name", name);
+      data.append("email", email);
+      data.append("message", message);
+      data.append("ts", String(loadedAt));
+      data.append("dt", String(Math.round(dt)));
+      data.append("ref", (document.referrer || "").slice(0, 250));
+      data.append("ua", (navigator.userAgent || "").slice(0, 200));
+
       let timer = null;
       let handle = true;
 
@@ -369,9 +543,11 @@
           body: data,
           mode: "no-cors",
           keepalive: true,
+          referrerPolicy: "strict-origin-when-cross-origin",
         });
         timer = window.setTimeout(() => {
           handle = false;
+          try { sessionStorage.setItem("nz_last_submit", String(Date.now())); } catch (_) {}
           redirect();
         }, delay);
         req.catch((err) => {
@@ -392,9 +568,8 @@
   }
 
   /* ------------------------------------------------------------------
-     15. KEYBOARD: skip to main
+     17. KEYBOARD: focus ring polish
      --------------------------------------------------------------- */
-  // Always allow Tab focus rings
   document.addEventListener("keydown", (e) => {
     if (e.key === "Tab") document.body.classList.add("is-tabbing");
   });
