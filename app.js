@@ -66,6 +66,9 @@
     nav.classList.remove("is-open");
     mobileMenu.classList.remove("is-open");
     mobileMenu.setAttribute("inert", "");
+    // Strip the programmatic tabindex we may have set in openMenu so
+    // the closed container stays out of the natural tab order.
+    mobileMenu.removeAttribute("tabindex");
     navToggle.setAttribute("aria-expanded", "false");
     navToggle.setAttribute("aria-label", "Open menu");
     document.body.style.overflow = "";
@@ -94,20 +97,43 @@
     navToggle.setAttribute("aria-label", "Close menu");
     document.body.style.overflow = "hidden";
 
+    // ── KEEP scrollTop = 0 across the first ~10 animation frames ──
+    // Some mobile browsers (notably Android Chrome) re-flow the
+    // container as the URL bar collapses or as the transform settles,
+    // and that re-flow can shift the internal scroll position by a
+    // few px — enough to push the first link ("About") behind the
+    // fixed nav header. We hold scrollTop at 0 for ~10 frames to
+    // out-last that re-flow window.
+    let resets = 10;
+    const pin = () => {
+      if (!mobileMenu.classList.contains("is-open")) return;
+      mobileMenu.scrollTop = 0;
+      if (--resets > 0) requestAnimationFrame(pin);
+    };
+    requestAnimationFrame(pin);
+
     // Defer the focus until AFTER the slide-in animation finishes.
-    // Focusing a link inside a still-animating, overflow-y:auto
-    // container causes the browser to scroll-into-view mid-animation,
-    // which on iOS Safari leaves a stale scrollTop and hides the
-    // first item on the next open. Waiting until the transform is
-    // settled, and using `preventScroll`, eliminates that race.
+    // On touch devices we DELIBERATELY do NOT focus the first link —
+    // even with `preventScroll: true`, mobile browsers (Android
+    // Chrome confirmed) will scroll-into-view the focused element
+    // and push "About" behind the fixed nav header on the next open
+    // cycle. Touch users don't need programmatic focus the way
+    // keyboard / AT users do — the menu is already visible, fully
+    // tappable, and the close button keeps a logical tab order.
+    // For keyboard/AT users we focus the menu CONTAINER itself
+    // (not the first link), so scroll-into-view has no link target
+    // to chase, and the user can Tab into the link list naturally.
     window.setTimeout(() => {
       if (!mobileMenu.classList.contains("is-open")) return;
       mobileMenu.scrollTop = 0; // final defensive reset
-      const firstLink = mobileMenu.querySelector("a");
-      if (firstLink) {
-        try { firstLink.focus({ preventScroll: true }); }
-        catch (_) { firstLink.focus(); }
-      }
+      if (isTouch) return; // touch path: do not focus, do not scroll
+      // Make the container itself programmatically focusable for
+      // this moment, focus it, then strip the tabindex so the user's
+      // Tab order is preserved.
+      mobileMenu.setAttribute("tabindex", "-1");
+      try { mobileMenu.focus({ preventScroll: true }); }
+      catch (_) { mobileMenu.focus(); }
+      mobileMenu.scrollTop = 0;
     }, MENU_ANIM_MS);
   };
 

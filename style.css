@@ -486,14 +486,22 @@ ul { list-style: none; }
   z-index: 8500;
   flex-direction: column;
   /* CRITICAL — anchor from the top with enough padding to clear the
-     fixed nav AND any notch / status bar safe-area. Using `max(...)`
-     guarantees a baseline of 110px even if `env(safe-area-inset-top)`
+     fixed nav header (≈68–88px tall depending on breakpoint) AND any
+     notch / status bar safe-area. Using `max(...)` guarantees a
+     generous baseline of 150px even if `env(safe-area-inset-top)`
      reports 0 (non-notched devices / older browsers). This prevents
-     the first link ("About") from sliding under the nav. */
+     the first link ("About") from sliding under the nav. The value
+     was raised from 110px → 150px after testing on Android Chrome,
+     where the visible URL bar + nav padding ate ≥130px before About. */
   justify-content: flex-start;
-  padding-top:    max(110px, calc(env(safe-area-inset-top, 0px) + 96px));
+  padding-top:    max(150px, calc(env(safe-area-inset-top, 0px) + 130px));
   padding-bottom: max(28px,  calc(env(safe-area-inset-bottom, 0px) + 24px));
   padding-inline: var(--gutter);
+  /* If the browser ever needs to scroll-into-view a focused link
+     inside this container (keyboard navigation, screen readers),
+     keep the same 150px clearance from the top so the focused link
+     can never land BEHIND the fixed nav header. */
+  scroll-padding-top: max(150px, calc(env(safe-area-inset-top, 0px) + 130px));
   /* Allow internal scroll IF content exceeds viewport (long phones in
      landscape). `overscroll-behavior: contain` keeps the page underneath
      from scrolling when the menu reaches its edge. */
@@ -538,6 +546,11 @@ ul { list-style: none; }
   display: inline-flex;
   align-items: baseline;
   gap: 16px;
+  /* Per-link clearance: if focus/anchor ever does scroll-into-view
+     inside the mobile menu, this keeps the link's top from landing
+     behind the fixed nav header. Belt and braces with the container's
+     scroll-padding-top above. */
+  scroll-margin-top: max(150px, calc(env(safe-area-inset-top, 0px) + 130px));
   transition: color var(--t-base) var(--ease), padding-left var(--t-base) var(--ease);
 }
 .mobile-menu a span {
