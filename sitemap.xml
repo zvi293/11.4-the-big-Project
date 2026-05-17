@@ -10,6 +10,11 @@
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
+      <image:loc>https://nz-web.netlify.app/image/og-share.png</image:loc>
+      <image:title>NZ Web — Hand-Coded Websites &amp; Landing Pages</image:title>
+      <image:caption>NZ Web studio share card — independent studio of Zvi Moshe, Tel Aviv and worldwide.</image:caption>
+    </image:image>
+    <image:image>
       <image:loc>https://nz-web.netlify.app/image/20251111_150847.webp</image:loc>
       <image:title>Zvi Moshe — Founder, NZ Web</image:title>
       <image:caption>Portrait of Zvi Moshe, founder and sole developer at NZ Web studio.</image:caption>
