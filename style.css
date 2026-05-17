@@ -485,23 +485,34 @@ ul { list-style: none; }
   background: linear-gradient(180deg, var(--ink-0), var(--ink-2));
   z-index: 8500;
   flex-direction: column;
-  /* CRITICAL: start from the top, not centered.
-     With `center`, when total content (7 nav items + footer + paddings)
-     exceeds viewport height (common on small phones), flex centering pushes
-     the first item ABOVE the viewport and it disappears.
-     `flex-start` + sufficient top padding to clear the fixed nav header,
-     plus `overflow-y: auto` for safety, keeps every item reachable. */
+  /* CRITICAL — anchor from the top with enough padding to clear the
+     fixed nav AND any notch / status bar safe-area. Using `max(...)`
+     guarantees a baseline of 110px even if `env(safe-area-inset-top)`
+     reports 0 (non-notched devices / older browsers). This prevents
+     the first link ("About") from sliding under the nav. */
   justify-content: flex-start;
-  padding: calc(env(safe-area-inset-top, 0px) + 96px) var(--gutter) calc(env(safe-area-inset-bottom, 0px) + var(--s-6));
+  padding-top:    max(110px, calc(env(safe-area-inset-top, 0px) + 96px));
+  padding-bottom: max(28px,  calc(env(safe-area-inset-bottom, 0px) + 24px));
+  padding-inline: var(--gutter);
+  /* Allow internal scroll IF content exceeds viewport (long phones in
+     landscape). `overscroll-behavior: contain` keeps the page underneath
+     from scrolling when the menu reaches its edge. */
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
-  transform: translateY(-100%);
+  /* Use 3D transform to force a compositor layer on iOS Safari —
+     prevents repaint glitches that could clip the first item during
+     the slide-in animation. */
+  transform: translate3d(0, -100%, 0);
   transition: transform 0.55s var(--ease-out);
   visibility: hidden;
+  /* Reset any stale scroll position the moment the menu is hidden —
+     belt-and-braces with the JS reset, so even if JS fails, the
+     scrollTop can't carry over and push the first item out of view. */
+  scroll-behavior: auto;
 }
 .mobile-menu.is-open {
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
   visibility: visible;
 }
 .mobile-menu[inert] {

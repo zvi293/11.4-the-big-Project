@@ -57,6 +57,10 @@
   const mobileMenu = document.getElementById("mobileMenu");
   let lastFocus = null;
 
+  // Slide-in/out CSS transition duration on `.mobile-menu`.
+  // Keep this number in sync with the CSS (currently 0.55s).
+  const MENU_ANIM_MS = 560;
+
   const closeMenu = () => {
     if (!mobileMenu) return;
     nav.classList.remove("is-open");
@@ -65,22 +69,46 @@
     navToggle.setAttribute("aria-expanded", "false");
     navToggle.setAttribute("aria-label", "Open menu");
     document.body.style.overflow = "";
+    // Aggressively reset the internal scroll so the first link cannot
+    // be hidden by a stale scrollTop next time the menu opens.
+    // (iOS Safari preserves scrollTop on hidden overflow containers.)
+    mobileMenu.scrollTop = 0;
     if (lastFocus && typeof lastFocus.focus === "function") {
-      lastFocus.focus();
+      try { lastFocus.focus({ preventScroll: true }); }
+      catch (_) { lastFocus.focus(); }
       lastFocus = null;
     }
   };
+
   const openMenu = () => {
     if (!mobileMenu) return;
     lastFocus = document.activeElement;
+    // Reset scroll BEFORE we animate in. If Safari/Chrome remembered
+    // the scrollTop from before, this snaps it back to the top so the
+    // "About" link is always at the start of the visible area.
+    mobileMenu.scrollTop = 0;
     nav.classList.add("is-open");
     mobileMenu.classList.add("is-open");
     mobileMenu.removeAttribute("inert");
     navToggle.setAttribute("aria-expanded", "true");
     navToggle.setAttribute("aria-label", "Close menu");
     document.body.style.overflow = "hidden";
-    const firstLink = mobileMenu.querySelector("a");
-    if (firstLink) firstLink.focus();
+
+    // Defer the focus until AFTER the slide-in animation finishes.
+    // Focusing a link inside a still-animating, overflow-y:auto
+    // container causes the browser to scroll-into-view mid-animation,
+    // which on iOS Safari leaves a stale scrollTop and hides the
+    // first item on the next open. Waiting until the transform is
+    // settled, and using `preventScroll`, eliminates that race.
+    window.setTimeout(() => {
+      if (!mobileMenu.classList.contains("is-open")) return;
+      mobileMenu.scrollTop = 0; // final defensive reset
+      const firstLink = mobileMenu.querySelector("a");
+      if (firstLink) {
+        try { firstLink.focus({ preventScroll: true }); }
+        catch (_) { firstLink.focus(); }
+      }
+    }, MENU_ANIM_MS);
   };
 
   if (navToggle && mobileMenu) {
