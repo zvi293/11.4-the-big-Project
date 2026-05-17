@@ -331,12 +331,26 @@ ul { list-style: none; }
   align-items: center;
   justify-content: space-between;
   gap: var(--s-5);
+  position: relative; /* anchor for absolute-centered .nav-links on desktop */
 }
 .nav-actions {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   margin-left: auto;
+}
+
+/* DESKTOP: absolutely center the link list in the page,
+   independent of brand and CTA widths. At <=980px these styles
+   don't apply (the link list is hidden by the responsive rules). */
+@media (min-width: 981px) {
+  .nav-links {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+  }
 }
 .brand {
   display: inline-flex;
@@ -647,9 +661,30 @@ ul { list-style: none; }
   display: inline-flex;
   align-items: baseline;
   height: 1em;
-  min-width: 7.2em; /* fits longest variant ("visionaries.") so the line never wraps */
+  /* tight width — only as wide as the longest active variant.
+     `min-width` is the previous-line fallback; the actual width
+     comes from the position:relative <b> when it goes active. */
+  min-width: 6em;
   vertical-align: bottom;
   white-space: nowrap;
+}
+
+/* DESKTOP: force line 3 of the hero ("experiences for [swap]") to
+   stay on a single line. On smaller viewports the responsive rules
+   below (<=700px) intentionally stack it into "experiences" / "for…"
+   on separate lines for legibility. */
+@media (min-width: 901px) {
+  .hero-line.l3 { overflow: visible; }
+  .hero-line.l3 > span { white-space: nowrap; }
+  .hero-headline {
+    /* a touch tighter so "experiences for visionaries." fits comfortably
+       on one line across desktop widths without aggressive overflow. */
+    letter-spacing: -0.045em;
+  }
+  /* Slightly trim the upper bound of the hero font on desktop so the
+     long line always fits inside the container at the most common
+     widths (1280–1600). The mobile clamp is unaffected. */
+  .hero-headline { font-size: clamp(3.5rem, 2rem + 6vw, 8.8rem); }
 }
 .hero-headline .swap b {
   font-weight: 300;
