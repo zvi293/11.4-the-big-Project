@@ -1,21 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
   <url>
     <loc>https://nz-web.netlify.app/</loc>
-    <lastmod>2026-03-06</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://nz-web.netlify.app/image/20251111_150847.webp</image:loc>
+      <image:title>Zvi Moshe — Founder, NZ Web</image:title>
+      <image:caption>Portrait of Zvi Moshe, founder and sole developer at NZ Web studio.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nz-web.netlify.app/image/wordpress-923188.webp</image:loc>
+      <image:title>Atelier Studio — Flagship marketing site (WordPress)</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://nz-web.netlify.app/image/digital-marketing-1433427.webp</image:loc>
+      <image:title>Northwind Launch — High-converting landing page</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://nz-web.netlify.app/image/online-2900303.webp</image:loc>
+      <image:title>Lume Mobile — Responsive redesign</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://nz-web.netlify.app/image/payment-4334491.webp</image:loc>
+      <image:title>Meridian Pay — Payment platform integration</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://nz-web.netlify.app/image/design-9824072.webp</image:loc>
+      <image:title>Halo System — UI/UX design system</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://nz-web.netlify.app/image/laptop-2593016.webp</image:loc>
+      <image:title>Folio Personal — Portfolio website</image:title>
+    </image:image>
   </url>
+
   <url>
     <loc>https://nz-web.netlify.app/privacy-policy.html</loc>
-    <lastmod>2026-03-06</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+
   <url>
     <loc>https://nz-web.netlify.app/terms.html</loc>
-    <lastmod>2026-03-06</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+
 </urlset>

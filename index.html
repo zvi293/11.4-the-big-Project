@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>NZ Web — Studio of Zvi Moshe · Web Development &amp; Design</title>
+    <title>NZ Web — Hand-Coded Websites &amp; Landing Pages · Studio of Zvi Moshe</title>
 
     <!-- ============ SECURITY HEADERS (meta) ============ -->
     <!-- Content Security Policy: locks down what the page can load & where it can submit.
@@ -36,13 +36,31 @@
     />
     <meta
       name="description"
-      content="NZ Web is the independent studio of Zvi Moshe — building world-class websites, landing pages, and digital products with obsessive craft and zero filler."
+      content="NZ Web is the independent studio of Zvi Moshe — hand-coded websites, high-converting landing pages, responsive design, and UI/UX for founders and brands. Tel Aviv · worldwide."
+    />
+    <meta
+      name="keywords"
+      content="web developer, web designer, hand-coded websites, landing pages, custom WordPress, UI UX, responsive design, Tel Aviv web developer, freelance web developer, Zvi Moshe, NZ Web, Core Web Vitals, SEO optimized websites, system integration, Stripe integration"
     />
     <link rel="canonical" href="https://nz-web.netlify.app/" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="bingbot" content="index, follow" />
     <meta name="author" content="Zvi Moshe" />
+    <meta name="publisher" content="NZ Web" />
+    <meta name="copyright" content="© 2026 NZ Web · Zvi Moshe" />
+    <meta name="generator" content="Hand-coded · No CMS · No build step" />
+    <meta name="rating" content="general" />
+    <meta name="distribution" content="global" />
     <meta name="theme-color" content="#050505" />
     <meta name="color-scheme" content="dark" />
+    <meta name="format-detection" content="telephone=yes,address=no,email=yes" />
+
+    <!-- Geo targeting -->
+    <meta name="geo.region" content="IL-TA" />
+    <meta name="geo.placename" content="Tel Aviv, Israel" />
+    <meta name="geo.position" content="32.0853;34.7818" />
+    <meta name="ICBM" content="32.0853, 34.7818" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
@@ -52,27 +70,48 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
+    <!-- hreflang (single locale today; declared so search engines stop guessing) -->
+    <link rel="alternate" hreflang="en" href="https://nz-web.netlify.app/" />
+    <link rel="alternate" hreflang="x-default" href="https://nz-web.netlify.app/" />
+
+    <!-- Sitemap & AI-discovery files -->
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <link rel="alternate" type="text/plain" title="LLM-readable site summary" href="/llms.txt" />
+    <link rel="author" type="text/plain" href="/humans.txt" />
+
     <!-- Open Graph -->
-    <meta property="og:title" content="NZ Web — Studio of Zvi Moshe" />
-    <meta property="og:description" content="Custom websites, landing pages, and digital products built with obsessive craft." />
+    <meta property="og:title" content="NZ Web — Hand-Coded Websites &amp; Landing Pages · Studio of Zvi Moshe" />
+    <meta property="og:description" content="Independent studio of Zvi Moshe. Hand-coded marketing sites, landing pages, and digital products. Tel Aviv · worldwide. No templates, no filler." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://nz-web.netlify.app/" />
     <meta property="og:site_name" content="NZ Web" />
     <meta property="og:image" content="https://nz-web.netlify.app/image/20251111_150847.webp" />
-    <meta property="og:image:alt" content="Portrait of Zvi Moshe, founder of NZ Web" />
+    <meta property="og:image:secure_url" content="https://nz-web.netlify.app/image/20251111_150847.webp" />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Portrait of Zvi Moshe, founder of NZ Web — independent web development studio." />
     <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="he_IL" />
+    <meta property="profile:first_name" content="Zvi" />
+    <meta property="profile:last_name" content="Moshe" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="NZ Web — Studio of Zvi Moshe" />
-    <meta name="twitter:description" content="Custom websites, landing pages, and digital products built with obsessive craft." />
+    <meta name="twitter:title" content="NZ Web — Hand-Coded Websites &amp; Landing Pages" />
+    <meta name="twitter:description" content="Studio of Zvi Moshe. Hand-coded marketing sites, landing pages, and digital products. Tel Aviv · worldwide." />
     <meta name="twitter:image" content="https://nz-web.netlify.app/image/20251111_150847.webp" />
     <meta name="twitter:image:alt" content="Portrait of Zvi Moshe, founder of NZ Web" />
+    <meta name="twitter:creator" content="@zvi293" />
+    <meta name="twitter:site" content="@zvi293" />
+    <meta name="twitter:domain" content="nz-web.netlify.app" />
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="./style.css" />
 
     <!-- Fonts -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -88,46 +127,331 @@
       type="image/webp"
     />
 
-    <!-- JSON-LD Structured Data -->
+    <!-- ============================================================
+         JSON-LD Structured Data — comprehensive graph for SEO + GEO.
+         Schemas: WebSite, Organization (ProfessionalService),
+         Person (founder), WebPage, AboutPage, ContactPage, ItemList
+         (case studies), BreadcrumbList, FAQPage, OfferCatalog.
+         A single @graph keeps everything cross-referenced.
+         ============================================================ -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "@id": "https://nz-web.netlify.app/#person",
-      "name": "Zvi Moshe",
-      "image": "https://nz-web.netlify.app/image/20251111_150847.jpg",
-      "jobTitle": "Web Developer & Designer",
-      "url": "https://nz-web.netlify.app/",
-      "worksFor": { "@id": "https://nz-web.netlify.app/#organization" },
-      "email": "zvi293293@gmail.com",
-      "sameAs": ["https://github.com/zvi293"]
-    }
-    </script>
+      "@graph": [
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "@id": "https://nz-web.netlify.app/#organization",
-      "name": "NZ Web",
-      "alternateName": "Zvi Moshe",
-      "url": "https://nz-web.netlify.app/",
-      "description": "Independent studio for premium websites, landing pages, and digital products.",
-      "image": "https://nz-web.netlify.app/image/20251111_150847.jpg",
-      "logo": "https://nz-web.netlify.app/apple-touch-icon.png",
-      "areaServed": "Worldwide",
-      "serviceType": [
-        "Website Development",
-        "Landing Pages",
-        "Responsive Design",
-        "UI/UX Design",
-        "System Integration"
-      ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "email": "zvi293293@gmail.com",
-        "contactType": "customer support"
-      }
+        {
+          "@type": "WebSite",
+          "@id": "https://nz-web.netlify.app/#website",
+          "url": "https://nz-web.netlify.app/",
+          "name": "NZ Web",
+          "alternateName": ["Studio of Zvi Moshe", "Zvi Moshe Studio"],
+          "description": "Independent studio of Zvi Moshe — hand-coded websites, landing pages, and digital products.",
+          "inLanguage": "en",
+          "publisher": { "@id": "https://nz-web.netlify.app/#organization" },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://nz-web.netlify.app/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+
+        {
+          "@type": ["ProfessionalService", "Organization", "LocalBusiness"],
+          "@id": "https://nz-web.netlify.app/#organization",
+          "name": "NZ Web",
+          "alternateName": "Studio of Zvi Moshe",
+          "legalName": "Zvi Moshe — NZ Web",
+          "url": "https://nz-web.netlify.app/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://nz-web.netlify.app/apple-touch-icon.png",
+            "width": 180,
+            "height": 180
+          },
+          "image": "https://nz-web.netlify.app/image/20251111_150847.jpg",
+          "description": "Independent studio of Zvi Moshe — premium hand-coded websites, landing pages, responsive design, UI/UX, and system integrations for founders and brands worldwide.",
+          "slogan": "No templates. No filler. Just considered work, shipped.",
+          "foundingDate": "2024-01-01",
+          "founder": { "@id": "https://nz-web.netlify.app/#person" },
+          "knowsAbout": [
+            "Web development",
+            "Landing pages",
+            "Responsive design",
+            "UI/UX design",
+            "WordPress development",
+            "Performance optimization",
+            "Core Web Vitals",
+            "SEO",
+            "Accessibility",
+            "Schema.org structured data",
+            "Stripe integration",
+            "Google Apps Script",
+            "Figma",
+            "HTML",
+            "CSS",
+            "JavaScript"
+          ],
+          "knowsLanguage": ["en", "he"],
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Tel Aviv",
+            "addressRegion": "Tel Aviv District",
+            "addressCountry": "IL"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 32.0853,
+            "longitude": 34.7818
+          },
+          "areaServed": [
+            { "@type": "Place", "name": "Worldwide" },
+            { "@type": "Country", "name": "Israel" },
+            { "@type": "Country", "name": "United States" },
+            { "@type": "Country", "name": "United Kingdom" },
+            { "@type": "Place", "name": "European Union" }
+          ],
+          "serviceType": [
+            "Website Development",
+            "Landing Pages",
+            "Responsive Design",
+            "UI/UX Design",
+            "System Integration"
+          ],
+          "priceRange": "$$",
+          "currenciesAccepted": "USD, EUR, ILS",
+          "paymentAccepted": "Bank transfer, Stripe, Wise",
+          "openingHoursSpecification": [{
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Sunday"],
+            "opens": "09:00",
+            "closes": "19:00"
+          }],
+          "contactPoint": [{
+            "@type": "ContactPoint",
+            "email": "zvi293293@gmail.com",
+            "telephone": "+972-58-729-2029",
+            "contactType": "customer support",
+            "areaServed": "Worldwide",
+            "availableLanguage": ["English", "Hebrew"]
+          }, {
+            "@type": "ContactPoint",
+            "telephone": "+972-58-729-2029",
+            "contactType": "sales",
+            "areaServed": "Worldwide",
+            "availableLanguage": ["English", "Hebrew"]
+          }],
+          "sameAs": [
+            "https://github.com/zvi293",
+            "https://wa.me/972587292029",
+            "https://nz-web.com/"
+          ],
+          "hasOfferCatalog": { "@id": "https://nz-web.netlify.app/#catalog" }
+        },
+
+        {
+          "@type": "Person",
+          "@id": "https://nz-web.netlify.app/#person",
+          "name": "Zvi Moshe",
+          "givenName": "Zvi",
+          "familyName": "Moshe",
+          "image": {
+            "@type": "ImageObject",
+            "url": "https://nz-web.netlify.app/image/20251111_150847.jpg",
+            "caption": "Portrait of Zvi Moshe, founder of NZ Web"
+          },
+          "jobTitle": "Web Developer & Designer",
+          "description": "Founder of NZ Web. 25 years old, based in Tel Aviv, Israel. Hand-codes websites and digital products for founders and brands worldwide.",
+          "url": "https://nz-web.netlify.app/",
+          "email": "zvi293293@gmail.com",
+          "telephone": "+972-58-729-2029",
+          "worksFor": { "@id": "https://nz-web.netlify.app/#organization" },
+          "knowsLanguage": ["en", "he"],
+          "knowsAbout": [
+            "HTML", "CSS", "JavaScript", "WordPress", "Figma", "Webflow",
+            "Performance optimization", "SEO", "Accessibility", "UI/UX design"
+          ],
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Tel Aviv",
+            "addressCountry": "IL"
+          },
+          "sameAs": [
+            "https://github.com/zvi293",
+            "https://nz-web.netlify.app/"
+          ]
+        },
+
+        {
+          "@type": "OfferCatalog",
+          "@id": "https://nz-web.netlify.app/#catalog",
+          "name": "NZ Web — services",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Website Development",
+                "description": "Custom marketing sites and brand homes — hand-coded, scalable, CMS-ready, SEO-optimized, and tuned for Core Web Vitals.",
+                "serviceType": "Website Development",
+                "provider": { "@id": "https://nz-web.netlify.app/#organization" },
+                "areaServed": "Worldwide"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Landing Pages",
+                "description": "Narrative-driven, single-decision pages. Copy-aware, A/B-ready, analytics-wired. Built in days, not months.",
+                "serviceType": "Landing Page Development",
+                "provider": { "@id": "https://nz-web.netlify.app/#organization" },
+                "areaServed": "Worldwide"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "UI / UX Design",
+                "description": "Clear, opinionated interfaces. Figma-first design systems and prototyping that ship into production.",
+                "serviceType": "UI/UX Design",
+                "provider": { "@id": "https://nz-web.netlify.app/#organization" },
+                "areaServed": "Worldwide"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Responsive Design",
+                "description": "Mobile-first builds with fluid typography and adaptive grids.",
+                "serviceType": "Responsive Web Design",
+                "provider": { "@id": "https://nz-web.netlify.app/#organization" },
+                "areaServed": "Worldwide"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "System Integration",
+                "description": "Stripe payments, CRMs, forms, analytics, webhooks, Google Apps Script.",
+                "serviceType": "System Integration",
+                "provider": { "@id": "https://nz-web.netlify.app/#organization" },
+                "areaServed": "Worldwide"
+              }
+            }
+          ]
+        },
+
+        {
+          "@type": ["WebPage", "AboutPage", "ContactPage"],
+          "@id": "https://nz-web.netlify.app/#webpage",
+          "url": "https://nz-web.netlify.app/",
+          "name": "NZ Web — Hand-Coded Websites & Landing Pages · Studio of Zvi Moshe",
+          "isPartOf": { "@id": "https://nz-web.netlify.app/#website" },
+          "about": { "@id": "https://nz-web.netlify.app/#organization" },
+          "mainEntity": { "@id": "https://nz-web.netlify.app/#organization" },
+          "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": "https://nz-web.netlify.app/image/20251111_150847.webp"
+          },
+          "inLanguage": "en",
+          "datePublished": "2024-01-01",
+          "dateModified": "2026-05-18",
+          "breadcrumb": { "@id": "https://nz-web.netlify.app/#breadcrumb" },
+          "speakable": {
+            "@type": "SpeakableSpecification",
+            "cssSelector": [".hero-headline", ".section-title", ".section-kicker"]
+          }
+        },
+
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://nz-web.netlify.app/#breadcrumb",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home",     "item": "https://nz-web.netlify.app/" },
+            { "@type": "ListItem", "position": 2, "name": "About",    "item": "https://nz-web.netlify.app/#manifesto" },
+            { "@type": "ListItem", "position": 3, "name": "Services", "item": "https://nz-web.netlify.app/#services" },
+            { "@type": "ListItem", "position": 4, "name": "Process",  "item": "https://nz-web.netlify.app/#process" },
+            { "@type": "ListItem", "position": 5, "name": "Work",     "item": "https://nz-web.netlify.app/#work" },
+            { "@type": "ListItem", "position": 6, "name": "FAQ",      "item": "https://nz-web.netlify.app/#faq" },
+            { "@type": "ListItem", "position": 7, "name": "Contact",  "item": "https://nz-web.netlify.app/#contact" }
+          ]
+        },
+
+        {
+          "@type": "ItemList",
+          "@id": "https://nz-web.netlify.app/#work",
+          "name": "Selected work — NZ Web",
+          "itemListOrder": "https://schema.org/ItemListOrderDescending",
+          "numberOfItems": 6,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Atelier Studio — flagship WordPress marketing site (2026)" },
+            { "@type": "ListItem", "position": 2, "name": "Northwind Launch — high-converting landing page (2026)" },
+            { "@type": "ListItem", "position": 3, "name": "Lume Mobile — responsive mobile-first redesign (2025)" },
+            { "@type": "ListItem", "position": 4, "name": "Meridian Pay — Stripe payment platform integration (2025)" },
+            { "@type": "ListItem", "position": 5, "name": "Halo System — UI/UX design system (2025)" },
+            { "@type": "ListItem", "position": 6, "name": "Folio Personal — portfolio brand site (2024)" }
+          ]
+        },
+
+        {
+          "@type": "FAQPage",
+          "@id": "https://nz-web.netlify.app/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How long does a project usually take?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Most landing pages ship in 1–2 weeks. Full marketing sites land between 4–6 weeks depending on copy, asset readiness, and integration depth. You'll see a precise timeline in your proposal."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do you price?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Fixed-price by project, never by the hour. Once we agree on scope, the number is the number — no surprises, no padded invoices, no scope-creep tax."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do you use templates or page builders?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Almost never. Every site is hand-coded so it's fast, custom, and future-proof. If a CMS is required, I build a custom WordPress theme — not pre-fab blocks."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Will my site be fast and SEO-friendly?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "That's the baseline, not the upgrade. Every project ships with semantic HTML, accessibility, performance budgets, structured data, and Core Web Vitals tuning."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What about after launch?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "You get 30 days of post-launch care included, free. After that, lightweight care plans are available — but most clients stay self-sufficient. The handoff is real."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Where are you based?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Tel Aviv, Israel. I work with clients worldwide and run async by default — though I'll happily jump on a call when it actually moves the project forward."
+              }
+            }
+          ]
+        }
+
+      ]
     }
     </script>
   </head>

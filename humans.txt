@@ -1,0 +1,17 @@
+/* TEAM */
+Founder, designer, developer: Zvi Moshe
+Email:    zvi293293 [at] gmail [dot] com
+WhatsApp: +972 58 729 2029
+GitHub:   @zvi293
+Location: Tel Aviv, Israel — worldwide
+
+/* SITE */
+Studio:        NZ Web
+Last update:   2026-05-18
+Language:      English
+Doctype:       HTML5
+Standards:     WCAG 2.1 AA · Schema.org · Open Graph · Core Web Vitals
+Components:    Hand-coded HTML, CSS, JavaScript. No frameworks. No build step.
+
+/* THANKS */
+To every client who let me sweat the small things.

@@ -1,26 +1,34 @@
 {
-  "name": "NZ Web",
+  "name": "NZ Web — Studio of Zvi Moshe",
   "short_name": "NZ Web",
-  "description": "Custom website development, landing pages, responsive design, and UI/UX-focused web experiences by Zvi Moshe.",
+  "description": "Independent studio of Zvi Moshe — premium hand-coded websites, landing pages, and digital products. Tel Aviv, worldwide.",
+  "lang": "en",
+  "dir": "ltr",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#0a0a0a",
-  "theme_color": "#0a0a0a",
+  "orientation": "portrait-primary",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "categories": ["business", "productivity", "design"],
   "icons": [
+    { "src": "/favicon-16.png", "sizes": "16x16", "type": "image/png", "purpose": "any" },
+    { "src": "/favicon-32.png", "sizes": "32x32", "type": "image/png", "purpose": "any" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
     {
-      "src": "/favicon-16.png",
-      "sizes": "16x16",
-      "type": "image/png"
+      "name": "Start a project",
+      "short_name": "Contact",
+      "description": "Send Zvi a project brief",
+      "url": "/#contact"
     },
     {
-      "src": "/favicon-32.png",
-      "sizes": "32x32",
-      "type": "image/png"
-    },
-    {
-      "src": "/apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png"
+      "name": "Selected work",
+      "short_name": "Work",
+      "description": "Browse case studies",
+      "url": "/#work"
     }
   ]
 }

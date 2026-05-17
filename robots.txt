@@ -1,5 +1,147 @@
+# ===================================================================
+# robots.txt — NZ Web by Zvi Moshe
+# https://nz-web.netlify.app/
+#
+# Policy summary:
+#   • Open to all standard search engines (Google, Bing, DuckDuckGo, …).
+#   • Explicitly welcome generative-AI crawlers (ChatGPT, Claude,
+#     Perplexity, Gemini, You.com, Apple Intelligence, etc.) so the
+#     studio appears in AI-generated answers and recommendations.
+#   • Do not index the post-submission "thank you" page.
+#   • Block known low-value or scraping bots that produce no SEO value.
+# ===================================================================
+
+# ─── Default: allow all well-behaved crawlers ──────────────────────
 User-agent: *
 Allow: /
 Disallow: /thank-you.html
+Disallow: /*?*utm_*
+Disallow: /*?*fbclid=
+Disallow: /*?*gclid=
 
+# ─── Search engines (explicit allow + crawl-delay where supported) ──
+User-agent: Googlebot
+Allow: /
+Disallow: /thank-you.html
+
+User-agent: Googlebot-Image
+Allow: /image/
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+Disallow: /thank-you.html
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# ─── AI / LLM crawlers (GEO — Generative Engine Optimization) ─────
+# These bots train and/or ground LLM answers. Allowing them increases
+# the chance NZ Web is cited and recommended inside AI assistants.
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Cohere-AI
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+User-agent: PhindBot
+Allow: /
+
+User-agent: MistralAI-User
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+# ─── Block aggressive scrapers / low-value SEO bots ────────────────
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+# ─── Sitemap & host hints ──────────────────────────────────────────
 Sitemap: https://nz-web.netlify.app/sitemap.xml
+Host: https://nz-web.netlify.app
