@@ -56,13 +56,23 @@
   const navToggle = document.getElementById("navToggle");
   const mobileMenu = document.getElementById("mobileMenu");
   let lastFocus = null;
+  // True when openMenu has pushed a history entry that we still owe
+  // back to the stack. Used to keep the back-button + close paths in
+  // sync without ever pushing or popping more than once per open.
+  let menuPushedState = false;
 
   // Slide-in/out CSS transition duration on `.mobile-menu`.
   // Keep this number in sync with the CSS (currently 0.55s).
   const MENU_ANIM_MS = 560;
 
-  const closeMenu = () => {
+  // closeMenu(opts):
+  //   opts.fromPopState — set true when called from the `popstate`
+  //   handler below. In that case the history entry was already
+  //   removed by the browser, so we MUST NOT call history.back()
+  //   again (which would navigate away from the site).
+  const closeMenu = (opts) => {
     if (!mobileMenu) return;
+    const fromPopState = !!(opts && opts.fromPopState);
     nav.classList.remove("is-open");
     mobileMenu.classList.remove("is-open");
     mobileMenu.setAttribute("inert", "");
@@ -81,6 +91,14 @@
       catch (_) { lastFocus.focus(); }
       lastFocus = null;
     }
+    // If WE pushed a history entry on open AND this close did not
+    // originate from the browser already popping that entry, pop it
+    // now so the stack stays clean (no orphan entries that would
+    // require an extra back-press to leave the site).
+    if (menuPushedState && !fromPopState) {
+      try { history.back(); } catch (_) {}
+    }
+    menuPushedState = false;
   };
 
   const openMenu = () => {
@@ -93,9 +111,23 @@
     navToggle.setAttribute("aria-label", "Close menu");
     document.body.style.overflow = "hidden";
 
+    // ── BACK-BUTTON HANDLING ─────────────────────────────────────
+    // Push a synthetic history entry so the phone's hardware /
+    // gesture back button has somewhere to land. The `popstate`
+    // listener below catches the back press and closes the menu
+    // instead of leaving the site. We use the current URL (no
+    // hash change) so neither the address bar nor the page state
+    // is disturbed.
+    try {
+      if (window.history && typeof history.pushState === "function") {
+        history.pushState({ nzMenu: true }, "", window.location.href);
+        menuPushedState = true;
+      }
+    } catch (_) { /* private mode / sandboxed — degrade silently */ }
+
     // ── TOUCH PATH (mobile phones / tablets) ──────────────────────
     // Do NOTHING else. No focus. No scroll. No timers.
-    // The menu now uses `overflow: hidden` in CSS — there is no
+    // The menu uses `overflow: hidden` in CSS — there is no
     // internal scroll position to manage, and there is no way the
     // first link ("About") can be pushed out of view. Any focus
     // call on a touch device (even with preventScroll:true) has
@@ -128,6 +160,15 @@
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && mobileMenu.classList.contains("is-open")) {
         closeMenu();
+      }
+    });
+    // Phone hardware / browser back button: if the menu is open,
+    // swallow the back press and close the menu instead of leaving
+    // the site. Pass `fromPopState: true` so closeMenu does NOT
+    // call history.back() again (the browser already popped).
+    window.addEventListener("popstate", () => {
+      if (mobileMenu.classList.contains("is-open")) {
+        closeMenu({ fromPopState: true });
       }
     });
   }
