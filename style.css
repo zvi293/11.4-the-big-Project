@@ -615,8 +615,8 @@ ul { list-style: none; }
 }
 /* Inner pieces of line 3: desktop = inline, mobile = stacked blocks */
 .l3-a, .l3-b { display: inline; }
-.hero-line.l2 span { animation-delay: 120ms; }
-.hero-line.l3 span { animation-delay: 240ms; }
+.hero-line.l2 > span { animation-delay: 120ms; }
+.hero-line.l3 > span { animation-delay: 240ms; }
 @keyframes lineUp {
   to { transform: translateY(0); }
 }
