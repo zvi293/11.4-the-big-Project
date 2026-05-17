@@ -25,7 +25,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Edu+NSW+ACT+Cursive:wght@400..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Edu+NSW+ACT+Cursive:wght@400..700&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -33,9 +33,9 @@
   <body>
     <div class="policy-page">
       <div class="policy-container">
-        <a href="/" class="btn btn-secondary policy-back">← Back to Home</a>
+        <a href="/" class="policy-back">← Back to home</a>
 
-        <h1 class="policy-title">Terms of Service</h1>
+        <h1 class="policy-title">Terms of <em>Service</em></h1>
         <p class="policy-updated">Last updated: February 2026</p>
 
         <section class="policy-section">
@@ -127,15 +127,16 @@
     </div>
 
     <!-- Footer -->
-    <footer class="site-footer">
-      <div class="footer-container">
-        <p class="footer-copy">&copy; 2026 Zvi Moshe. All rights reserved.</p>
-        <nav class="footer-links" aria-label="Footer navigation">
-          <a href="./privacy-policy.html">Privacy Policy</a>
-          <span class="footer-divider">|</span>
-          <a href="./terms.html">Terms of Service</a>
-        </nav>
-        <a href="#" class="footer-top">↑ Back to top</a>
+    <footer class="site-footer" aria-label="Footer">
+      <div class="container">
+        <div class="footer-bottom" style="border-top:0">
+          <span>© 2026 NZ Web · All rights reserved</span>
+          <div class="legal">
+            <a href="./privacy-policy.html">Privacy</a>
+            <a href="./terms.html">Terms</a>
+          </div>
+          <a href="/" class="top-link">Back to home</a>
+        </div>
       </div>
     </footer>
   </body>
