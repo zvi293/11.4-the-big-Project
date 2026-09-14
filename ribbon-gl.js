@@ -20,6 +20,13 @@
 
   const gl = canvas && canvas.getContext('webgl2', { antialias: false, alpha: false, depth: false, stencil: false, powerPreference: 'high-performance' });
   if (!gl) { doc.classList.add('no-gl'); return; }
+  // Software rasterizers (SwiftShader, llvmpipe, Basic Render Driver) render this stage on the
+  // CPU at slideshow speed — the designed static fallback is the better experience there.
+  try {
+    const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+    const renderer = String(gl.getParameter(dbg ? dbg.UNMASKED_RENDERER_WEBGL : gl.RENDERER) || '');
+    if (/swiftshader|llvmpipe|softpipe|software|basic render/i.test(renderer)) { doc.classList.add('no-gl'); return; }
+  } catch (e) {}
 
   /* ------------------------------------------------------------------ shaders */
   const FS_TRI = `#version 300 es
@@ -205,25 +212,50 @@
     o = vec4(c, 1.0);
   }`;
 
+  // No status query at compile time: querying would force the compile to finish synchronously.
+  // Failures surface at link time instead, inside buildPrograms.
   function compile(type, src) {
     const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
-    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(s)); throw new Error('shader'); }
     return s;
   }
-  function program(vs, fs) {
-    const p = gl.createProgram();
-    gl.attachShader(p, compile(gl.VERTEX_SHADER, vs)); gl.attachShader(p, compile(gl.FRAGMENT_SHADER, fs));
-    gl.linkProgram(p);
-    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) { console.warn(gl.getProgramInfoLog(p)); throw new Error('link'); }
-    const u = {}; const n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
-    for (let i = 0; i < n; i++) { const info = gl.getActiveUniform(p, i); u[info.name.replace(/\[0\]$/, '')] = gl.getUniformLocation(p, info.name); }
-    return { p, u };
+  const nextTask = () => new Promise((r) => setTimeout(r, 0));
+  // The whole pipeline is built in many small tasks: every shader compile, every link and every
+  // status check yields to the main thread first, and drivers with KHR_parallel_shader_compile
+  // are polled so the heavy compile itself never blocks. Software renderers (no extension,
+  // work done inside compile/link calls) still pay each step in its own short task.
+  async function buildPrograms() {
+    const ext = gl.getExtension('KHR_parallel_shader_compile');
+    const SRCS = { bg: [FS_TRI, BG_FS], rib: [RIB_VS, RIB_FS], plane: [PLANE_VS, PLANE_FS], post: [FS_TRI, POST_FS] };
+    const raw = {};
+    for (const [k, [vs, fs]] of Object.entries(SRCS)) {
+      const v = compile(gl.VERTEX_SHADER, vs);
+      await nextTask();
+      const f = compile(gl.FRAGMENT_SHADER, fs);
+      await nextTask();
+      const p = gl.createProgram();
+      gl.attachShader(p, v); gl.attachShader(p, f); gl.linkProgram(p);
+      raw[k] = p;
+      await nextTask();
+    }
+    if (ext) {
+      const t0 = performance.now();
+      for (const p of Object.values(raw)) {
+        while (!gl.getProgramParameter(p, ext.COMPLETION_STATUS_KHR) && performance.now() - t0 < 4000) {
+          await new Promise((r) => setTimeout(r, 24));
+        }
+      }
+    }
+    const out = {};
+    for (const [k, p] of Object.entries(raw)) {
+      if (!gl.getProgramParameter(p, gl.LINK_STATUS)) { console.warn(gl.getProgramInfoLog(p)); throw new Error('link'); }
+      const u = {}; const n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+      for (let i = 0; i < n; i++) { const info = gl.getActiveUniform(p, i); u[info.name.replace(/\[0\]$/, '')] = gl.getUniformLocation(p, info.name); }
+      out[k] = { p, u };
+      await nextTask();
+    }
+    return out;
   }
-
-  let P;
-  try {
-    P = { bg: program(FS_TRI, BG_FS), rib: program(RIB_VS, RIB_FS), plane: program(PLANE_VS, PLANE_FS), post: program(FS_TRI, POST_FS) };
-  } catch (e) { doc.classList.add('no-gl'); return; }
+  let P = null;
 
   const emptyVao = gl.createVertexArray();
 
@@ -908,7 +940,7 @@
 
   /* ------------------------------------------------------------------ loop control */
   let paused = doc.classList.contains('is-locked'), onScreen = true, dead = false;
-  const canRun = () => !dead && !paused && onScreen && !document.hidden;
+  const canRun = () => !!P && !dead && !paused && onScreen && !document.hidden;
   function frame(now) {
     raf = 0;
     if (!canRun()) return;
@@ -958,8 +990,22 @@
     const s = document.createElement('script'); s.src = SRC; document.head.appendChild(s);
   });
 
+  /* Boot after the page has painted and gone idle: FCP and LCP land first (the DOM hero shows
+     as-is), then the GL work arrives in small tasks and the woven stage takes over seamlessly. */
   const start = () => { textDirty = true; kick(); };
-  if (document.fonts && document.fonts.load) {
-    Promise.all([document.fonts.load('700 200px "Space Grotesk"'), document.fonts.ready]).then(start, start);
-  } else start();
+  const whenLoaded = () => new Promise((r) => { if (document.readyState === 'complete') r(); else addEventListener('load', () => r(), { once: true }); });
+  const whenIdle = () => new Promise((r) => { if ('requestIdleCallback' in window) requestIdleCallback(() => r(), { timeout: 2000 }); else setTimeout(r, 250); });
+  (async () => {
+    await whenLoaded();
+    // after the first paint — but never stall in a background tab, where rAF does not fire
+    await new Promise((r) => { const t = setTimeout(r, 600); requestAnimationFrame(() => requestAnimationFrame(() => { clearTimeout(t); r(); })); });
+    await whenIdle();
+    try { P = await buildPrograms(); } catch (e) { doc.classList.add('no-gl'); return; }
+    if (dead) return;
+    motion = !doc.classList.contains('motion-off');
+    paused = doc.classList.contains('is-locked');
+    if (document.fonts && document.fonts.load) {
+      Promise.all([document.fonts.load('700 200px "Space Grotesk"'), document.fonts.ready]).then(start, start);
+    } else start();
+  })();
 })();

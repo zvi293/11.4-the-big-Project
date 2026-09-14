@@ -1,0 +1,44 @@
+# Zstore AI — One Ribbon
+
+> Zstore AI is the one-person web studio of designer-developer Zvi Moshe (Tel Aviv, Israel), serving clients across the United States and worldwide. This site is itself the proof of craft: one real-time ribbon of orange enamel and polished chrome, hand-written in WebGL2 with zero dependencies, runs through the whole page — from a figure-eight in the hero to the folded Z logo at the contact section.
+
+Site: https://nz-web.netlify.app/
+Language: English (work is done in English and Hebrew).
+
+## What Zstore AI does
+
+- Custom websites & landing pages — designed and hand-coded around one clear idea; no templates or page builders.
+- Digital product design (UI/UX) — user journeys, screen design and design systems for products that feel calm and obvious.
+- Integrations & connections — payments, bookings, forms and content editing wired into the site.
+- Refinement & care — ongoing speed, accessibility and SEO improvements after launch.
+
+## How working together goes
+
+1. Discover — one real conversation about the business, the audience and what a win looks like.
+2. Design — a living, clickable preview refined together.
+3. Develop — hand-written code, tested on real phones, tablets and desktops.
+4. Launch — go-live with speed, search and accessibility checks done, then 30 days of included care.
+
+Key facts:
+- One person carries every project end to end: the person you brief is the person who designs and codes it.
+- Pricing: one fixed price per written scope, agreed before work starts. Quotes are personal — there is no public price list.
+- Typical timelines: landing page about 1–2 weeks; complete site about 4–6 weeks.
+- Location & hours: based in Tel Aviv; asynchronous-friendly, with hours kept free for live calls with US time zones.
+- After launch: 30 days of care included; light ongoing arrangements available.
+
+## Portfolio note
+
+The three works shown (Atelier Studio, Lume, Meridian) are self-initiated concept studies with invented branding and illustrative sample data — clearly labelled on the site, not commissioned client work.
+
+## Pages
+
+- [Home](https://nz-web.netlify.app/) — the full studio site: work, expertise, studio, process, FAQ and contact.
+- [Privacy Policy](https://nz-web.netlify.app/privacy-policy.html) — what the contact form collects and your rights.
+- [Terms of Service](https://nz-web.netlify.app/terms.html) — conditions for using the site.
+- [Accessibility Statement](https://nz-web.netlify.app/accessibility.html) — WCAG 2.2 AA target, what is built in, and how to report barriers.
+
+## Contact
+
+- Email: zstore.ai295@gmail.com (read and answered personally, usually within one working day)
+- WhatsApp: +972 58 729 2029
+- Related sites: https://zstore-ai.co.il/ (Hebrew), https://zstore-ai.com/

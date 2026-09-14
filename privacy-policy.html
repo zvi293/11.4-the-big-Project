@@ -4,14 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Privacy Policy | Zstore AI by Zvi Moshe</title>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; base-uri 'self'; object-src 'none';">
-  <meta name="description" content="Privacy Policy for Zstore AI by Zvi Moshe, explaining how contact form data is collected, used, and protected.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none';">
+  <meta name="description" content="Privacy policy for the Zstore AI site: exactly what the contact form collects, where Netlify and Google process it, how long it is kept, and the rights you have over your data.">
   <meta name="theme-color" content="#0c0a09">
   <meta name="color-scheme" content="dark light">
+  <link rel="canonical" href="https://nz-web.netlify.app/privacy-policy.html">
   <link rel="icon" type="image/svg+xml" href="zstore-mark.svg">
   <link rel="icon" href="favicon.ico" sizes="32x32">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Zstore AI">
+  <meta property="og:url" content="https://nz-web.netlify.app/privacy-policy.html">
+  <meta property="og:title" content="Privacy Policy | Zstore AI">
+  <meta property="og:description" content="What the contact form collects, where it is processed, and the rights you have over your data.">
+  <meta property="og:image" content="https://nz-web.netlify.app/image/brand/og-share.jpg">
   <link rel="stylesheet" href="./fonts/fonts.css">
   <link rel="stylesheet" href="ribbon.css">
   <link rel="stylesheet" href="legal.css">
@@ -35,9 +42,10 @@
 
   <header class="nav">
     <div class="nav-pill">
-      <a class="brand" href="./" aria-label="Zstore AI, home">
+      <a class="brand" href="./">
         <svg class="brand-mark" aria-hidden="true"><use href="#zmark"/></svg>
-        <span class="wordmark" aria-hidden="true">Zstore<span>AI</span></span>
+        <span class="wordmark">Zstore<span>AI</span></span>
+        <span class="sr-only">— home</span>
       </a>
       <a class="legal-back" href="./"><span aria-hidden="true">←</span><span>Back<span class="lb-long"> to home</span></span></a>
     </div>
@@ -55,72 +63,90 @@
         <nav class="legal-toc" aria-label="On this page">
           <p>On this page</p>
           <ol>
-            <li><a href="#p1"><span>01</span>Introduction</a></li>
-            <li><a href="#p2"><span>02</span>Information We Collect</a></li>
-            <li><a href="#p3"><span>03</span>How We Use Information</a></li>
-            <li><a href="#p4"><span>04</span>Data Sharing</a></li>
-            <li><a href="#p5"><span>05</span>Data Retention</a></li>
-            <li><a href="#p6"><span>06</span>Security</a></li>
-            <li><a href="#p7"><span>07</span>Cookies &amp; Analytics</a></li>
-            <li><a href="#p8"><span>08</span>Your Rights &amp; Contact</a></li>
+            <li><a href="#p1"><span>01</span>Who I Am</a></li>
+            <li><a href="#p2"><span>02</span>What I Collect</a></li>
+            <li><a href="#p3"><span>03</span>How It Is Used</a></li>
+            <li><a href="#p4"><span>04</span>Where It Is Processed</a></li>
+            <li><a href="#p5"><span>05</span>Retention</a></li>
+            <li><a href="#p6"><span>06</span>Your Rights</a></li>
+            <li><a href="#p7"><span>07</span>Cookies &amp; Local Storage</a></li>
+            <li><a href="#p8"><span>08</span>Security</a></li>
+            <li><a href="#p9"><span>09</span>Third-Party Links</a></li>
+            <li><a href="#p10"><span>10</span>Changes &amp; Contact</a></li>
           </ol>
         </nav>
 
         <div class="legal-copy">
           <section class="legal-sec" id="p1" aria-labelledby="p1-h">
-            <h2 id="p1-h"><span>01</span>Introduction</h2>
-            <p>This Privacy Policy describes how Zvi Moshe ("I", "me", "my") collects, uses, and protects information submitted through the contact form on this website. By using this site, you acknowledge that you have read and understood this policy.</p>
+            <h2 id="p1-h"><span>01</span>Who I Am</h2>
+            <p>This site is run by Zvi Moshe, operating as Zstore AI ("I", "me", "my"), an independent web studio based in Tel Aviv, Israel, working with clients in the United States and worldwide. For the personal data described here, I am the data controller. This policy explains, in plain language, what is collected on this site, why, and what you can do about it.</p>
           </section>
 
           <section class="legal-sec" id="p2" aria-labelledby="p2-h">
-            <h2 id="p2-h"><span>02</span>Information We Collect</h2>
-            <p>When you submit the contact form, the following information is collected:</p>
+            <h2 id="p2-h"><span>02</span>What I Collect</h2>
+            <p><strong>Only what you type into the contact form:</strong></p>
             <ul>
-            <li><strong>Full Name</strong> — to address you properly.</li>
-            <li><strong>Email Address</strong> — to respond to your inquiry.</li>
-            <li><strong>Message</strong> — the content of your inquiry or project details.</li>
+            <li><strong>Name</strong> — so I know how to address you.</li>
+            <li><strong>Email address</strong> — so I can reply.</li>
+            <li><strong>Your message</strong>, and the interest chip you optionally pick — so I understand what you need.</li>
             </ul>
-            <p>This data is submitted directly to a Google Apps Script endpoint and stored in a Google Sheets spreadsheet.</p>
+            <p>There is no account system, no newsletter, no tracking pixels and no analytics. Like almost every website, the hosting platform (Netlify) keeps short-lived technical server logs — for example IP addresses — for security and operations; I do not use them to identify visitors.</p>
           </section>
 
           <section class="legal-sec" id="p3" aria-labelledby="p3-h">
-            <h2 id="p3-h"><span>03</span>How We Use Information</h2>
-            <p>The information you provide is used solely to:</p>
+            <h2 id="p3-h"><span>03</span>How It Is Used</h2>
+            <p>Your details are used only to:</p>
             <ul>
-            <li>Respond to your inquiry or project request.</li>
-            <li>Communicate about potential collaboration.</li>
-            <li>Improve the quality of services offered.</li>
+            <li>Read and answer your message.</li>
+            <li>Discuss and, if we go ahead, run your project.</li>
             </ul>
+            <p>Nothing is sold, rented, traded or used for advertising. Where the GDPR applies, the legal basis is your consent (you chose to write to me) and my legitimate interest in answering enquiries about my work.</p>
           </section>
 
           <section class="legal-sec" id="p4" aria-labelledby="p4-h">
-            <h2 id="p4-h"><span>04</span>Data Sharing</h2>
-            <p>Your personal information is never sold, rented, or traded to third parties. Information may be shared only when:</p>
-            <ul>
-            <li>Required by law or legal process.</li>
-            <li>Necessary to protect rights or safety.</li>
-            <li>Processed through Google services (Sheets, Gmail) as part of form handling.</li>
-            </ul>
+            <h2 id="p4-h"><span>04</span>Where It Is Processed</h2>
+            <p>Form submissions are handled by <strong>Netlify</strong> (Netlify, Inc., San Francisco, USA), which hosts this site and stores each submission, and are then delivered to my mailbox, which is provided by <strong>Google</strong> (Gmail). Both companies act as processors with their own security and privacy commitments. Data may be shared beyond that only if the law requires it, or if it is necessary to protect someone's rights or safety.</p>
           </section>
 
           <section class="legal-sec" id="p5" aria-labelledby="p5-h">
-            <h2 id="p5-h"><span>05</span>Data Retention</h2>
-            <p>Contact form submissions are retained for a reasonable period necessary to respond to inquiries and maintain business records. If you would like your data deleted, please contact me and I will remove it within a reasonable timeframe.</p>
+            <h2 id="p5-h"><span>05</span>Retention</h2>
+            <p>I keep messages for as long as the conversation, or the project that grows out of it, stays relevant — and then as ordinary business correspondence. If you want a message deleted earlier, email me and I will remove it from the form storage and my mailbox within 30 days.</p>
           </section>
 
           <section class="legal-sec" id="p6" aria-labelledby="p6-h">
-            <h2 id="p6-h"><span>06</span>Security</h2>
-            <p>Reasonable measures are taken to protect your information, including the use of secure Google infrastructure for data storage and transmission. However, no method of electronic storage or transmission is 100% secure, and absolute security cannot be guaranteed.</p>
+            <h2 id="p6-h"><span>06</span>Your Rights</h2>
+            <p>Wherever you are, you can ask me at any time to:</p>
+            <ul>
+            <li><strong>See</strong> the personal data I hold about you (access).</li>
+            <li><strong>Fix</strong> anything that is wrong (correction).</li>
+            <li><strong>Delete</strong> it (erasure).</li>
+            <li><strong>Stop</strong> a particular use of it (objection / restriction).</li>
+            </ul>
+            <p>These match the rights in the EU/UK GDPR, and for California residents the CCPA/CPRA — note that I do not sell or share personal information as those laws define it. To exercise any of them, just email me; I will answer within 30 days and will never treat you differently for asking.</p>
           </section>
 
           <section class="legal-sec" id="p7" aria-labelledby="p7-h">
-            <h2 id="p7-h"><span>07</span>Cookies &amp; Analytics</h2>
-            <p>This website does not currently use cookies or third-party analytics tools. If analytics are implemented in the future, this policy will be updated accordingly.</p>
+            <h2 id="p7-h"><span>07</span>Cookies &amp; Local Storage</h2>
+            <p>This site sets <strong>no cookies</strong> and runs <strong>no third-party analytics</strong>. Two small values may be saved by your own browser, on your device only, and are never sent anywhere:</p>
+            <ul>
+            <li><strong>zs-motion</strong> — remembers whether you switched the page motion off or on.</li>
+            <li><strong>zs_last_submit</strong> — remembers for a few seconds that the form was just sent, to prevent accidental double-sending. It clears when the tab closes.</li>
+            </ul>
           </section>
 
           <section class="legal-sec" id="p8" aria-labelledby="p8-h">
-            <h2 id="p8-h"><span>08</span>Your Rights &amp; Contact</h2>
-            <p>You have the right to request access to, correction of, or deletion of any personal data you have submitted. For any privacy-related questions or requests, please contact:</p>
+            <h2 id="p8-h"><span>08</span>Security</h2>
+            <p>The site is served exclusively over HTTPS with modern security headers, and the form submits over an encrypted connection. No method of transmission or storage is perfectly secure, but the amount of data involved here is deliberately kept to the minimum needed to talk to you.</p>
+          </section>
+
+          <section class="legal-sec" id="p9" aria-labelledby="p9-h">
+            <h2 id="p9-h"><span>09</span>Third-Party Links</h2>
+            <p>Links on this site can take you to external services — for example WhatsApp (Meta) if you choose to message me there, or the Zstore AI Hebrew site. Those services have their own privacy policies, which apply the moment you leave this site.</p>
+          </section>
+
+          <section class="legal-sec" id="p10" aria-labelledby="p10-h">
+            <h2 id="p10-h"><span>10</span>Changes &amp; Contact</h2>
+            <p>If this policy changes, the new version appears here with a fresh "Last updated" date. For any privacy question or request:</p>
             <a class="legal-mail" href="mailto:zstore.ai295@gmail.com">zstore.ai295@gmail.com</a>
           </section>
         </div>
@@ -130,9 +156,10 @@
 
   <footer class="footer" data-theme="dark">
     <div class="footer-row">
-      <a href="./" class="brand brand-lg" aria-label="Zstore AI, home">
+      <a href="./" class="brand brand-lg">
         <svg class="brand-mark" aria-hidden="true"><use href="#zmark"/></svg>
-        <span class="wordmark" aria-hidden="true">Zstore<span>AI</span></span>
+        <span class="wordmark">Zstore<span>AI</span></span>
+        <span class="sr-only">— home</span>
       </a>
       <p class="footer-tag">Design &amp; code by one person.<br>Tel Aviv, working worldwide.</p>
       <div class="footer-actions">
@@ -142,7 +169,7 @@
     </div>
     <div class="footer-row footer-small">
       <span>© 2026 Zstore AI · Zvi Moshe</span>
-      <nav aria-label="Legal"><a href="./privacy-policy.html" aria-current="page">Privacy</a><a href="./terms.html">Terms</a></nav>
+      <nav aria-label="Legal"><a href="./privacy-policy.html" aria-current="page">Privacy</a><a href="./terms.html">Terms</a><a href="./accessibility.html">Accessibility</a></nav>
     </div>
   </footer>
 </body>

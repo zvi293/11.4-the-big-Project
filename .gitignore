@@ -1,5 +1,7 @@
 # Local-only artifacts
+שיתוף.png
 node_modules/
 package-lock.json
 tests/qa/
 .netlify/
+.claude/

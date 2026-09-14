@@ -316,6 +316,7 @@
     if (media) {
       // Trusted, static same-page artwork only; no user input is inserted.
       const clone = media.cloneNode(true);
+      $$('.study-cover', clone).forEach((b) => b.remove());
       clone.style.removeProperty('--rx'); clone.style.removeProperty('--ry');
       $$('img', clone).forEach((img) => { img.loading = 'eager'; });
       $('#dialogVisual').replaceChildren(clone);
@@ -374,7 +375,7 @@
     });
   });
 
-  /* ---------- contact form (Apps Script endpoint preserved; local preview never sends) ---------- */
+  /* ---------- contact form (Netlify Forms; local preview never sends) ---------- */
   const form = $('#contact-form');
   if (form) {
     const loadedAt = Date.now();
@@ -428,23 +429,24 @@
       let lastSent = 0;
       try { lastSent = Number(sessionStorage.getItem('zs_last_submit') || 0); } catch (err) {}
       if (Date.now() - lastSent < 30000) { setStatus('Please wait a little before sending another message.', true); return; }
-      const data = new FormData();
-      data.append('name', name); data.append('email', email);
-      data.append('message', (interestInput.value ? `Interested in: ${interestInput.value}\n\n` : '') + brief);
-      data.append('ts', String(loadedAt)); data.append('dt', String(Math.round((Date.now() - loadedAt) / 1000)));
+      const data = new URLSearchParams();
+      data.set('form-name', 'contact');
+      if (interestInput.value) data.set('interest', interestInput.value);
+      data.set('name', name); data.set('email', email); data.set('message', brief);
       const submit = $('button[type="submit"]', form);
       const original = submit.innerHTML;
       submitting = true; submit.disabled = true; submit.textContent = 'Sending…'; form.setAttribute('aria-busy', 'true');
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 15000);
       try {
-        await fetch(form.action, { method: 'POST', body: data, mode: 'no-cors', signal: controller.signal });
+        const res = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: data.toString(), signal: controller.signal });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
         try { sessionStorage.setItem('zs_last_submit', String(Date.now())); } catch (err) {}
-        setStatus('Your request has been sent. Delivery cannot be confirmed here; you can also reach me directly at zstore.ai295@gmail.com.');
+        setStatus('Sent! Your message is in my inbox. I read every one myself, and I’ll reply within one working day.');
         form.reset(); selectInterest(''); counter.textContent = '0';
         if (stage()) stage().flip();
       } catch (err) {
-        setStatus('I couldn’t confirm the send. Please try again, or email zstore.ai295@gmail.com directly.', true);
+        setStatus('Something interrupted the send. Please try again, or email zstore.ai295@gmail.com directly.', true);
       } finally {
         clearTimeout(timeout); submitting = false; submit.disabled = false; submit.innerHTML = original; form.setAttribute('aria-busy', 'false');
       }

@@ -1,0 +1,11 @@
+/* TEAM */
+Designer & developer: Zvi Moshe
+Studio: Zstore AI
+Location: Tel Aviv, Israel — working with the US and worldwide
+Contact: zstore.ai295@gmail.com
+
+/* SITE */
+Concept: One Ribbon — a single enamel-and-chrome ribbon runs through the whole page
+Stack: hand-written HTML, CSS, JavaScript and WebGL2. Zero dependencies, no build step.
+Fonts: Space Grotesk, Fraunces, JetBrains Mono (self-hosted)
+Last update: 2026-09-14

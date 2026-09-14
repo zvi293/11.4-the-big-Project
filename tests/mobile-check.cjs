@@ -684,14 +684,14 @@ async function renameSuite(browser) {
     }, { EMAIL, WA_TEXT });
     check(G, `${EMAIL} used for every mailto and shown on the page`, dom.mails.length >= 2 && dom.mails.every((m) => m === `mailto:${EMAIL}`) && dom.bodyEmail && text.includes(EMAIL), J(dom.mails));
     const sitejs = served[new URL('site.js', URL_).href] || '';
-    check(G, 'form status messages use the new email', (sitejs.match(/zstore\.ai295@gmail\.com/g) || []).length >= 2, 'site.js');
+    check(G, 'form status messages use the new email', (sitejs.match(/zstore\.ai295@gmail\.com/g) || []).length >= 1 && !/script\.google\.com/.test(sitejs), 'site.js');
     check(G, 'WhatsApp links: wa.me/972587292029 with the exact Zstore AI prefill', dom.waOk, `${dom.waCount} links`);
     check(G, 'phone +972 58 729 2029 visible', dom.phone);
     check(G, 'title + meta description name Zstore AI', /Zstore AI/.test(dom.title) && /Zstore AI/.test(dom.desc || ''), dom.title);
     check(G, 'SVG favicon link resolves', !!dom.icon && /\.svg$/.test(dom.icon) && (await page.request.get(dom.icon)).status() === 200, dom.icon);
     check(G, 'zstore-logo.webp only used inside the credit badge', dom.logoImgs.length === 1 && dom.logoImgs[0] === 'badge', J(dom.logoImgs));
     check(G, 'Z monogram + Zstore AI wordmark in nav, menu, footer', dom.marks.length === 3 && dom.marks.every((m) => m === '#zmark') && dom.words.every((w) => w === 'ZstoreAI'), J({ marks: dom.marks, words: dom.words }));
-    check(G, 'footer: © Zstore AI, Privacy + Terms, back-to-top', /© \d{4} Zstore AI/.test(dom.copyright || '') && J(dom.legal) === J(['./privacy-policy.html', './terms.html']) && dom.backTop, `${(dom.copyright || '').trim()} ${J(dom.legal)}`);
+    check(G, 'footer: © Zstore AI, Privacy + Terms + Accessibility, back-to-top', /© \d{4} Zstore AI/.test(dom.copyright || '') && J(dom.legal) === J(['./privacy-policy.html', './terms.html', './accessibility.html']) && dom.backTop, `${(dom.copyright || '').trim()} ${J(dom.legal)}`);
     const bd = dom.badge;
     // Computed border widths snap to whole device pixels (a headful window on a 150% Windows display reports 0.667px for 1px),
     // so the authored rule is checked for "1px" and the computed width only for being one snapped pixel.
@@ -702,7 +702,7 @@ async function renameSuite(browser) {
       && bd.radius.every((x) => x === '999px') && J(bd.padding) === J(['8px', '14px', '8px', '14px']) && bd.bg === 'rgba(255, 255, 255, 0.92)'
       && authored && /^1px solid rgba\(255, 255, 255, 0\.2\)$/.test(authored.border)
       && px1(bd.border[0]) && bd.border[1] === 'solid' && bd.border[2] === 'rgba(255, 255, 255, 0.2)' && bd.border.slice(3, 6).every(px1) && bd.border[6] === 'rgba(255, 255, 255, 0.2)'
-      && bd.shadow === 'none' && bd.img && bd.img.src === '/image/brand/zstore-logo.webp' && bd.img.w === '652' && bd.img.h === '217' && Math.abs(bd.img.rh - 30) < 0.5;
+      && bd.shadow === 'none' && bd.img && /^\.?\/image\/brand\/zstore-logo\.webp$/.test(bd.img.src) && bd.img.w === '652' && bd.img.h === '217' && Math.abs(bd.img.rh - 30) < 0.5;
     check(G, 'credit badge matches the spec exactly (390)', !!badgeOk, J(bd));
   } catch (e) { check(G, 'suite ran', false, e.message.split('\n')[0]); } finally { await env.ctx.close(); }
   const envD = await openPage(browser, ALL_VIEWS[7]);

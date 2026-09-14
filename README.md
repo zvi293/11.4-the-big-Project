@@ -29,7 +29,7 @@ You need [Node.js](https://nodejs.org/) 18 or newer.
 
 Opening `index.html` directly (double-clicking it, a `file://` address) is **not supported**: browsers block WebGL textures on `file://`, so the ribbon and the woven type cannot render. Always use the server.
 
-On `localhost` the contact form only validates and shows a preview message; it never sends. On a real domain it sends to the form endpoint below.
+On `localhost` the contact form only validates and shows a preview message; it never sends. On the live site (https://nz-web.netlify.app/) it submits to **Netlify Forms** and is delivered to `zstore.ai295@gmail.com`.
 
 All asset paths are relative, so the folder also works from a sub-path (for example `https://example.com/one-ribbon/`) on any static host.
 
@@ -40,6 +40,14 @@ One Ribbon/
 ├─ index.html            the site (all sections, the menu and the study dialog)
 ├─ privacy-policy.html   Privacy policy
 ├─ terms.html            Terms of service
+├─ accessibility.html    Accessibility statement (WCAG 2.2 AA)
+├─ thank-you.html        form success page (no-JS fallback)
+├─ 404.html              not-found page (Netlify serves it automatically)
+├─ robots.txt            open to search + AI crawlers, points to the sitemap
+├─ sitemap.xml           the four indexable pages
+├─ llms.txt              site summary for AI assistants (LLMO/GEO)
+├─ humans.txt            credits
+├─ netlify.toml          publish root, security headers, cache policy
 ├─ ribbon.css            all styles of the site
 ├─ legal.css             extra styles for the two legal pages
 ├─ site.js               interactions: menu and dialogs, filter, process tabs, form, clocks
@@ -53,7 +61,7 @@ One Ribbon/
 ├─ image/
 │  ├─ 20251111_150847.webp   portrait of Zvi (Studio section)
 │  ├─ studio/                concept-study images (atelier, lume, sculpture)
-│  └─ brand/                 zstore-logo.webp (credit badge), app icons, og-share.png (1200×630 share image)
+│  └─ brand/                 zstore-logo.webp (credit badge), app icons, og-share.jpg (1200×630 share image)
 ├─ CONCEPT.md            design concept and technical notes
 ├─ serve.cjs             local static server (no dependencies)
 ├─ START.cmd             Windows double-click launcher
@@ -67,8 +75,8 @@ One Ribbon/
 |---|---|
 | **Email** | `index.html`: the `mailto:` link in the menu sheet and the Email link in Contact. `site.js`: the two form status messages that mention the address. `privacy-policy.html` and `terms.html`: the `legal-mail` link. Search for `zstore.ai295@gmail.com`. |
 | **WhatsApp** | `index.html`: the two links with `data-wa` (menu sheet and Contact); change the number in `https://wa.me/972587292029` and the visible `+972 58 729 2029`. The pre-filled message is in `site.js` under "WhatsApp prefill". |
-| **Form endpoint** | `index.html`: the `action` of `<form id="contact-form">` (currently a Google Apps Script URL). If you move to a different service, also update the `connect-src` and `form-action` entries of the Content-Security-Policy `<meta>` at the top of `index.html`. The sending logic (spam guards, messages) is in `site.js` under the form section. |
-| Share image / title for social links | `index.html` `<head>`: the `og:` tags. When the site is on a real domain, change `og:image` to the full address, e.g. `https://your-domain/image/brand/og-share.png`. |
+| **Form backend** | The form posts to **Netlify Forms** (form name `contact`): the `<form … data-netlify="true">` in `index.html` registers it at deploy time, and `site.js` submits it with `fetch('/')`. Submissions appear in the Netlify dashboard (Forms → contact) and are emailed to `zstore.ai295@gmail.com` via a form notification. No-JS visitors are redirected to `thank-you.html`. The spam guards (honeypot, timing) are in `site.js` under the form section. |
+| Share image / title for social links | `index.html` `<head>`: the `og:` and `twitter:` tags. The share image lives at `image/brand/og-share.jpg` (1200×630 JPEG, source: `שיתוף.png` kept locally outside git); the tags point at the full `https://nz-web.netlify.app/…` address. If the domain ever changes, update `og:url`, `og:image`, `twitter:image`, the `canonical` link and the JSON-LD URLs. |
 
 ### Optional: the phone test
 
@@ -107,7 +115,7 @@ One Ribbon/
 
 פתיחה ישירה של `index.html` (לחיצה כפולה על הקובץ, כתובת `file://`) **לא נתמכת**: דפדפנים חוסמים טקסטורות WebGL ב-`file://`, ולכן הסרט והטקסט השזור לא יוצגו. תמיד להריץ דרך השרת.
 
-ב-`localhost` טופס יצירת הקשר רק בודק את השדות ומציג הודעת תצוגה מקדימה, והוא אף פעם לא שולח. בדומיין אמיתי הוא שולח לכתובת הטופס שמופיעה בהמשך.
+ב-`localhost` טופס יצירת הקשר רק בודק את השדות ומציג הודעת תצוגה מקדימה, והוא אף פעם לא שולח. באתר החי (https://nz-web.netlify.app/) הוא נשלח דרך **Netlify Forms** ומגיע למייל `zstore.ai295@gmail.com`.
 
 כל הנתיבים יחסיים, כך שהתיקייה עובדת גם מתת-נתיב (למשל `https://example.com/one-ribbon/`) בכל אחסון סטטי.
 
@@ -119,14 +127,14 @@ One Ribbon/
 - `ribbon.css` כל העיצוב, `legal.css` תוספת לעמודים המשפטיים.
 - `site.js` האינטראקציות (תפריט, חלונות, מסנן, טופס), `ribbon-gl.js` במת ה-WebGL, `boot.js` מחלקות לפני הציור הראשון.
 - `zstore-mark.svg`,‏ `favicon.ico`,‏ `apple-touch-icon.png`,‏ `site.webmanifest` אייקונים ומניפסט.
-- `fonts/` הגופנים, `image/` הדיוקן, תמונות הקונספט, ו-`image/brand/` (תג הקרדיט `zstore-logo.webp`, אייקונים ותמונת השיתוף `og-share.png` בגודל 1200×630).
+- `fonts/` הגופנים, `image/` הדיוקן, תמונות הקונספט, ו-`image/brand/` (תג הקרדיט `zstore-logo.webp`, אייקונים ותמונת השיתוף `og-share.jpg` בגודל 1200×630).
 - `CONCEPT.md` הקונספט, `serve.cjs` השרת, `START.cmd` הפעלה ב-Windows, `package.json` הפקודה `npm start`, `tests/mobile-check.cjs` בדיקת מובייל אופציונלית.
 
 ### איפה עורכים
 
 - **אימייל:** ב-`index.html` בקישור `mailto:` שבתפריט ובקישור האימייל שבאזור יצירת הקשר. ב-`site.js` בשתי הודעות הסטטוס של הטופס שמזכירות את הכתובת. ב-`privacy-policy.html` וב-`terms.html` בקישור `legal-mail`. כדאי לחפש `zstore.ai295@gmail.com`.
 - **WhatsApp:** ב-`index.html` בשני הקישורים עם `data-wa` (בתפריט ובאזור יצירת הקשר). מחליפים את המספר בכתובת `https://wa.me/972587292029` ואת הטקסט הגלוי `+972 58 729 2029`. ההודעה הממולאת מראש נמצאת ב-`site.js` תחת "WhatsApp prefill".
-- **כתובת שליחת הטופס:** ב-`index.html` בתכונה `action` של `<form id="contact-form">` (כרגע כתובת Google Apps Script). אם עוברים לשירות אחר, צריך לעדכן גם את `connect-src` ואת `form-action` בתגית ה-Content-Security-Policy בראש `index.html`. לוגיקת השליחה (הגנות ספאם, הודעות) נמצאת ב-`site.js` באזור הטופס.
+- **הטופס:** עובד על **Netlify Forms** (טופס בשם `contact`). ה-`data-netlify="true"` ב-`index.html` רושם אותו בזמן פריסה, `site.js` שולח אותו ב-`fetch('/')`, וההודעות מגיעות לדשבורד של Netlify (Forms → contact) ולמייל `zstore.ai295@gmail.com` דרך התראת טופס. גולשים בלי JavaScript מופנים ל-`thank-you.html`. הגנות הספאם (שדה מלכודת, השהיות) נמצאות ב-`site.js` באזור הטופס.
 - **תמונת שיתוף וכותרת לרשתות:** תגיות `og:` ב-`<head>` של `index.html`. כשהאתר עולה לדומיין אמיתי, כדאי לשנות את `og:image` לכתובת מלאה.
 
 ### אופציונלי: בדיקת המובייל

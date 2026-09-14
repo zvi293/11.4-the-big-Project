@@ -141,7 +141,7 @@ The hero caption is a human figure-style line, not a technical readout: "Fig. 1 
   - the real form: interest chips, name, email, message with counter, honeypot and timestamp.
   - Validation marks invalid fields with `aria-invalid` and shows an inline message under each one (linked by `aria-describedby`). It then focuses and centres the first invalid field, with no native bubbles.
   - The preview or send status is focused and scrolled into view, so a tap on Send never looks ignored on a phone.
-  - On localhost or file:// the form never sends and shows the preview message. In production it keeps the existing Apps Script endpoint, a 3s minimum and a 30s repeat guard.
+  - On localhost or file:// the form never sends and shows the preview message. In production it submits to Netlify Forms (form name `contact`, honeypot + a 3s minimum and a 30s repeat guard), with `thank-you.html` as the no-JS success page and an email notification to zstore.ai295@gmail.com.
 - **Footer (dark):**
   - the Z lock-up, the tagline, back to top, © Zstore AI · Zvi Moshe, and Privacy/Terms (`./privacy-policy.html`, `./terms.html`);
   - the preserved credit badge: a link to https://zstore-ai.co.il/ in a new tab (`rel="noopener noreferrer"`, aria-label "Zstore AI — opens in a new tab"), holding `image/brand/zstore-logo.webp` 652×217 at 30px tall;

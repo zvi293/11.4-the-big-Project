@@ -1,0 +1,47 @@
+# Zstore AI — One Ribbon (nz-web.netlify.app)
+# Everyone is welcome: search engines and AI assistants alike.
+
+User-agent: *
+Allow: /
+
+# AI crawlers, explicitly welcome (search, assistants and answer engines)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://nz-web.netlify.app/sitemap.xml
