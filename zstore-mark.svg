@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Zstore AI">
+  <title>Zstore AI</title>
+  <!-- One enamel ribbon folded flat twice: top bar, a chrome diagonal (the ribbon's reverse face), bottom bar. -->
+  <defs>
+    <linearGradient id="zE1" x1="0" y1="4" x2="0" y2="12" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#F26A33"/><stop offset="1" stop-color="#D2461A"/></linearGradient>
+    <linearGradient id="zE2" x1="0" y1="20" x2="0" y2="28" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#E4561F"/><stop offset="1" stop-color="#B63B11"/></linearGradient>
+    <linearGradient id="zC" x1="14.5" y1="12.4" x2="19.6" y2="17.5" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFFCF7"/><stop offset=".55" stop-color="#ADA79F"/><stop offset="1" stop-color="#56514B"/></linearGradient>
+  </defs>
+  <polygon fill="url(#zE1)" points="4,4.4 22.51,4.4 25.49,11.6 4,11.6"/>
+  <polygon fill="url(#zE2)" points="6.51,20.4 28,20.4 28,27.6 9.49,27.6"/>
+  <polygon fill="#2a0c02" fill-opacity=".35" transform="translate(.7 .7)" points="22.51,4.4 6.51,20.4 9.49,27.6 25.49,11.6"/>
+  <polygon fill="url(#zC)" points="22.51,4.4 6.51,20.4 9.49,27.6 25.49,11.6"/>
+</svg>

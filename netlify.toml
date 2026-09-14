@@ -1,34 +1,19 @@
-# =====================================================================
-# NZ WEB — Netlify configuration
-# =====================================================================
+# Zstore AI — "One Ribbon" (nz-web.netlify.app)
+# Static site: no build step, publish straight from the repo root.
 
 [build]
   publish = "."
 
-[[redirects]]
-  from = "/home"
-  to = "/"
-  status = 301
+# Fonts and images never change without a rename — cache for a year.
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
 
-# Force HTTPS (Netlify does this automatically, but explicit is nice)
-[[redirects]]
-  from = "http://nz-web.netlify.app/*"
-  to = "https://nz-web.netlify.app/:splat"
-  status = 301
-  force = true
-
-# Cache policy for static assets
 [[headers]]
   for = "/image/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-[[headers]]
-  for = "/*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=2592000, must-revalidate"
-
-[[headers]]
-  for = "/*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=2592000, must-revalidate"
+# HTML / CSS / JS stay on Netlify's default (etag revalidation),
+# so every deploy is visible immediately.

@@ -1,34 +1,16 @@
 {
-  "name": "NZ Web — Studio of Zvi Moshe",
-  "short_name": "NZ Web",
-  "description": "Independent studio of Zvi Moshe — premium hand-coded websites, landing pages, and digital products. Tel Aviv, worldwide.",
-  "lang": "en",
-  "dir": "ltr",
-  "start_url": "/",
-  "scope": "/",
+  "name": "Zstore AI",
+  "short_name": "Zstore AI",
+  "description": "Websites, landing pages, UI/UX and integrations, designed and hand-coded by Zvi Moshe.",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "orientation": "portrait-primary",
-  "background_color": "#050505",
-  "theme_color": "#050505",
-  "categories": ["business", "productivity", "design"],
+  "background_color": "#0c0a09",
+  "theme_color": "#0c0a09",
   "icons": [
-    { "src": "/favicon-16.png", "sizes": "16x16", "type": "image/png", "purpose": "any" },
-    { "src": "/favicon-32.png", "sizes": "32x32", "type": "image/png", "purpose": "any" },
-    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },
-    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "maskable" }
-  ],
-  "shortcuts": [
-    {
-      "name": "Start a project",
-      "short_name": "Contact",
-      "description": "Send Zvi a project brief",
-      "url": "/#contact"
-    },
-    {
-      "name": "Selected work",
-      "short_name": "Work",
-      "description": "Browse case studies",
-      "url": "/#work"
-    }
+    { "src": "image/brand/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "image/brand/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "image/brand/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "zstore-mark.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
   ]
 }

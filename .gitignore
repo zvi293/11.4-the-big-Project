@@ -1,0 +1,5 @@
+# Local-only artifacts
+node_modules/
+package-lock.json
+tests/qa/
+.netlify/

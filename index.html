@@ -1,1425 +1,493 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>NZ Web — Hand-Coded Websites &amp; Landing Pages · Studio of Zvi Moshe</title>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Zstore AI — Websites &amp; landing pages, designed and hand-coded by Zvi Moshe</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; form-action 'self' https://script.google.com; base-uri 'self'; object-src 'none';">
+  <meta name="description" content="Zstore AI is the independent studio of Zvi Moshe: websites, landing pages, UI/UX and integrations for brands in Israel and worldwide, designed and hand-coded by one person.">
+  <meta name="theme-color" content="#0c0a09">
+  <meta name="color-scheme" content="dark light">
+  <link rel="icon" type="image/svg+xml" href="zstore-mark.svg">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Zstore AI">
+  <meta property="og:title" content="Zstore AI — Websites &amp; landing pages, designed and hand-coded by Zvi Moshe">
+  <meta property="og:description" content="Zstore AI is the independent studio of Zvi Moshe: websites, landing pages, UI/UX and integrations for brands in Israel and worldwide, designed and hand-coded by one person.">
+  <meta property="og:image" content="image/brand/og-share.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Zstore AI folded Z mark beside the words design &amp; code">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="./fonts/fonts.css">
+  <link rel="stylesheet" href="ribbon.css">
+  <script src="boot.js"></script>
+  <script src="ribbon-gl.js" defer></script>
+  <script src="site.js" defer></script>
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="zE1" x1="0" y1="4" x2="0" y2="12" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#F26A33"/><stop offset="1" stop-color="#D2461A"/></linearGradient>
+      <linearGradient id="zE2" x1="0" y1="20" x2="0" y2="28" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#E4561F"/><stop offset="1" stop-color="#B63B11"/></linearGradient>
+      <linearGradient id="zC" x1="14.5" y1="12.4" x2="19.6" y2="17.5" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFFCF7"/><stop offset=".55" stop-color="#ADA79F"/><stop offset="1" stop-color="#56514B"/></linearGradient>
+      <symbol id="zmark" viewBox="0 0 32 32">
+        <polygon fill="url(#zE1)" points="4,4.4 22.51,4.4 25.49,11.6 4,11.6"/>
+        <polygon fill="url(#zE2)" points="6.51,20.4 28,20.4 28,27.6 9.49,27.6"/>
+        <polygon fill="#2a0c02" fill-opacity=".35" transform="translate(.7 .7)" points="22.51,4.4 6.51,20.4 9.49,27.6 25.49,11.6"/>
+        <polygon fill="url(#zC)" points="22.51,4.4 6.51,20.4 9.49,27.6 25.49,11.6"/>
+      </symbol>
+    </defs>
+  </svg>
 
-    <!-- ============ SECURITY HEADERS (meta) ============ -->
-    <!-- Content Security Policy: locks down what the page can load & where it can submit.
-         NOTE: `frame-ancestors` is intentionally omitted here — browsers ignore that
-         directive when CSP is delivered via a <meta> tag (W3C spec). It IS enforced
-         at the HTTP layer via `_headers` (X-Frame-Options: DENY + CSP frame-ancestors). -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="
-        default-src 'self';
-        script-src 'self' 'unsafe-inline';
-        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-        font-src 'self' https://fonts.gstatic.com;
-        img-src 'self' data: https://nz-web.netlify.app;
-        connect-src 'self' https://script.google.com https://script.googleusercontent.com;
-        form-action 'self' https://script.google.com;
-        base-uri 'self';
-        object-src 'none';
-        upgrade-insecure-requests;
-      "
-    />
-    <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), accelerometer=(), gyroscope=()" />
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+  <canvas id="stage" aria-hidden="true"></canvas>
 
-    <!-- ============ PRIMARY META ============ -->
-    <meta
-      name="google-site-verification"
-      content="QfFFGc327TVj_aqefhwfii-Gu-uMNlIEL3sHcYC4KAA"
-    />
-    <meta
-      name="description"
-      content="NZ Web is the independent studio of Zvi Moshe — hand-coded websites, high-converting landing pages, responsive design, and UI/UX for founders and brands. Tel Aviv · worldwide."
-    />
-    <meta
-      name="keywords"
-      content="web developer, web designer, hand-coded websites, landing pages, custom WordPress, UI UX, responsive design, Tel Aviv web developer, freelance web developer, Zvi Moshe, NZ Web, Core Web Vitals, SEO optimized websites, system integration, Stripe integration"
-    />
-    <link rel="canonical" href="https://nz-web.netlify.app/" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="bingbot" content="index, follow" />
-    <meta name="author" content="Zvi Moshe" />
-    <meta name="publisher" content="NZ Web" />
-    <meta name="copyright" content="© 2026 NZ Web · Zvi Moshe" />
-    <meta name="generator" content="Hand-coded · No CMS · No build step" />
-    <meta name="rating" content="general" />
-    <meta name="distribution" content="global" />
-    <meta name="theme-color" content="#050505" />
-    <meta name="color-scheme" content="dark" />
-    <meta name="format-detection" content="telephone=yes,address=no,email=yes" />
-
-    <!-- Geo targeting -->
-    <meta name="geo.region" content="IL-TA" />
-    <meta name="geo.placename" content="Tel Aviv, Israel" />
-    <meta name="geo.position" content="32.0853;34.7818" />
-    <meta name="ICBM" content="32.0853, 34.7818" />
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-
-    <!-- hreflang (single locale today; declared so search engines stop guessing) -->
-    <link rel="alternate" hreflang="en" href="https://nz-web.netlify.app/" />
-    <link rel="alternate" hreflang="x-default" href="https://nz-web.netlify.app/" />
-
-    <!-- Sitemap & AI-discovery files -->
-    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    <link rel="alternate" type="text/plain" title="LLM-readable site summary" href="/llms.txt" />
-    <link rel="author" type="text/plain" href="/humans.txt" />
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="NZ Web — Hand-Coded Websites &amp; Landing Pages · Studio of Zvi Moshe" />
-    <meta property="og:description" content="Independent studio of Zvi Moshe. Hand-coded marketing sites, landing pages, and digital products. Tel Aviv · worldwide. No templates, no filler." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://nz-web.netlify.app/" />
-    <meta property="og:site_name" content="NZ Web" />
-    <meta property="og:image" content="https://nz-web.netlify.app/image/og-share.png" />
-    <meta property="og:image:secure_url" content="https://nz-web.netlify.app/image/og-share.png" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="NZ Web — Hand-Coded Websites &amp; Landing Pages · Studio of Zvi Moshe · Tel Aviv · Worldwide." />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:locale:alternate" content="he_IL" />
-    <meta property="profile:first_name" content="Zvi" />
-    <meta property="profile:last_name" content="Moshe" />
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="NZ Web — Hand-Coded Websites &amp; Landing Pages" />
-    <meta name="twitter:description" content="Studio of Zvi Moshe. Hand-coded marketing sites, landing pages, and digital products. Tel Aviv · worldwide." />
-    <meta name="twitter:image" content="https://nz-web.netlify.app/image/og-share.png" />
-    <meta name="twitter:image:alt" content="NZ Web — Hand-Coded Websites &amp; Landing Pages · Studio of Zvi Moshe" />
-    <meta name="twitter:creator" content="@zvi293" />
-    <meta name="twitter:site" content="@zvi293" />
-    <meta name="twitter:domain" content="nz-web.netlify.app" />
-
-    <!-- Stylesheet (cache-bust v=20260518d — bump on every CSS / JS change) -->
-    <link rel="stylesheet" href="./style.css?v=20260518d" />
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500&family=Edu+NSW+ACT+Cursive:wght@400..700&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Preload hero portrait -->
-    <link
-      rel="preload"
-      as="image"
-      href="./image/20251111_150847.webp"
-      type="image/webp"
-    />
-
-    <!-- ============================================================
-         JSON-LD Structured Data — comprehensive graph for SEO + GEO.
-         Schemas: WebSite, Organization (ProfessionalService),
-         Person (founder), WebPage, AboutPage, ContactPage, ItemList
-         (case studies), BreadcrumbList, FAQPage, OfferCatalog.
-         A single @graph keeps everything cross-referenced.
-         ============================================================ -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-
-        {
-          "@type": "WebSite",
-          "@id": "https://nz-web.netlify.app/#website",
-          "url": "https://nz-web.netlify.app/",
-          "name": "NZ Web",
-          "alternateName": ["Studio of Zvi Moshe", "Zvi Moshe Studio"],
-          "description": "Independent studio of Zvi Moshe — hand-coded websites, landing pages, and digital products.",
-          "inLanguage": "en",
-          "publisher": { "@id": "https://nz-web.netlify.app/#organization" },
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://nz-web.netlify.app/?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-          }
-        },
-
-        {
-          "@type": ["ProfessionalService", "Organization", "LocalBusiness"],
-          "@id": "https://nz-web.netlify.app/#organization",
-          "name": "NZ Web",
-          "alternateName": "Studio of Zvi Moshe",
-          "legalName": "Zvi Moshe — NZ Web",
-          "url": "https://nz-web.netlify.app/",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://nz-web.netlify.app/apple-touch-icon.png",
-            "width": 180,
-            "height": 180
-          },
-          "image": "https://nz-web.netlify.app/image/og-share.png",
-          "description": "Independent studio of Zvi Moshe — premium hand-coded websites, landing pages, responsive design, UI/UX, and system integrations for founders and brands worldwide.",
-          "slogan": "No templates. No filler. Just considered work, shipped.",
-          "foundingDate": "2024-01-01",
-          "founder": { "@id": "https://nz-web.netlify.app/#person" },
-          "knowsAbout": [
-            "Web development",
-            "Landing pages",
-            "Responsive design",
-            "UI/UX design",
-            "WordPress development",
-            "Performance optimization",
-            "Core Web Vitals",
-            "SEO",
-            "Accessibility",
-            "Schema.org structured data",
-            "Stripe integration",
-            "Google Apps Script",
-            "Figma",
-            "HTML",
-            "CSS",
-            "JavaScript"
-          ],
-          "knowsLanguage": ["en", "he"],
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Tel Aviv",
-            "addressRegion": "Tel Aviv District",
-            "addressCountry": "IL"
-          },
-          "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 32.0853,
-            "longitude": 34.7818
-          },
-          "areaServed": [
-            { "@type": "Place", "name": "Worldwide" },
-            { "@type": "Country", "name": "Israel" },
-            { "@type": "Country", "name": "United States" },
-            { "@type": "Country", "name": "United Kingdom" },
-            { "@type": "Place", "name": "European Union" }
-          ],
-          "serviceType": [
-            "Website Development",
-            "Landing Pages",
-            "Responsive Design",
-            "UI/UX Design",
-            "System Integration"
-          ],
-          "priceRange": "$$",
-          "currenciesAccepted": "USD, EUR, ILS",
-          "paymentAccepted": "Bank transfer, Stripe, Wise",
-          "openingHoursSpecification": [{
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Sunday"],
-            "opens": "09:00",
-            "closes": "19:00"
-          }],
-          "contactPoint": [{
-            "@type": "ContactPoint",
-            "email": "zvi293293@gmail.com",
-            "telephone": "+972-58-729-2029",
-            "contactType": "customer support",
-            "areaServed": "Worldwide",
-            "availableLanguage": ["English", "Hebrew"]
-          }, {
-            "@type": "ContactPoint",
-            "telephone": "+972-58-729-2029",
-            "contactType": "sales",
-            "areaServed": "Worldwide",
-            "availableLanguage": ["English", "Hebrew"]
-          }],
-          "sameAs": [
-            "https://github.com/zvi293",
-            "https://wa.me/972587292029",
-            "https://zstore-ai.co.il/"
-          ],
-          "hasOfferCatalog": { "@id": "https://nz-web.netlify.app/#catalog" }
-        },
-
-        {
-          "@type": "Person",
-          "@id": "https://nz-web.netlify.app/#person",
-          "name": "Zvi Moshe",
-          "givenName": "Zvi",
-          "familyName": "Moshe",
-          "image": {
-            "@type": "ImageObject",
-            "url": "https://nz-web.netlify.app/image/20251111_150847.jpg",
-            "caption": "Portrait of Zvi Moshe, founder of NZ Web"
-          },
-          "jobTitle": "Web Developer & Designer",
-          "description": "Founder of NZ Web. 25 years old, based in Tel Aviv, Israel. Hand-codes websites and digital products for founders and brands worldwide.",
-          "url": "https://nz-web.netlify.app/",
-          "email": "zvi293293@gmail.com",
-          "telephone": "+972-58-729-2029",
-          "worksFor": { "@id": "https://nz-web.netlify.app/#organization" },
-          "knowsLanguage": ["en", "he"],
-          "knowsAbout": [
-            "HTML", "CSS", "JavaScript", "WordPress", "Figma", "Webflow",
-            "Performance optimization", "SEO", "Accessibility", "UI/UX design"
-          ],
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Tel Aviv",
-            "addressCountry": "IL"
-          },
-          "sameAs": [
-            "https://github.com/zvi293",
-            "https://nz-web.netlify.app/"
-          ]
-        },
-
-        {
-          "@type": "OfferCatalog",
-          "@id": "https://nz-web.netlify.app/#catalog",
-          "name": "NZ Web — services",
-          "itemListElement": [
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Website Development",
-                "description": "Custom marketing sites and brand homes — hand-coded, scalable, CMS-ready, SEO-optimized, and tuned for Core Web Vitals.",
-                "serviceType": "Website Development",
-                "provider": { "@id": "https://nz-web.netlify.app/#organization" },
-                "areaServed": "Worldwide"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Landing Pages",
-                "description": "Narrative-driven, single-decision pages. Copy-aware, A/B-ready, analytics-wired. Built in days, not months.",
-                "serviceType": "Landing Page Development",
-                "provider": { "@id": "https://nz-web.netlify.app/#organization" },
-                "areaServed": "Worldwide"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "UI / UX Design",
-                "description": "Clear, opinionated interfaces. Figma-first design systems and prototyping that ship into production.",
-                "serviceType": "UI/UX Design",
-                "provider": { "@id": "https://nz-web.netlify.app/#organization" },
-                "areaServed": "Worldwide"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "Responsive Design",
-                "description": "Mobile-first builds with fluid typography and adaptive grids.",
-                "serviceType": "Responsive Web Design",
-                "provider": { "@id": "https://nz-web.netlify.app/#organization" },
-                "areaServed": "Worldwide"
-              }
-            },
-            {
-              "@type": "Offer",
-              "itemOffered": {
-                "@type": "Service",
-                "name": "System Integration",
-                "description": "Stripe payments, CRMs, forms, analytics, webhooks, Google Apps Script.",
-                "serviceType": "System Integration",
-                "provider": { "@id": "https://nz-web.netlify.app/#organization" },
-                "areaServed": "Worldwide"
-              }
-            }
-          ]
-        },
-
-        {
-          "@type": ["WebPage", "AboutPage", "ContactPage"],
-          "@id": "https://nz-web.netlify.app/#webpage",
-          "url": "https://nz-web.netlify.app/",
-          "name": "NZ Web — Hand-Coded Websites & Landing Pages · Studio of Zvi Moshe",
-          "isPartOf": { "@id": "https://nz-web.netlify.app/#website" },
-          "about": { "@id": "https://nz-web.netlify.app/#organization" },
-          "mainEntity": { "@id": "https://nz-web.netlify.app/#organization" },
-          "primaryImageOfPage": {
-            "@type": "ImageObject",
-            "url": "https://nz-web.netlify.app/image/og-share.png",
-            "width": 1200,
-            "height": 630,
-            "caption": "NZ Web — Hand-Coded Websites & Landing Pages · Studio of Zvi Moshe"
-          },
-          "inLanguage": "en",
-          "datePublished": "2024-01-01",
-          "dateModified": "2026-05-18",
-          "breadcrumb": { "@id": "https://nz-web.netlify.app/#breadcrumb" },
-          "speakable": {
-            "@type": "SpeakableSpecification",
-            "cssSelector": [".hero-headline", ".section-title", ".section-kicker"]
-          }
-        },
-
-        {
-          "@type": "BreadcrumbList",
-          "@id": "https://nz-web.netlify.app/#breadcrumb",
-          "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home",     "item": "https://nz-web.netlify.app/" },
-            { "@type": "ListItem", "position": 2, "name": "About",    "item": "https://nz-web.netlify.app/#manifesto" },
-            { "@type": "ListItem", "position": 3, "name": "Services", "item": "https://nz-web.netlify.app/#services" },
-            { "@type": "ListItem", "position": 4, "name": "Process",  "item": "https://nz-web.netlify.app/#process" },
-            { "@type": "ListItem", "position": 5, "name": "Work",     "item": "https://nz-web.netlify.app/#work" },
-            { "@type": "ListItem", "position": 6, "name": "FAQ",      "item": "https://nz-web.netlify.app/#faq" },
-            { "@type": "ListItem", "position": 7, "name": "Contact",  "item": "https://nz-web.netlify.app/#contact" }
-          ]
-        },
-
-        {
-          "@type": "ItemList",
-          "@id": "https://nz-web.netlify.app/#work",
-          "name": "Selected work — NZ Web",
-          "itemListOrder": "https://schema.org/ItemListOrderDescending",
-          "numberOfItems": 6,
-          "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Atelier Studio — flagship WordPress marketing site (2026)" },
-            { "@type": "ListItem", "position": 2, "name": "Northwind Launch — high-converting landing page (2026)" },
-            { "@type": "ListItem", "position": 3, "name": "Lume Mobile — responsive mobile-first redesign (2025)" },
-            { "@type": "ListItem", "position": 4, "name": "Meridian Pay — Stripe payment platform integration (2025)" },
-            { "@type": "ListItem", "position": 5, "name": "Halo System — UI/UX design system (2025)" },
-            { "@type": "ListItem", "position": 6, "name": "Folio Personal — portfolio brand site (2024)" }
-          ]
-        },
-
-        {
-          "@type": "FAQPage",
-          "@id": "https://nz-web.netlify.app/#faq",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "How long does a project usually take?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Most landing pages ship in 1–2 weeks. Full marketing sites land between 4–6 weeks depending on copy, asset readiness, and integration depth. You'll see a precise timeline in your proposal."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "How do you price?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Fixed-price by project, never by the hour. Once we agree on scope, the number is the number — no surprises, no padded invoices, no scope-creep tax."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Do you use templates or page builders?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Almost never. Every site is hand-coded so it's fast, custom, and future-proof. If a CMS is required, I build a custom WordPress theme — not pre-fab blocks."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Will my site be fast and SEO-friendly?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "That's the baseline, not the upgrade. Every project ships with semantic HTML, accessibility, performance budgets, structured data, and Core Web Vitals tuning."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "What about after launch?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "You get 30 days of post-launch care included, free. After that, lightweight care plans are available — but most clients stay self-sufficient. The handoff is real."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Where are you based?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Tel Aviv, Israel. I work with clients worldwide and run async by default — though I'll happily jump on a call when it actually moves the project forward."
-              }
-            }
-          ]
-        }
-
-      ]
-    }
-    </script>
-  </head>
-
-  <body>
-    <a href="#main" class="skip-link">Skip to main content</a>
-
-    <!-- Custom cursor (decorative) -->
-    <div class="cursor-dot" aria-hidden="true"></div>
-    <div class="cursor-ring" aria-hidden="true"></div>
-
-    <!-- Scroll progress (decorative) -->
-    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
-
-    <!-- ===================== NAV ===================== -->
-    <header class="nav" id="nav" aria-label="Main navigation">
-      <div class="container nav-row">
-        <a href="#" class="brand" aria-label="NZ Web — back to top" data-cursor="hover">
-          <span class="mark" aria-hidden="true">N</span>
-          <span class="brand-text">
-            <strong>NZ&nbsp;Web</strong>
-            <small>Studio · est. 2024</small>
-          </span>
-        </a>
-
-        <nav class="nav-links" aria-label="Primary">
-          <a href="#manifesto" data-cursor="hover">About</a>
-          <a href="#services" data-cursor="hover">Services</a>
-          <a href="#process" data-cursor="hover">Process</a>
-          <a href="#work" data-cursor="hover">Work</a>
-          <a href="#words" data-cursor="hover">Words</a>
-          <a href="#faq" data-cursor="hover">FAQ</a>
-        </nav>
-
-        <div class="nav-actions">
-          <a href="#contact" class="nav-cta" data-cursor="hover" aria-label="Available for work — go to contact">
-            <span class="dot" aria-hidden="true"></span>
-            <span class="nav-cta-text">Available for work</span>
-          </a>
-
-          <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu" type="button">
-            <span aria-hidden="true"></span>
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <!-- Mobile menu — `inert` initially so focus & AT skip it when closed -->
-    <div class="mobile-menu" id="mobileMenu" inert>
-      <nav aria-label="Mobile">
-        <a href="#manifesto" data-mobile-link><span aria-hidden="true">01</span>About</a>
-        <a href="#services" data-mobile-link><span aria-hidden="true">02</span>Services</a>
-        <a href="#process" data-mobile-link><span aria-hidden="true">03</span>Process</a>
-        <a href="#work" data-mobile-link><span aria-hidden="true">04</span>Work</a>
-        <a href="#words" data-mobile-link><span aria-hidden="true">05</span>Words</a>
-        <a href="#faq" data-mobile-link><span aria-hidden="true">06</span>FAQ</a>
-        <a href="#contact" data-mobile-link><span aria-hidden="true">07</span>Contact</a>
+  <header class="nav">
+    <div class="nav-pill">
+      <a class="brand" href="#top" aria-label="Zstore AI, back to top">
+        <svg class="brand-mark" aria-hidden="true"><use href="#zmark"/></svg>
+        <span class="wordmark" aria-hidden="true">Zstore<span>AI</span></span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#work"><span class="roll">Work</span></a>
+        <a href="#expertise"><span class="roll">Expertise</span></a>
+        <a href="#studio"><span class="roll">Studio</span></a>
+        <a href="#process"><span class="roll">Process</span></a>
+        <a href="#faq"><span class="roll">FAQ</span></a>
       </nav>
+      <button class="motion-btn" type="button" aria-pressed="true">
+        <svg class="scope" viewBox="0 0 28 14" aria-hidden="true"><path class="scope-wave" d="M1 7 C 4 1, 7 1, 10 7 S 16 13, 19 7 S 25 1, 27 7"/><path class="scope-flat" d="M1 7 H27"/></svg>
+        <span class="motion-label">Motion on</span>
+      </button>
+      <a class="pill-cta" href="#contact"><span class="roll">Start a project</span></a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-haspopup="dialog">
+        <span class="menu-lines" aria-hidden="true"><i></i><i></i></span><span>Menu</span>
+      </button>
+    </div>
+  </header>
+
+  <dialog class="sheet menu-sheet" id="menu" aria-label="Menu">
+    <div class="sheet-scroll">
+      <div class="sheet-top">
+        <a class="brand" href="#top" data-menu-link aria-label="Zstore AI, back to top">
+          <svg class="brand-mark" aria-hidden="true"><use href="#zmark"/></svg>
+          <span class="wordmark" aria-hidden="true">Zstore<span>AI</span></span>
+        </a>
+        <button class="close-btn" type="button" data-close aria-label="Close menu"><span aria-hidden="true"></span></button>
+      </div>
+      <nav class="menu-links" aria-label="Menu">
+        <a href="#work" data-menu-link><span class="menu-n">01</span>Work</a>
+        <a href="#expertise" data-menu-link><span class="menu-n">02</span>Expertise</a>
+        <a href="#studio" data-menu-link><span class="menu-n">03</span>Studio</a>
+        <a href="#process" data-menu-link><span class="menu-n">04</span>Process</a>
+        <a href="#faq" data-menu-link><span class="menu-n">05</span>FAQ</a>
+        <a href="#contact" data-menu-link><span class="menu-n">06</span>Let’s talk</a>
+      </nav>
+      <div class="menu-studies">
+        <p class="menu-k">Concept studies</p>
+        <div class="menu-thumbs">
+          <button type="button" data-project="atelier" aria-label="Atelier Studio"><img src="./image/studio/atelier.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async"><span>Atelier<span class="cap-more"> Studio</span></span></button>
+          <button type="button" data-project="lume"><img src="./image/studio/lume.webp" alt="" width="1122" height="1402" loading="lazy" decoding="async"><span>Lume</span></button>
+          <button type="button" data-project="meridian"><span class="thumb-mer" aria-hidden="true"><svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet"><rect class="tm-card" x="14" y="24" width="72" height="56" rx="10"/><rect class="tm-k" x="23" y="33" width="22" height="4" rx="2"/><rect class="tm-v" x="23" y="41" width="34" height="8" rx="3"/><path class="tm-fill" d="M22 71 C 30 68, 35 60, 43 62 S 57 67, 63 56 S 73 44, 78 41 V 72 H 22 Z"/><path class="tm-line" d="M22 71 C 30 68, 35 60, 43 62 S 57 67, 63 56 S 73 44, 78 41"/><rect class="tm-dot" x="14" y="12" width="7" height="7" rx="1.5" transform="rotate(45 17.5 15.5)"/></svg></span><span>Meridian</span></button>
+        </div>
+      </div>
       <div class="menu-foot">
-        <span class="mf-email">zvi293293@gmail.com</span>
-        <span>Tel · Aviv</span>
+        <a href="mailto:zstore.ai295@gmail.com">zstore.ai295@gmail.com</a>
+        <a href="https://wa.me/972587292029" target="_blank" rel="noopener noreferrer" data-wa>WhatsApp · +972 58 729 2029</a>
+        <span class="menu-clock">Tel Aviv <time data-clock>--:--</time></span>
       </div>
     </div>
+  </dialog>
 
-    <main id="main">
-      <!-- ===================== HERO ===================== -->
-      <section class="hero" aria-label="Introduction">
-        <div class="container hero-grid">
-          <div class="hero-meta">
-            <span><span class="pulse" aria-hidden="true"></span>Studio · Tel Aviv · Worldwide</span>
-            <span>Selected work 2024 — 2026</span>
-            <span id="liveClock" aria-live="off" aria-atomic="true">—</span>
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero" id="top" data-theme="dark" data-gl aria-labelledby="hero-title">
+      <div class="hero-top">
+        <p class="hero-kicker"><span class="dot" aria-hidden="true"></span>Zstore AI is the studio of Zvi Moshe</p>
+        <p class="hero-meta">Tel Aviv <time data-clock>--:--</time></p>
+        <p class="fig" aria-hidden="true">Fig. 1 — this ribbon is written by hand in WebGL. Move your cursor to turn the light.</p>
+      </div>
+      <div class="hero-type">
+        <span class="knot-b" aria-hidden="true"></span>
+        <h1 class="hero-title" id="hero-title" data-weave="text">
+          <span class="ln ln-1">design</span>
+          <span class="ln ln-2">&amp; code</span>
+          <span class="sr-only">, by one person: websites, landing pages, UI/UX and integrations.</span>
+        </h1>
+        <span class="knot-a" aria-hidden="true"></span>
+      </div>
+      <div class="hero-foot">
+        <p class="hero-lede">Websites, landing pages, UI/UX and integrations for brands in Israel and worldwide. Designed and hand-coded by one person, from the first sketch to the last line of code.</p>
+        <div class="hero-actions">
+          <a class="btn btn-enamel" href="#contact">Start a project <span class="btn-arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn-ghost" href="#work">See the studies</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORK -->
+    <section class="work" id="work" data-theme="dark" data-gl aria-labelledby="work-title">
+      <div class="work-head">
+        <h2 class="work-title reveal" id="work-title">Three studies in how a website should feel.</h2>
+        <p class="work-note reveal">Self-initiated concept projects: invented brands, real design and front-end craft. None of them is client work, and each one is labelled that way.</p>
+        <div class="work-toolbar">
+          <div class="filters" role="group" aria-label="Filter concept studies">
+            <button type="button" class="filter" data-filter="all" aria-pressed="true" aria-label="All work, 03 studies"><span class="f-long">All work</span><span class="f-short" aria-hidden="true">All</span> <sup>03</sup></button>
+            <button type="button" class="filter" data-filter="web" aria-pressed="false" aria-label="Web experiences"><span class="f-long">Web experiences</span><span class="f-short" aria-hidden="true">Web</span></button>
+            <button type="button" class="filter" data-filter="product" aria-pressed="false" aria-label="Digital products"><span class="f-long">Digital products</span><span class="f-short" aria-hidden="true">Products</span></button>
           </div>
+          <p class="filter-status" id="filterStatus" role="status">Showing 03 studies</p>
+        </div>
+      </div>
 
-          <h1 class="hero-headline" aria-label="Crafting timeless digital experiences for brands, founders, studios, and visionaries.">
-            <span class="hero-line l1" aria-hidden="true"><span>Crafting</span></span>
-            <span class="hero-line l2" aria-hidden="true"><span>timeless <em>digital</em></span></span>
-            <span class="hero-line l3" aria-hidden="true">
-              <span><span class="l3-a">experiences</span> <span class="l3-b">for <span class="swap"><b class="is-active">brands.</b><b>founders.</b><b>studios.</b><b>visionaries.</b></span></span></span>
-            </span>
-          </h1>
-
-          <div class="hero-bottom" data-reveal>
-            <p class="hero-tagline">
-              NZ&nbsp;Web is the independent practice of Zvi Moshe — a developer &amp; designer
-              obsessed with type, motion, and the quiet details that turn a website into a
-              brand. No templates. No filler. Just considered work, shipped.
-            </p>
-            <div class="hero-actions">
-              <a href="#work" class="btn btn-primary" data-magnetic data-cursor="hover">
-                See selected work
-                <span class="arrow" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                </span>
-              </a>
-              <a href="#contact" class="btn btn-ghost" data-magnetic data-cursor="hover">
-                Start a project
-                <span class="arrow" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                </span>
-              </a>
+      <div class="work-body">
+        <aside class="work-stage" aria-hidden="true">
+          <div class="stage-sticky">
+            <div class="stage-ribbon"></div>
+            <div class="stage-info">
+              <p class="stage-count"><span class="stage-bar"><i></i></span><span id="stageNum">Study 1 of 3</span><span class="concept-tag">Concept</span></p>
+              <p class="stage-title" id="stageTitle">Atelier Studio</p>
+              <p class="stage-kind" id="stageKind">Architecture practice website</p>
+              <p class="stage-explores"><span>Explores</span><span id="stageExplores">Image-led pacing, editorial type and restraint</span></p>
             </div>
           </div>
-        </div>
+        </aside>
 
-        <div class="hero-scroll" aria-hidden="true">
-          <span>Scroll</span>
-          <span class="line"></span>
-        </div>
-      </section>
-
-      <!-- ===================== MARQUEE ===================== -->
-      <section class="marquee" aria-label="Services offered">
-        <div class="marquee-track" id="marqueeTrack">
-          <div class="marquee-item">Website Development<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
-          <div class="marquee-item">Landing Pages<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
-          <div class="marquee-item">UI / UX Design<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
-          <div class="marquee-item">Responsive Builds<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
-          <div class="marquee-item">Brand &amp; Identity<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
-          <div class="marquee-item">System Integration<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
-          <div class="marquee-item">Performance &amp; SEO<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg></div>
-        </div>
-      </section>
-
-      <!-- ===================== MANIFESTO / ABOUT ===================== -->
-      <section class="section manifesto" id="manifesto" aria-labelledby="manifesto-title">
-        <div class="container">
-          <div class="section-head" data-reveal>
-            <div>
-              <p class="section-num">— 01 / About</p>
-              <h2 class="section-title" id="manifesto-title">
-                A studio of <em>one</em>, working at the edge of code &amp; craft.
-              </h2>
-            </div>
-            <p class="section-kicker kicker">
-              I keep things small on purpose. Every project gets the same eyes, the same hands,
-              and the same uncomfortable level of detail — from the kerning of a headline to the
-              last 5kb on the wire.
-            </p>
-          </div>
-
-          <div class="manifesto-grid">
-            <aside class="manifesto-portrait" data-reveal aria-label="About the founder">
-              <div class="frame">
-                <picture>
-                  <source srcset="./image/20251111_150847.webp" type="image/webp" />
-                  <img
-                    src="./image/20251111_150847.jpg"
-                    alt="Portrait photograph of Zvi Moshe, founder and sole developer at NZ Web, wearing dark clothing against a neutral background."
-                    width="640" height="800"
-                    loading="lazy" decoding="async"
-                  />
-                </picture>
-                <div class="badge"><span class="dot" aria-hidden="true"></span>Booking Q2 — Q3 2026</div>
-              </div>
-
-              <div class="stats-mini">
-                <div>
-                  <strong>25</strong>
-                  <span>Years young</span>
-                </div>
-                <div>
-                  <strong>100%</strong>
-                  <span>Custom code</span>
-                </div>
-              </div>
-            </aside>
-
-            <div class="manifesto-copy" data-reveal data-reveal-delay="1">
-              <h2>
-                Most websites are forgettable. <em>Mine refuse to be.</em>
-              </h2>
-              <p>
-                My name is Zvi Moshe. I'm 25, based in Israel, and I build modern, high-performance
-                websites for founders and brands who care about how their work feels — not just how it looks.
-              </p>
-              <p>
-                I write every line of code by hand. I choose every typeface. I sweat every transition.
-                The result is a site that loads in a blink, reads like a story, and earns trust
-                in the first three seconds — because that's all anyone ever gives you.
-              </p>
-              <p>
-                If you're after a templated page that looks like everyone else's, we're not a fit.
-                If you want something considered, fast, and yours — let's talk.
-              </p>
-
-              <ul class="manifesto-pills" aria-label="Toolkit and skills">
-                <li class="pill">HTML / CSS / JS</li>
-                <li class="pill">WordPress</li>
-                <li class="pill">Figma</li>
-                <li class="pill">Webflow</li>
-                <li class="pill">Performance</li>
-                <li class="pill">SEO Foundations</li>
-                <li class="pill">Accessibility</li>
-              </ul>
-
-              <p class="manifesto-signature" aria-label="Signed, Zvi, founder of NZ Web">
-                Zvi.
-                <small>Founder · NZ Web</small>
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===================== STATS ===================== -->
-      <section class="stats" aria-label="By the numbers">
-        <div class="container">
-          <ul class="stats-grid">
-            <li class="stat" data-reveal>
-              <p class="num"><span data-counter="40" data-suffix="+" aria-label="40 plus">0</span></p>
-              <p class="label">Projects shipped</p>
-            </li>
-            <li class="stat" data-reveal data-reveal-delay="1">
-              <p class="num"><span data-counter="98" data-suffix="%" aria-label="98 percent">0</span></p>
-              <p class="label">Client retention</p>
-            </li>
-            <li class="stat" data-reveal data-reveal-delay="2">
-              <p class="num"><span data-counter="1.2" data-suffix="s" aria-label="1.2 seconds">0</span></p>
-              <p class="label">Avg. load time</p>
-            </li>
-            <li class="stat" data-reveal data-reveal-delay="3">
-              <p class="num"><span data-counter="100" data-suffix="%" aria-label="100 percent">0</span></p>
-              <p class="label">Hand-written code</p>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- ===================== SERVICES ===================== -->
-      <section class="section services" id="services" aria-labelledby="services-title">
-        <div class="container">
-          <div class="section-head" data-reveal>
-            <div>
-              <p class="section-num">— 02 / Services</p>
-              <h2 class="section-title" id="services-title">
-                Built for brands that <em>refuse</em> to look like everyone else.
-              </h2>
-            </div>
-            <p class="section-kicker kicker">
-              Five disciplines, one set of standards. Every engagement is bespoke, scoped together,
-              and shipped end-to-end — strategy through launch.
-            </p>
-          </div>
-
-          <div class="services-grid">
-            <article class="service" data-cursor="hover" aria-labelledby="svc-1">
-              <header class="top">
-                <span>01 · Flagship</span>
-                <span class="ico" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-                    <rect x="3" y="4" width="18" height="14" rx="2"/>
-                    <path d="M3 9h18M8 14h8"/>
-                  </svg>
+        <ol class="studies">
+          <li class="study study--atelier" data-material="travertine" data-category="web">
+            <button class="study-link" type="button" data-project="atelier" aria-label="Atelier Studio, concept study. Open details">
+              <span class="study-media">
+                <img src="./image/studio/atelier.webp" alt="" width="1536" height="1024" decoding="async">
+                <span class="atelier-ui" aria-hidden="true">
+                  <span class="atelier-bar"><span class="atelier-mark">atelier.</span><span class="atelier-nav"><i>Projects</i><i>Studio</i><i>Journal</i><i>Contact</i></span></span>
+                  <span class="atelier-head">Spaces for<br>slower living.</span>
+                  <span class="atelier-foot">Coastal residences</span>
                 </span>
-              </header>
-              <div>
-                <h3 id="svc-1">Website <em>Development</em></h3>
-                <p>
-                  Custom marketing sites &amp; brand homes — hand-coded, scalable, and engineered
-                  for speed. Built to last beyond a redesign cycle and crafted to actually
-                  convert.
-                </p>
-              </div>
-              <ul class="tags" aria-label="Capabilities">
-                <li>Hand-coded</li><li>CMS-ready</li><li>SEO-optimized</li><li>Core Web Vitals</li>
-              </ul>
-            </article>
-
-            <article class="service" data-cursor="hover" aria-labelledby="svc-2">
-              <header class="top">
-                <span>02 · Conversion</span>
-                <span class="ico" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-                    <path d="M3 17l6-6 4 4 8-8"/>
-                    <path d="M14 7h7v7"/>
-                  </svg>
-                </span>
-              </header>
-              <div>
-                <h3 id="svc-2">Landing <em>Pages</em></h3>
-                <p>
-                  Sharp, narrative-driven pages built around a single decision — built in days, not months.
-                </p>
-              </div>
-              <ul class="tags" aria-label="Capabilities">
-                <li>Copy-aware</li><li>A/B ready</li><li>Analytics-wired</li>
-              </ul>
-            </article>
-
-            <article class="service" data-cursor="hover" aria-labelledby="svc-3">
-              <header class="top">
-                <span>03 · Identity</span>
-                <span class="ico" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-                    <circle cx="12" cy="12" r="9"/>
-                    <path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/>
-                  </svg>
-                </span>
-              </header>
-              <div>
-                <h3 id="svc-3">UI &amp; <em>UX</em></h3>
-                <p>
-                  Clear, opinionated interfaces. Sweating the system so users don't have to think.
-                </p>
-              </div>
-              <ul class="tags" aria-label="Capabilities">
-                <li>Figma</li><li>Design systems</li><li>Prototyping</li>
-              </ul>
-            </article>
-
-            <article class="service" data-cursor="hover" aria-labelledby="svc-4">
-              <header class="top">
-                <span>04 · Reach</span>
-                <span class="ico" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-                    <rect x="5" y="3" width="14" height="18" rx="2"/>
-                    <path d="M12 18h.01"/>
-                  </svg>
-                </span>
-              </header>
-              <div>
-                <h3 id="svc-4">Responsive <em>Design</em></h3>
-                <p>
-                  Built mobile-first, polished across every viewport. The phone shouldn't get
-                  the leftovers.
-                </p>
-              </div>
-              <ul class="tags" aria-label="Capabilities">
-                <li>Fluid type</li><li>Adaptive grids</li><li>Touch-first</li>
-              </ul>
-            </article>
-
-            <article class="service" data-cursor="hover" aria-labelledby="svc-5">
-              <header class="top">
-                <span>05 · Integration</span>
-                <span class="ico" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-                    <path d="M9 3v6M15 3v6M3 9h18M5 9v9a2 2 0 002 2h10a2 2 0 002-2V9"/>
-                  </svg>
-                </span>
-              </header>
-              <div>
-                <h3 id="svc-5">System <em>Integration</em></h3>
-                <p>
-                  Payments, CRMs, forms, analytics — wired up so your site is a tool, not a brochure.
-                </p>
-              </div>
-              <ul class="tags" aria-label="Capabilities">
-                <li>Stripe</li><li>Apps Script</li><li>CRM hooks</li><li>Webhooks</li>
-              </ul>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===================== PROCESS ===================== -->
-      <section class="section process" id="process" aria-labelledby="process-title">
-        <div class="container">
-          <div class="section-head" data-reveal>
-            <div>
-              <p class="section-num">— 03 / Process</p>
-              <h2 class="section-title" id="process-title">
-                A workflow built for <em>clarity</em>, not for invoices.
-              </h2>
-            </div>
-            <p class="section-kicker kicker">
-              Four phases, transparent timelines, no surprises. You always know what's happening
-              and what's next.
-            </p>
-          </div>
-
-          <ol class="process-grid">
-            <li class="step" data-reveal>
-              <p class="num">01 · Discover</p>
-              <h3>Listen &amp; learn</h3>
-              <p>A focused conversation about your business, audience, and the one thing this site has to do. We end with a written brief, not a guess.</p>
-              <p class="dur">Week 1</p>
-            </li>
-            <li class="step" data-reveal data-reveal-delay="1">
-              <p class="num">02 · Design</p>
-              <h3>Shape the story</h3>
-              <p>Wireframes turn into typography, motion, and color in Figma — reviewed live, not in PDFs. Approve once, build with confidence.</p>
-              <p class="dur">Week 2 — 3</p>
-            </li>
-            <li class="step" data-reveal data-reveal-delay="2">
-              <p class="num">03 · Build</p>
-              <h3>Code &amp; craft</h3>
-              <p>Hand-written HTML, CSS, JS. Every page tested for speed, accessibility, and the small details that separate a website from a brand.</p>
-              <p class="dur">Week 3 — 5</p>
-            </li>
-            <li class="step" data-reveal data-reveal-delay="3">
-              <p class="num">04 · Launch</p>
-              <h3>Ship &amp; support</h3>
-              <p>Domain, analytics, SEO basics, and a smooth handoff. Plus 30 days of post-launch care — because launch day is a comma, not a period.</p>
-              <p class="dur">Week 6 +</p>
-            </li>
-          </ol>
-        </div>
-      </section>
-
-      <!-- ===================== WORK / PORTFOLIO ===================== -->
-      <section class="section work" id="work" aria-labelledby="work-title">
-        <div class="container">
-          <div class="section-head" data-reveal>
-            <div>
-              <p class="section-num">— 04 / Selected work</p>
-              <h2 class="section-title" id="work-title">
-                A few <em>recent</em> things I'm proud of.
-              </h2>
-            </div>
-            <p class="section-kicker kicker">
-              Each project below was built end-to-end — strategy, design, code, and launch.
-              Click any case to start a conversation.
-            </p>
-          </div>
-
-          <div class="work-grid">
-            <a class="case" href="#contact" data-cursor="hover" data-reveal aria-label="Case study: Atelier Studio — flagship marketing site, 2026">
-              <div class="thumb">
-                <picture>
-                  <source srcset="./image/wordpress-923188.webp" type="image/webp" />
-                  <img src="./image/wordpress-923188.jpg" alt="Project thumbnail for Atelier Studio showing a WordPress dashboard and content management interface for a flagship marketing site." loading="lazy" decoding="async" />
-                </picture>
-              </div>
-              <div class="case-meta">
-                <div>
-                  <p class="case-title">Atelier <em>Studio</em></p>
-                  <ul class="case-tags" aria-label="Project tags"><li>Marketing site</li><li>WordPress</li><li>CMS</li></ul>
-                </div>
-                <p class="case-cat">2026 · Flagship</p>
-              </div>
-            </a>
-
-            <a class="case" href="#contact" data-cursor="hover" data-reveal data-reveal-delay="1" aria-label="Case study: Northwind Launch — high-converting landing page, 2026">
-              <div class="thumb">
-                <picture>
-                  <source srcset="./image/digital-marketing-1433427.webp" type="image/webp" />
-                  <img src="./image/digital-marketing-1433427.jpg" alt="Project thumbnail for Northwind Launch displaying digital marketing analytics graphs and conversion-focused design." loading="lazy" decoding="async" />
-                </picture>
-              </div>
-              <div class="case-meta">
-                <div>
-                  <p class="case-title">Northwind <em>Launch</em></p>
-                  <ul class="case-tags" aria-label="Project tags"><li>Landing page</li><li>A/B tested</li><li>Conversion</li></ul>
-                </div>
-                <p class="case-cat">2026 · Launch</p>
-              </div>
-            </a>
-
-            <a class="case" href="#contact" data-cursor="hover" data-reveal aria-label="Case study: Lume Mobile — responsive mobile-first redesign, 2025">
-              <div class="thumb">
-                <picture>
-                  <source srcset="./image/online-2900303.webp" type="image/webp" />
-                  <img src="./image/online-2900303.jpg" alt="Project thumbnail for Lume Mobile showing a responsive online platform on mobile and desktop devices." loading="lazy" decoding="async" />
-                </picture>
-              </div>
-              <div class="case-meta">
-                <div>
-                  <p class="case-title">Lume <em>Mobile</em></p>
-                  <ul class="case-tags" aria-label="Project tags"><li>Responsive</li><li>PWA</li><li>Touch-first</li></ul>
-                </div>
-                <p class="case-cat">2025 · Redesign</p>
-              </div>
-            </a>
-
-            <a class="case" href="#contact" data-cursor="hover" data-reveal data-reveal-delay="1" aria-label="Case study: Meridian Pay — payment platform integration, 2025">
-              <div class="thumb">
-                <picture>
-                  <source srcset="./image/payment-4334491.webp" type="image/webp" />
-                  <img src="./image/payment-4334491.jpg" alt="Project thumbnail for Meridian Pay illustrating online payments and checkout flow integration." loading="lazy" decoding="async" />
-                </picture>
-              </div>
-              <div class="case-meta">
-                <div>
-                  <p class="case-title">Meridian <em>Pay</em></p>
-                  <ul class="case-tags" aria-label="Project tags"><li>Stripe</li><li>Integration</li><li>SaaS</li></ul>
-                </div>
-                <p class="case-cat">2025 · Integration</p>
-              </div>
-            </a>
-
-            <a class="case" href="#contact" data-cursor="hover" data-reveal aria-label="Case study: Halo System — UI/UX design system, 2025">
-              <div class="thumb">
-                <picture>
-                  <source srcset="./image/design-9824072.webp" type="image/webp" />
-                  <img src="./image/design-9824072.jpg" alt="Project thumbnail for Halo System featuring a UI/UX design system with reusable components." loading="lazy" decoding="async" />
-                </picture>
-              </div>
-              <div class="case-meta">
-                <div>
-                  <p class="case-title">Halo <em>System</em></p>
-                  <ul class="case-tags" aria-label="Project tags"><li>UI / UX</li><li>Design system</li><li>Figma</li></ul>
-                </div>
-                <p class="case-cat">2025 · Identity</p>
-              </div>
-            </a>
-
-            <a class="case" href="#contact" data-cursor="hover" data-reveal data-reveal-delay="1" aria-label="Case study: Folio Personal — personal brand portfolio, 2024">
-              <div class="thumb">
-                <picture>
-                  <source srcset="./image/laptop-2593016.webp" type="image/webp" />
-                  <img src="./image/laptop-2593016.jpg" alt="Project thumbnail for Folio Personal showing a laptop displaying a portfolio website." loading="lazy" decoding="async" />
-                </picture>
-              </div>
-              <div class="case-meta">
-                <div>
-                  <p class="case-title">Folio <em>Personal</em></p>
-                  <ul class="case-tags" aria-label="Project tags"><li>Portfolio</li><li>Brand</li><li>Motion</li></ul>
-                </div>
-                <p class="case-cat">2024 · Personal</p>
-              </div>
-            </a>
-          </div>
-
-          <div class="work-foot" data-reveal>
-            <a href="#contact" class="btn btn-ghost" data-magnetic data-cursor="hover">
-              Want to be next?
-              <span class="arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                <span class="frame-tag" aria-hidden="true">Concept</span>
+                <span class="sheen" aria-hidden="true"></span>
               </span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===================== TESTIMONIALS ===================== -->
-      <section class="section testimonials" id="words" aria-labelledby="words-title">
-        <div class="container">
-          <div class="section-head" data-reveal>
-            <div>
-              <p class="section-num">— 05 / Words</p>
-              <h2 class="section-title" id="words-title">
-                Kind words from <em>people</em> I've shipped with.
-              </h2>
+            </button>
+            <div class="study-info">
+              <div class="study-titles">
+                <h3>Atelier Studio</h3>
+                <p class="study-kind">Concept study · Architecture practice website</p>
+              </div>
+              <span class="study-slot" aria-hidden="true"><i style="--m:#c8a67c"></i></span>
+              <p class="study-line">An image-led site for a coastal architecture studio. Stone tones, long pauses, room to breathe.</p>
+              <p class="study-explores"><span>Explores</span>Image-led pacing, editorial type and restraint</p>
+              <button class="study-open" type="button" data-project="atelier">Open the study <span aria-hidden="true">→</span></button>
             </div>
-            <p class="section-kicker kicker">
-              I keep the team small so the work stays personal. Here's what that's felt like
-              from the other side.
-            </p>
-          </div>
+          </li>
 
-          <div class="testimonials-viewport">
-          <div class="testimonials-track" id="quotesTrack" role="list" aria-label="Client testimonials">
-            <article class="quote" role="listitem" data-reveal>
-              <svg class="glyph" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M7 7h4v4H8c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7zm9 0h4v4h-3c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7z"/></svg>
-              <p>"Zvi rebuilt our entire site in three weeks and it loaded faster than our app. Conversion is up 41% and we haven't touched a thing since."</p>
-              <div class="who">
-                <span class="avatar" aria-hidden="true">M</span>
-                <div>
-                  <strong>Maya Levin</strong>
-                  <span>Founder · Northwind</span>
-                </div>
-                <span class="stars" role="img" aria-label="Rated 5 out of 5 stars">
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                </span>
-              </div>
-            </article>
-
-            <article class="quote" role="listitem" data-reveal data-reveal-delay="1">
-              <svg class="glyph" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M7 7h4v4H8c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7zm9 0h4v4h-3c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7z"/></svg>
-              <p>"Calm, fast, opinionated in the best way. He pushed back on the things that mattered and shipped on the things that didn't. Rare combo."</p>
-              <div class="who">
-                <span class="avatar" aria-hidden="true">D</span>
-                <div>
-                  <strong>Daniel Cohen</strong>
-                  <span>CEO · Meridian Pay</span>
-                </div>
-                <span class="stars" role="img" aria-label="Rated 5 out of 5 stars">
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                </span>
-              </div>
-            </article>
-
-            <article class="quote" role="listitem" data-reveal data-reveal-delay="2">
-              <svg class="glyph" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M7 7h4v4H8c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7zm9 0h4v4h-3c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7z"/></svg>
-              <p>"We've worked with three agencies before. Zvi is the first who actually cared what our site felt like on a Tuesday morning at 7am on a slow connection."</p>
-              <div class="who">
-                <span class="avatar" aria-hidden="true">S</span>
-                <div>
-                  <strong>Sarah Halevy</strong>
-                  <span>Brand Lead · Lume</span>
-                </div>
-                <span class="stars" role="img" aria-label="Rated 5 out of 5 stars">
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                </span>
-              </div>
-            </article>
-
-            <article class="quote" role="listitem" data-reveal data-reveal-delay="3">
-              <svg class="glyph" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M7 7h4v4H8c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7zm9 0h4v4h-3c0 2 .9 3 3 3v3c-4 0-6-2-6-6V7z"/></svg>
-              <p>"He treats a button like a paragraph and a paragraph like a brand. That's the whole pitch. Hire him before he raises his rates."</p>
-              <div class="who">
-                <span class="avatar" aria-hidden="true">A</span>
-                <div>
-                  <strong>Ari Schwartz</strong>
-                  <span>Creative Director · Atelier</span>
-                </div>
-                <span class="stars" role="img" aria-label="Rated 5 out of 5 stars">
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l2.5 7H22l-6 4.5L18.5 22 12 17.5 5.5 22 8 13.5 2 9h7.5z"/></svg>
-                </span>
-              </div>
-            </article>
-          </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===================== FAQ ===================== -->
-      <section class="section faq" id="faq" aria-labelledby="faq-title">
-        <div class="container narrow">
-          <div class="section-head" data-reveal>
-            <div>
-              <p class="section-num">— 06 / FAQ</p>
-              <h2 class="section-title" id="faq-title">
-                Most-asked, <em>plainly</em> answered.
-              </h2>
-            </div>
-            <p class="section-kicker kicker">
-              No legalese, no fluff. If you don't see your question, just write me — I answer everything personally.
-            </p>
-          </div>
-
-          <div class="faq-grid">
-            <details data-reveal>
-              <summary>
-                <span>How long does a project usually take?</span>
-                <span class="toggle" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
-                </span>
-              </summary>
-              <div class="body">
-                Most landing pages ship in 1–2 weeks. Full marketing sites land between 4–6 weeks
-                depending on copy, asset readiness, and integration depth. You'll see a precise
-                timeline in your proposal.
-              </div>
-            </details>
-
-            <details data-reveal>
-              <summary>
-                <span>How do you price?</span>
-                <span class="toggle" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
-                </span>
-              </summary>
-              <div class="body">
-                Fixed-price by project, never by the hour. Once we agree on scope, the number is
-                the number — no surprises, no padded invoices, no scope-creep tax.
-              </div>
-            </details>
-
-            <details data-reveal>
-              <summary>
-                <span>Do you use templates or page builders?</span>
-                <span class="toggle" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
-                </span>
-              </summary>
-              <div class="body">
-                Almost never. Every site I ship is hand-coded so it's fast, custom, and
-                future-proof. If a CMS is required, I build a custom WordPress theme — not
-                pre-fab blocks.
-              </div>
-            </details>
-
-            <details data-reveal>
-              <summary>
-                <span>Will my site be fast and SEO-friendly?</span>
-                <span class="toggle" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
-                </span>
-              </summary>
-              <div class="body">
-                That's the baseline, not the upgrade. Every project ships with semantic HTML,
-                accessibility, performance budgets, structured data, and Core Web Vitals tuning.
-              </div>
-            </details>
-
-            <details data-reveal>
-              <summary>
-                <span>What about after launch?</span>
-                <span class="toggle" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
-                </span>
-              </summary>
-              <div class="body">
-                You get 30 days of post-launch care included, free. After that, lightweight care
-                plans are available — but most clients stay self-sufficient. The handoff is real.
-              </div>
-            </details>
-
-            <details data-reveal>
-              <summary>
-                <span>Where are you based?</span>
-                <span class="toggle" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg>
-                </span>
-              </summary>
-              <div class="body">
-                Tel Aviv, Israel. I work with clients worldwide and run async by default — though
-                I'll happily jump on a call when it actually moves the project forward.
-              </div>
-            </details>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===================== CTA ===================== -->
-      <section class="section cta-banner" aria-labelledby="cta-title">
-        <div class="container cta-inner" data-reveal>
-          <p class="eyebrow">Let's build</p>
-          <h2 class="cta-title" id="cta-title">
-            Got an idea worth <em>doing right?</em>
-          </h2>
-          <div class="cta-row">
-            <a href="#contact" class="btn btn-primary" data-magnetic data-cursor="hover">
-              Start a project
-              <span class="arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-              </span>
-            </a>
-            <a href="mailto:zvi293293@gmail.com" class="btn btn-ghost" data-magnetic data-cursor="hover" aria-label="Email zvi293293 at gmail dot com">
-              zvi293293@gmail.com
-              <span class="arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-              </span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- ===================== CONTACT ===================== -->
-      <section class="section contact" id="contact" aria-labelledby="contact-title">
-        <div class="container">
-          <div class="section-head" data-reveal>
-            <div>
-              <p class="section-num">— 07 / Contact</p>
-              <h2 class="section-title" id="contact-title">
-                Tell me about your <em>project.</em>
-              </h2>
-            </div>
-            <p class="section-kicker kicker">
-              The faster I know what you're building, the faster I can tell you whether — and how — I can help.
-            </p>
-          </div>
-
-          <div class="contact-grid">
-            <div class="contact-intro" data-reveal>
-              <p>
-                I read every message myself. Expect a personal reply within one business day —
-                usually faster.
-              </p>
-
-              <ul class="contact-list" aria-label="Contact channels">
-                <li>
-                  <a href="mailto:zvi293293@gmail.com" data-cursor="hover" aria-label="Email zvi293293 at gmail dot com">
-                    <span>Email</span>
-                    <span class="handle">zvi293293@gmail.com</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://wa.me/972587292029" target="_blank" rel="noopener noreferrer nofollow" data-cursor="hover" data-wa aria-label="Open WhatsApp chat with Zvi at +972 58 729 2029">
-                    <span>WhatsApp</span>
-                    <span class="handle">+972 58 729 2029</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://github.com/zvi293" target="_blank" rel="noopener noreferrer nofollow" data-cursor="hover" aria-label="GitHub profile of Zvi Moshe (@zvi293)">
-                    <span>GitHub</span>
-                    <span class="handle">@zvi293</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="https://zstore-ai.co.il/" target="_blank" rel="noopener noreferrer nofollow" data-cursor="hover" aria-label="Open ZStore-AI official studio site (opens in new tab)">
-                    <span>Studio site</span>
-                    <span class="handle">zstore-ai.co.il →</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div class="form-card" data-reveal data-reveal-delay="1">
-              <h3>Send a brief</h3>
-              <form
-                class="contact-form"
-                id="contact-form"
-                method="POST"
-                action="https://script.google.com/macros/s/AKfycbxsAue4IqeTOBZ2CNoNHz48uCvENT5x4yi4xC15VfiZu7v9xNBId77LMZhytSB0rLP0/exec"
-                target="_self"
-                novalidate
-                autocomplete="on"
-                spellcheck="true"
-              >
-                <!-- Honeypot anti-bot: hidden from humans, attractive to bots -->
-                <div class="hp" aria-hidden="true">
-                  <label for="company">Leave this field empty</label>
-                  <input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
-                </div>
-                <!-- Time-stamp anti-bot: bots submit instantly -->
-                <input type="hidden" name="ts" id="form-ts" value="" />
-
-                <div class="form-group">
-                  <label for="full-name">Your name</label>
-                  <input
-                    type="text"
-                    id="full-name"
-                    name="name"
-                    placeholder="Jane Doe"
-                    autocomplete="name"
-                    required
-                    minlength="2"
-                    maxlength="80"
-                    pattern="[A-Za-zא-ת֐-׿ '\-]{2,80}"
-                    aria-required="true"
-                    aria-describedby="name-hint"
-                  />
-                  <span id="name-hint" class="hint">Your full name (2–80 characters).</span>
-                </div>
-
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="jane@studio.com"
-                    autocomplete="email"
-                    required
-                    maxlength="160"
-                    aria-required="true"
-                    aria-describedby="email-hint"
-                  />
-                  <span id="email-hint" class="hint">A valid email address.</span>
-                </div>
-
-                <div class="form-group">
-                  <label for="message">The brief</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    placeholder="Project type, timeline, budget if you have one, anything that helps me say yes faster…"
-                    rows="5"
-                    required
-                    minlength="10"
-                    maxlength="3000"
-                    aria-required="true"
-                    aria-describedby="msg-hint"
-                  ></textarea>
-                  <span id="msg-hint" class="hint"><span id="msg-counter">0</span>/3000 characters · 10 minimum.</span>
-                </div>
-
-                <button type="submit" class="submit-btn" aria-label="Send your message">
-                  Send message
-                  <span class="arrow" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          <li class="study study--lume" data-material="sage" data-category="web">
+            <button class="study-link" type="button" data-project="lume" aria-label="Lume, concept study. Open details">
+              <span class="study-media">
+                <img src="./image/studio/lume.webp" alt="" width="1122" height="1402" decoding="async">
+                <span class="lume-ui" aria-hidden="true">
+                  <span class="lume-mark">lumé</span>
+                  <span class="lume-card">
+                    <span class="lume-k">Daily serum · 30 ml</span>
+                    <span class="lume-p">Your daily<br>moment of calm.</span>
+                    <span class="lume-btn">Add to ritual</span>
                   </span>
-                </button>
-                <p class="form-status" id="form-status" role="status" aria-live="polite" aria-atomic="true" hidden></p>
-                <p class="form-foot">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                  Submissions are sent securely. I never share your details with third parties.
-                </p>
-              </form>
+                </span>
+                <span class="frame-tag" aria-hidden="true">Concept</span>
+                <span class="sheen" aria-hidden="true"></span>
+              </span>
+            </button>
+            <div class="study-info">
+              <div class="study-titles">
+                <h3>Lume</h3>
+                <p class="study-kind">Concept study · Skincare storefront</p>
+              </div>
+              <span class="study-slot" aria-hidden="true"><i style="--m:#8fa487"></i></span>
+              <p class="study-line">One product, told slowly. A quieter kind of e-commerce.</p>
+              <p class="study-explores"><span>Explores</span>Single-product storytelling and a calm path to checkout</p>
+              <button class="study-open" type="button" data-project="lume">Open the study <span aria-hidden="true">→</span></button>
             </div>
+          </li>
+
+          <li class="study study--meridian" data-material="indigo" data-category="product">
+            <button class="study-link" type="button" data-project="meridian" aria-label="Meridian, concept study. Open details">
+              <span class="study-media meridian-media">
+                <span class="mer" aria-hidden="true">
+                  <span class="mer-top"><span class="mer-mark"><b></b>meridian</span><span class="mer-pill">Monday overview</span></span>
+                  <span class="mer-main">
+                    <span class="mer-card">
+                      <span class="mer-k">Cash position</span>
+                      <span class="mer-v">$48,250<small>.00</small></span>
+                      <span class="mer-d">+12.8% vs last month</span>
+                      <svg class="mer-chart" viewBox="0 0 320 120" preserveAspectRatio="none">
+                        <defs><linearGradient id="merFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#7d7aff" stop-opacity=".55"/><stop offset="1" stop-color="#7d7aff" stop-opacity="0"/></linearGradient></defs>
+                        <path d="M0 96 C 30 90, 44 70, 70 74 S 112 92, 140 70 S 186 30, 214 44 S 262 58, 286 26 L 320 18 L 320 120 L 0 120 Z" fill="url(#merFill)"/>
+                        <path d="M0 96 C 30 90, 44 70, 70 74 S 112 92, 140 70 S 186 30, 214 44 S 262 58, 286 26 L 320 18" fill="none" stroke="#b9b7ff" stroke-width="2.2" vector-effect="non-scaling-stroke"/>
+                      </svg>
+                    </span>
+                    <span class="mer-side">
+                      <span class="mer-tile"><span class="mer-k">Invoices due</span><b>6</b></span>
+                      <span class="mer-tile"><span class="mer-k">Runway</span><b>14 mo</b></span>
+                      <span class="mer-tile mer-bars"><span class="mer-k">Spend by week</span><span class="bars"><i style="--h:40%"></i><i style="--h:62%"></i><i style="--h:48%"></i><i style="--h:80%"></i><i style="--h:56%"></i></span></span>
+                    </span>
+                  </span>
+                  <span class="mer-sample">Illustrative sample data</span>
+                </span>
+                <span class="frame-tag" aria-hidden="true">Concept</span>
+                <span class="sheen" aria-hidden="true"></span>
+              </span>
+            </button>
+            <div class="study-info">
+              <div class="study-titles">
+                <h3>Meridian</h3>
+                <p class="study-kind">Concept study · Finance dashboard UI</p>
+              </div>
+              <span class="study-slot" aria-hidden="true"><i style="--m:#6e6bf2"></i></span>
+              <p class="study-line">Small-business cash flow, reduced to what matters on a Monday morning.</p>
+              <p class="study-explores"><span>Explores</span>Data hierarchy and a dashboard you can read at a glance</p>
+              <button class="study-open" type="button" data-project="meridian">Open the study <span aria-hidden="true">→</span></button>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- EXPERTISE -->
+    <section class="expertise" id="expertise" data-theme="dark" data-gl aria-labelledby="expertise-title">
+      <span class="anchor-alias" id="services" aria-hidden="true"></span>
+      <div class="exp-grid">
+        <div class="exp-intro">
+          <div class="exp-sticky">
+            <h2 class="exp-title reveal" id="expertise-title">The whole picture, every pixel.</h2>
+            <p class="exp-note reveal">From the first “what if” to the final line of code. One partner for the design, the build and the care after launch.</p>
+            <span class="exp-anchor" aria-hidden="true"></span>
           </div>
         </div>
-      </section>
-    </main>
-
-    <!-- ===================== FLOATING SOCIAL ===================== -->
-    <div class="float-stack" aria-label="Quick contact buttons">
-      <a
-        href="https://wa.me/972587292029"
-        class="float-btn wa"
-        target="_blank"
-        rel="noopener noreferrer nofollow"
-        aria-label="Chat with Zvi on WhatsApp (opens in a new tab)"
-        data-cursor="hover"
-        data-wa
-      >
-        <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true" focusable="false">
-          <path fill="#fff" d="M16.03 5.3c-5.9 0-10.7 4.8-10.7 10.7 0 1.88.5 3.72 1.43 5.34L5.3 26.7l5.5-1.44a10.66 10.66 0 0 0 5.23 1.34c5.9 0 10.7-4.8 10.7-10.7s-4.8-10.7-10.7-10.7zm0 19.55a8.85 8.85 0 0 1-4.52-1.24l-.32-.19-3.27.86.87-3.18-.21-.33a8.84 8.84 0 0 1-1.36-4.7c0-4.9 4-8.88 8.9-8.88s8.88 3.98 8.88 8.88-3.99 8.88-8.97 8.88zm4.88-6.65c-.27-.13-1.6-.79-1.84-.88-.25-.09-.43-.13-.6.13-.18.27-.7.88-.85 1.06-.16.18-.31.2-.58.07-.27-.13-1.14-.42-2.17-1.33-.8-.71-1.34-1.59-1.5-1.86-.16-.27-.02-.41.12-.55.12-.12.27-.31.4-.47.13-.16.18-.27.27-.45.09-.18.04-.34-.02-.47-.07-.13-.6-1.45-.82-1.98-.22-.52-.44-.45-.6-.46-.16-.01-.34-.01-.52-.01-.18 0-.47.07-.72.34-.25.27-.95.93-.95 2.27 0 1.34.97 2.63 1.1 2.82.13.18 1.91 2.91 4.62 4.08.64.28 1.15.45 1.55.58.65.21 1.24.18 1.71.11.52-.08 1.6-.65 1.83-1.28.22-.63.22-1.18.16-1.29-.07-.11-.24-.18-.51-.31z"/>
-        </svg>
-      </a>
-      <a
-        href="https://github.com/zvi293"
-        class="float-btn gh"
-        target="_blank"
-        rel="noopener noreferrer nofollow"
-        aria-label="Visit Zvi's GitHub profile (opens in a new tab)"
-        data-cursor="hover"
-      >
-        <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">
-          <path fill="#fff" d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-1.93c-3.2.7-3.87-1.54-3.87-1.54-.52-1.33-1.27-1.68-1.27-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.79.55C20.71 21.39 24 17.08 24 12 24 5.65 18.85.5 12 .5z"/>
-        </svg>
-      </a>
-    </div>
-
-    <!-- ===================== FOOTER ===================== -->
-    <footer class="site-footer" aria-label="Footer">
-      <div class="container">
-        <div class="footer-grid">
-          <div class="footer-brand">
-            <p class="wordmark">NZ&nbsp;Web<em>.</em></p>
-            <p>
-              The independent studio of Zvi Moshe. Crafting timeless, fast,
-              honest digital experiences for brands worldwide.
-            </p>
-          </div>
-
-          <nav class="footer-col" aria-label="Navigate">
-            <h4>Navigate</h4>
-            <a href="#manifesto">About</a>
-            <a href="#services">Services</a>
-            <a href="#process">Process</a>
-            <a href="#work">Work</a>
-            <a href="#faq">FAQ</a>
-          </nav>
-
-          <nav class="footer-col" aria-label="Connect">
-            <h4>Connect</h4>
-            <a href="mailto:zvi293293@gmail.com">Email</a>
-            <a href="https://wa.me/972587292029" target="_blank" rel="noopener noreferrer nofollow" data-wa>WhatsApp</a>
-            <a href="https://github.com/zvi293" target="_blank" rel="noopener noreferrer nofollow">GitHub</a>
-            <a href="https://zstore-ai.co.il/" target="_blank" rel="noopener noreferrer nofollow">zstore-ai.co.il</a>
-          </nav>
-
-          <div class="footer-col">
-            <h4>Studio</h4>
-            <p>Tel Aviv, IL</p>
-            <p>Worldwide</p>
-            <p>Booking 2026</p>
-          </div>
-        </div>
-
-        <div class="footer-bottom">
-          <span>© 2026 NZ Web · All rights reserved</span>
-          <nav class="legal" aria-label="Legal">
-            <a href="./privacy-policy.html">Privacy</a>
-            <a href="./terms.html">Terms</a>
-          </nav>
-          <a href="#main" class="top-link" data-cursor="hover">
-            Back to top
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-          </a>
+        <div class="services">
+          <details class="service" open>
+            <summary><span class="svc-n">01</span><span class="svc-h"><h3>Web experiences</h3><span class="svc-sub">Websites &amp; landing pages</span></span><span class="twist" aria-hidden="true"></span></summary>
+            <div class="svc-body">
+              <p>Distinctive websites and landing pages that turn a first impression into a real connection. Built around your story, and made to move people.</p>
+              <ul class="tags"><li>Custom websites</li><li>Landing pages</li><li>Responsive development</li></ul>
+              <a class="svc-link" href="#contact" data-interest="Website">Start with a website <span aria-hidden="true">→</span></a>
+            </div>
+          </details>
+          <details class="service">
+            <summary><span class="svc-n">02</span><span class="svc-h"><h3>Digital product design</h3><span class="svc-sub">UI / UX</span></span><span class="twist" aria-hidden="true"></span></summary>
+            <div class="svc-body">
+              <p>Clear interfaces for complicated ideas. From the first user journey to a consistent design system, I make products feel natural to use.</p>
+              <ul class="tags"><li>UI / UX</li><li>Prototyping</li><li>Design systems</li></ul>
+              <a class="svc-link" href="#contact" data-interest="UI / UX">Start with UI / UX <span aria-hidden="true">→</span></a>
+            </div>
+          </details>
+          <details class="service">
+            <summary><span class="svc-n">03</span><span class="svc-h"><h3>Code &amp; connections</h3><span class="svc-sub">Integrations</span></span><span class="twist" aria-hidden="true"></span></summary>
+            <div class="svc-body">
+              <p>The useful things behind a beautiful website: payments, forms, content management, and the connections that keep your business moving.</p>
+              <ul class="tags"><li>Integrations</li><li>WordPress</li><li>Payment flows</li></ul>
+              <a class="svc-link" href="#contact" data-interest="Integration">Start with an integration <span aria-hidden="true">→</span></a>
+            </div>
+          </details>
+          <details class="service">
+            <summary><span class="svc-n">04</span><span class="svc-h"><h3>Refinement &amp; care</h3><span class="svc-sub">Speed, accessibility, SEO foundations</span></span><span class="twist" aria-hidden="true"></span></summary>
+            <div class="svc-body">
+              <p>A website should keep getting better. Thoughtful improvements to speed, accessibility, search foundations, and the little details that make a difference.</p>
+              <ul class="tags"><li>Performance</li><li>SEO foundations</li><li>Ongoing support</li></ul>
+              <a class="svc-link" href="#contact" data-interest="Website">Give your site some care <span aria-hidden="true">→</span></a>
+            </div>
+          </details>
         </div>
       </div>
-    </footer>
+    </section>
 
-    <script src="./app.js?v=20260518d" defer></script>
-  </body>
+    <!-- STUDIO -->
+    <section class="studio" id="studio" data-theme="light" data-gl aria-labelledby="studio-title">
+      <span class="anchor-alias" id="manifesto" aria-hidden="true"></span>
+      <div class="studio-grid">
+        <h2 class="studio-title reveal" id="studio-title">The person you brief is the person who builds it.</h2>
+        <figure class="portrait">
+          <div class="portrait-frame" data-weave="image">
+            <img src="./image/20251111_150847.webp" alt="Zvi Moshe, the designer and developer behind Zstore AI, smiling by the sea" width="1607" height="1983" decoding="async">
+          </div>
+          <figcaption><strong>Zvi Moshe</strong><span>Designer &amp; developer</span></figcaption>
+        </figure>
+        <div class="studio-copy">
+          <p class="voice reveal">Hi, I’m Zvi. I’m a designer and developer based in Tel Aviv, working with people everywhere. I bring the thinking, the design and the code together, so your website feels like one considered idea.</p>
+          <p class="voice voice-2 reveal">When we work together, you work directly with me. The person who hears your idea is the person who brings it to life. And yes, I’ll probably spend a little too long getting that last detail just right.</p>
+          <p class="signature reveal">Zvi.</p>
+        </div>
+        <dl class="facts">
+          <div><dt>Based in</dt><dd>Tel Aviv, working worldwide</dd></div>
+          <div><dt>Languages</dt><dd>English &amp; Hebrew</dd></div>
+          <div><dt>Pricing</dt><dd>Fixed, per agreed scope</dd></div>
+          <div><dt>After launch</dt><dd>30 days of care</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="process" id="process" data-theme="light" aria-labelledby="process-title">
+      <div class="process-inner">
+        <div class="process-head">
+          <h2 class="process-title reveal" id="process-title">Four steps, one thread.</h2>
+          <p class="process-note reveal">Clarity at every step, and a little room for the unexpected.</p>
+        </div>
+        <div class="steps" role="tablist" aria-label="Project process">
+          <button class="step-tab" role="tab" id="step-tab-0" aria-selected="true" aria-controls="step-panel-0" data-step="0"><span class="step-n">01</span><span class="step-name">Discover</span></button>
+          <button class="step-tab" role="tab" id="step-tab-1" aria-selected="false" aria-controls="step-panel-1" tabindex="-1" data-step="1"><span class="step-n">02</span><span class="step-name">Design</span></button>
+          <button class="step-tab" role="tab" id="step-tab-2" aria-selected="false" aria-controls="step-panel-2" tabindex="-1" data-step="2"><span class="step-n">03</span><span class="step-name">Develop</span></button>
+          <button class="step-tab" role="tab" id="step-tab-3" aria-selected="false" aria-controls="step-panel-3" tabindex="-1" data-step="3"><span class="step-n">04</span><span class="step-name">Launch</span></button>
+        </div>
+        <div class="panels">
+          <div class="panel" id="step-panel-0" role="tabpanel" aria-labelledby="step-tab-0" tabindex="0">
+            <p class="panel-k">First, we ask the right questions.</p>
+            <h3>Before pixels, possibilities.</h3>
+            <p class="panel-p">We talk about your business, your audience, and what success actually looks like. Together, we find the idea worth building around.</p>
+            <ul class="tags tags-ink"><li>Discovery conversation</li><li>Creative direction</li><li>Project roadmap</li></ul>
+          </div>
+          <div class="panel" id="step-panel-1" role="tabpanel" aria-labelledby="step-tab-1" tabindex="0" hidden>
+            <p class="panel-k">Turn the idea into something you can feel.</p>
+            <h3>Find the form. Make it yours.</h3>
+            <p class="panel-p">Type, colour, structure and motion come together in a design you can explore. We refine the details together before development begins.</p>
+            <ul class="tags tags-ink"><li>Visual direction</li><li>Responsive layouts</li><li>Interactive prototype</li></ul>
+          </div>
+          <div class="panel" id="step-panel-2" role="tabpanel" aria-labelledby="step-tab-2" tabindex="0" hidden>
+            <p class="panel-k">The details make the difference.</p>
+            <h3>Carefully coded. Made to work.</h3>
+            <p class="panel-p">The design becomes a real, responsive experience. I build the interactions, connect the tools, and check the details across screens.</p>
+            <ul class="tags tags-ink"><li>Custom development</li><li>Integrations</li><li>Browser &amp; mobile QA</li></ul>
+          </div>
+          <div class="panel" id="step-panel-3" role="tabpanel" aria-labelledby="step-tab-3" tabindex="0" hidden>
+            <p class="panel-k">A new beginning for your business.</p>
+            <h3>Ready for the real world.</h3>
+            <p class="panel-p">We run the final checks, make your site live when you’re ready, and walk through your handoff. You get 30 days of post-launch care to settle in.</p>
+            <ul class="tags tags-ink"><li>Launch checklist</li><li>Personal handoff</li><li>30 days of care</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq" data-theme="light" aria-labelledby="faq-title">
+      <div class="faq-grid">
+        <div class="faq-intro">
+          <h2 class="faq-title reveal" id="faq-title">Questions, answered by me.</h2>
+          <p class="faq-note reveal">Something else on your mind? <a href="#contact-form">Just ask me</a>.</p>
+        </div>
+        <div class="faq-list">
+          <details><summary>How long does a project usually take?<span class="twist" aria-hidden="true"></span></summary><p>Most landing pages take 1–2 weeks. Full marketing sites typically take 4–6 weeks, depending on scope, content readiness and integrations. Your proposal will include a clear timeline.</p></details>
+          <details><summary>How do you price a project?<span class="twist" aria-hidden="true"></span></summary><p>Projects are quoted at a fixed price based on the agreed scope. We discuss your goals first, then you receive a clear proposal with deliverables, timing and cost. Any scope changes are agreed together.</p></details>
+          <details><summary>Can you refresh my existing website?<span class="twist" aria-hidden="true"></span></summary><p>Absolutely. We start by understanding what already works and where the experience can improve. That might mean a focused refresh or a complete new direction, depending on your goals.</p></details>
+          <details><summary>Will I be able to update the content?<span class="twist" aria-hidden="true"></span></summary><p>If managing your own content is part of the brief, we choose a suitable CMS and build that into the project. The handoff includes guidance so you feel comfortable making updates.</p></details>
+          <details><summary>What happens after launch?<span class="twist" aria-hidden="true"></span></summary><p>You get 30 days of post-launch care. After that, we can discuss ongoing support or a lighter maintenance arrangement, depending on what your website needs.</p></details>
+          <details><summary>Do you work with clients outside Israel?<span class="twist" aria-hidden="true"></span></summary><p>Yes. I’m based in Tel Aviv and work with clients worldwide, in English and Hebrew. We can work asynchronously and schedule calls when a conversation will move things forward.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact" data-theme="dark" data-gl aria-labelledby="contact-title">
+      <div class="contact-grid">
+        <div class="contact-head">
+          <h2 class="contact-title" id="contact-title">let’s<br>talk.</h2>
+          <span class="z-anchor" aria-hidden="true"><svg class="z-fallback"><use href="#zmark"/></svg></span>
+        </div>
+        <div class="contact-copy">
+          <p class="contact-lede">A big idea, a small question, or something you can’t quite put into words yet. I’d love to hear it.</p>
+          <ul class="reach">
+            <li><a class="reach-link" href="mailto:zstore.ai295@gmail.com"><span class="reach-k">Email</span><span class="reach-v">zstore.ai295@gmail.com</span></a></li>
+            <li><a class="reach-link" href="https://wa.me/972587292029" target="_blank" rel="noopener noreferrer" data-wa><span class="reach-k">WhatsApp</span><span class="reach-v">+972 58 729 2029</span></a></li>
+          </ul>
+          <p class="expect"><span class="dot" aria-hidden="true"></span>Every message lands in my own inbox. I read it myself and reply personally, usually within one working day.</p>
+        </div>
+
+        <form id="contact-form" class="form" method="POST" action="https://script.google.com/macros/s/AKfycbxsAue4IqeTOBZ2CNoNHz48uCvENT5x4yi4xC15VfiZu7v9xNBId77LMZhytSB0rLP0/exec" novalidate>
+          <fieldset class="chips-set">
+            <legend>I’m interested in</legend>
+            <div class="chips">
+              <button type="button" class="chip" data-select-interest="Website" aria-pressed="false">A new website</button>
+              <button type="button" class="chip" data-select-interest="Landing page" aria-pressed="false">A landing page</button>
+              <button type="button" class="chip" data-select-interest="UI / UX" aria-pressed="false">UI / UX design</button>
+              <button type="button" class="chip" data-select-interest="Integration" aria-pressed="false">An integration</button>
+              <button type="button" class="chip" data-select-interest="Something else" aria-pressed="false">Something else</button>
+            </div>
+          </fieldset>
+          <input type="hidden" name="interest" id="interest">
+          <div class="hp" aria-hidden="true"><label for="company">Leave this empty</label><input id="company" name="company" tabindex="-1" autocomplete="off"></div>
+          <input name="ts" id="form-ts" type="hidden">
+          <div class="field-row">
+            <div class="field">
+              <label for="full-name">Your name</label>
+              <input id="full-name" name="name" autocomplete="name" placeholder="The name I should know" required minlength="2" maxlength="80" aria-describedby="full-name-error">
+              <span class="field-error" id="full-name-error" data-error="Please add your name, at least 2 characters." hidden></span>
+            </div>
+            <div class="field">
+              <label for="email">Your email</label>
+              <input id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="Somewhere I can reach you" required maxlength="160" aria-describedby="email-error">
+              <span class="field-error" id="email-error" data-error="Please add an email address I can reply to, like name@example.com." hidden></span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="message">A little about your idea</label>
+            <textarea id="message" name="message" rows="4" placeholder="Goals, timing, your favourite wild idea…" required minlength="10" maxlength="3000" aria-describedby="message-hint message-error"></textarea>
+            <span class="hint" id="message-hint"><span>10 characters minimum</span><span class="counter"><span id="msg-counter">0</span> / 3000</span></span>
+            <span class="field-error" id="message-error" data-error="Tell me a little more about your idea, at least 10 characters." hidden></span>
+          </div>
+          <div class="form-end">
+            <button type="submit" class="btn btn-enamel submit">Send it to Zvi <span class="btn-arrow" aria-hidden="true">→</span></button>
+            <p class="form-note">By sending, you agree to the <a href="./privacy-policy.html">privacy policy</a>.</p>
+          </div>
+          <p class="form-status" id="form-status" role="status" tabindex="-1" hidden></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" data-theme="dark" data-gl>
+    <div class="footer-row">
+      <a href="#top" class="brand brand-lg" aria-label="Zstore AI, back to top">
+        <svg class="brand-mark" aria-hidden="true"><use href="#zmark"/></svg>
+        <span class="wordmark" aria-hidden="true">Zstore<span>AI</span></span>
+      </a>
+      <p class="footer-tag">Design &amp; code by one person.<br>Tel Aviv, working worldwide.</p>
+      <div class="footer-actions">
+        <a class="zstore-badge" href="https://zstore-ai.co.il/" target="_blank" rel="noopener noreferrer" aria-label="Zstore AI — opens in a new tab"><img src="./image/brand/zstore-logo.webp" alt="Zstore AI" width="652" height="217" decoding="async"></a>
+        <a class="back-top" href="#top">Back to top <span aria-hidden="true">↑</span></a>
+      </div>
+    </div>
+    <div class="footer-row footer-small">
+      <span>© <span id="year">2026</span> Zstore AI · Zvi Moshe</span>
+      <nav aria-label="Legal"><a href="./privacy-policy.html">Privacy</a><a href="./terms.html">Terms</a></nav>
+    </div>
+  </footer>
+
+  <dialog class="sheet project-sheet" id="project" aria-labelledby="dialogTitle">
+    <div class="sheet-scroll">
+      <div class="sheet-top">
+        <span class="sheet-label"><span class="sl-full">Zstore AI · Independent concept study</span><span class="sl-short">Concept study</span></span>
+        <button class="close-btn" type="button" data-close aria-label="Close study details"><span aria-hidden="true"></span></button>
+      </div>
+      <div class="project-visual" id="dialogVisual"></div>
+      <div class="project-copy">
+        <p class="project-cat" id="dialogCategory"></p>
+        <h2 class="project-title" id="dialogTitle"></h2>
+        <p class="project-intro" id="dialogIntro"></p>
+        <div class="project-detail">
+          <div><h3>The idea</h3><p id="dialogIdea"></p></div>
+          <div><h3>The approach</h3><p id="dialogApproach"></p></div>
+          <div><h3>What it explores</h3><p id="dialogExplores"></p></div>
+        </div>
+        <p class="concept-note"><span class="concept-tag">Concept</span>An independent design exploration with concept imagery. This is not a commissioned client project.</p>
+        <div class="project-actions">
+          <a class="btn btn-enamel" href="#contact" id="dialogContact">Explore a direction like this <span class="btn-arrow" aria-hidden="true">→</span></a>
+          <button class="btn btn-ghost" type="button" id="dialogNext">Next study</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="cursor" aria-hidden="true"><span>Open study</span></div>
+</body>
 </html>

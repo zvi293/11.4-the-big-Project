@@ -1,0 +1,14 @@
+{
+  "name": "zstore-ai-one-ribbon",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Zstore AI, \"One Ribbon\": a hand-coded WebGL2 studio website. Static files, zero dependencies.",
+  "scripts": {
+    "start": "node serve.cjs",
+    "test:mobile": "node tests/mobile-check.cjs --url http://localhost:5190/"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "UNLICENSED"
+}
