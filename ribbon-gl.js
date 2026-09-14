@@ -404,6 +404,7 @@
   /* ------------------------------------------------------------------ DOM hooks */
   const $ = (s) => document.querySelector(s);
   const heroTitle = $('.hero-title'), knotA = $('.knot-a'), knotB = $('.knot-b');
+  const studioTitle = $('.studio-title');
   const portrait = $('.portrait'), portraitImg = portrait && portrait.querySelector('img'), nameTag = portrait && portrait.querySelector('figcaption');
   const sections = [...document.querySelectorAll('main > section, .footer')];
   const hero = $('.hero'), work = $('.work'), expertise = $('.expertise'), studio = $('.studio'), contact = $('.contact');
@@ -487,6 +488,12 @@
     const fs = parseFloat(getComputedStyle(heroTitle).fontSize);
     const pad = Math.ceil(fs * 0.32);
     const cw = Math.ceil((host.width + pad * 2) * DPR), ch = Math.ceil((host.height + pad * 2) * DPR);
+    // a zero-sized measurement (mid-rotation, hidden layout) would make texImage2D reject the
+    // canvas ("no canvas"): show the DOM title and try again on a later frame instead
+    if (!(host.width > 0 && host.height > 0 && cw > 4 && ch > 4)) {
+      p.ready = false; heroTitle.classList.remove('is-woven'); textDirty = true;
+      return;
+    }
     const c = p.canvas; c.width = cw; c.height = ch;
     const ctx = c.getContext('2d');
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.clearRect(0, 0, cw, ch); ctx.fillStyle = '#fff'; ctx.textBaseline = 'alphabetic';
@@ -636,26 +643,45 @@
     return { width: Math.max(r.height * 0.2, 16), mat: 'orange', closed: false, light: 0, cup: 0.45, streaks: 1, push: 1 };
   }
 
-  // Studio: a slim tilted orbit threading the portrait's TOP-LEFT corner (the owner's chosen
-  // spot) — most of the loop floats in the open paper beside the frame, and its lower arc
-  // passes in front of the corner while the upper arc dips behind the photo, so the ribbon
-  // appears to pierce the card. It never circles the person; the face depth mask still
-  // guarantees it can only ever pass behind the head.
+  // Studio: a complete tilted ring hovering over the portrait's top-left corner — nothing ever
+  // clips it. The whole loop stays on screen and floats just IN FRONT of the card, its lower
+  // arc brushing the corner, with only a gentle depth roll so the chrome catches light. It
+  // never circles the person, and the face depth mask still guarantees it can't cover the face.
   function studioPose(out, twist, t) {
     const r = portraitImg.getBoundingClientRect();
-    const cx = r.left + r.width * (mobile ? 0.05 : 0.03), cy = r.top + r.height * (mobile ? 0.10 : 0.11);
-    const rx = r.width * (mobile ? 0.42 : 0.50), ry = r.width * (mobile ? 0.16 : 0.19);
-    const roll = -0.35 + 0.04 * Math.sin(t * 0.3) + mouse.sx * 0.04;
-    const cr = Math.cos(roll), sr = Math.sin(roll), rz = rx * pxW * 0.8;
+    let cx = r.left + r.width * (mobile ? 0.10 : 0.05);
+    const cy = r.top + r.height * (mobile ? 0.055 : 0.07);
+    let rx = r.width * (mobile ? 0.29 : 0.36), ry = r.width * (mobile ? 0.115 : 0.14);
+    const roll = -0.32 + 0.04 * Math.sin(t * 0.3) + mouse.sx * 0.04;
+    const cr = Math.cos(roll), sr = Math.sin(roll);
+    // never touch the headline (narrow desktops) and never leave the screen (phones):
+    // if the loop's left tip would cross the limit, nudge it right and shrink it to fit
+    {
+      const ext = rx * Math.abs(cr) + ry * Math.abs(sr);
+      const vext = ry * Math.abs(cr) + rx * Math.abs(sr);
+      let leftLimit = 8;
+      if (studioTitle) {
+        const tr = studioTitle.getBoundingClientRect();
+        if (tr.bottom > cy - vext && tr.top < cy + vext) leftLimit = Math.max(leftLimit, tr.right + 22);
+      }
+      const deficit = leftLimit - (cx - ext);
+      if (deficit > 0) {
+        const shift = Math.min(deficit * 0.5, r.width * 0.07);
+        cx += shift;
+        const k = Math.max(0.55, (cx - leftLimit) / ext);
+        rx *= k; ry *= k;
+      }
+    }
+    const zoff = rx * pxW * 0.5, rz = rx * pxW * 0.35; // zoff > rz keeps every point in front of the card
     for (let i = 0; i < NS; i++) {
       const u = i / (NS - 1), a = u * TAU;
       const lx = Math.cos(a) * rx, ly = Math.sin(a) * ry * (1 + 0.06 * Math.sin(t * 0.4));
       out[i * 3] = wx(cx + lx * cr - ly * sr);
       out[i * 3 + 1] = wy(cy + lx * sr + ly * cr);
-      out[i * 3 + 2] = Math.sin(a) * rz;
+      out[i * 3 + 2] = zoff + Math.sin(a) * rz;
       twist[i] = 0.32 * Math.sin(2 * a + t * 0.5);
     }
-    return { width: Math.max(r.width * 0.05, 12), mat: 'orange', closed: true, light: 1, cup: 0.5, streaks: 1, push: 0 };
+    return { width: Math.max(r.width * 0.045, 10), mat: 'orange', closed: true, light: 1, cup: 0.5, streaks: 1, push: 0 };
   }
 
   function zPose(out, twist, t) {
