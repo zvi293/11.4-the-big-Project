@@ -18,6 +18,50 @@
     Cross-Origin-Opener-Policy = "same-origin"
     Cross-Origin-Resource-Policy = "same-origin"
 
+# Internal project files (docs, local tooling, QA suite) are not part of the website:
+# serve the 404 page for them. `force` makes the rule win over the deployed file.
+[[redirects]]
+  from = "/README.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/CONCEPT.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/serve.cjs"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/START.cmd"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/package.json"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/tests/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+# RFC 9116 security contact: the canonical /.well-known/ path serves the root file.
+[[redirects]]
+  from = "/.well-known/security.txt"
+  to = "/security.txt"
+  status = 200
+
 # Fonts and images never change without a rename — cache for a year.
 [[headers]]
   for = "/fonts/*"

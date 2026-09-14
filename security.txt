@@ -1,0 +1,7 @@
+# Zstore AI — One Ribbon: security contact (RFC 9116)
+# Found something vulnerable on this site? Please tell me — I read every report myself.
+
+Contact: mailto:zstore.ai295@gmail.com
+Expires: 2027-09-14T00:00:00.000Z
+Preferred-Languages: en, he
+Canonical: https://nz-web.netlify.app/.well-known/security.txt
