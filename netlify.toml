@@ -62,6 +62,42 @@
   to = "/security.txt"
   status = 200
 
+# --- Form-flood rate limiting (server-side, per IP per domain) ---------------
+# Netlify accepts form POSTs on any path, so path rules cannot be airtight;
+# these three cover the targets every real-world bot uses — the form's own
+# action URL (/thank-you*) and the documented AJAX target ("/"). Limits are
+# far above anything a human, Googlebot or PageSpeed ever sends for a single
+# path, so normal traffic and SEO are untouched; excess returns 429.
+[[redirects]]
+  from = "/"
+  to = "/index.html"
+  status = 200
+  force = true
+  [redirects.rate_limit]
+    window_size = 180
+    window_limit = 60
+    aggregate_by = ["ip", "domain"]
+
+[[redirects]]
+  from = "/thank-you"
+  to = "/thank-you.html"
+  status = 200
+  force = true
+  [redirects.rate_limit]
+    window_size = 180
+    window_limit = 30
+    aggregate_by = ["ip", "domain"]
+
+[[redirects]]
+  from = "/thank-you.html"
+  to = "/thank-you.html"
+  status = 200
+  force = true
+  [redirects.rate_limit]
+    window_size = 180
+    window_limit = 30
+    aggregate_by = ["ip", "domain"]
+
 # Fonts and images never change without a rename — cache for a year.
 [[headers]]
   for = "/fonts/*"
