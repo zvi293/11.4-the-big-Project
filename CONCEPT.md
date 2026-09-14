@@ -92,10 +92,9 @@ The hero caption is a human figure-style line, not a technical readout: "Fig. 1 
    - **Phones:** each study gets its info block with a live material swatch in its slot, plus an "Open the study" button. The swatch spins about its own axis and is held tilted toward the viewer, so it never turns edge-on.
    - **Tablets (761–900px):** the frame and its notes sit side by side, with the swatch beside the title.
 3. **Ribbon seams.** Every dark/paper boundary is a slowly twisting enamel/chrome ribbon in the background shader, with a soft contact shadow on paper.
-4. **The ring (Studio).** A complete tilted ellipse around the lower chest.
-   - The front arc stays in the chest band; the back arc passes behind both shoulders and is hidden by the portrait plane.
+4. **The ring (Studio).** A slim tilted loop threading the portrait's top-left corner (the owner's chosen spot, replacing the old chest-height ellipse that read as if it caged the person). Most of the loop floats on the open paper beside the frame; where it meets the card it slips behind the photo, so the ribbon appears to pierce the corner.
    - Zvi's head is a depth mask (nearest depth), so the ribbon can only ever pass behind it.
-   - The name tag is a discard mask.
+   - The name tag is a discard mask (the loop never reaches it anyway).
    - `ring-check.cjs` verifies zero enamel pixels on the face and name tag at every scroll position.
 5. **The fold (Contact).** The flat-folded Z beside "let's talk.", the brand's bookend.
 
@@ -189,9 +188,9 @@ The hero caption is a human figure-style line, not a technical readout: "Fig. 1 
 
 ### Performance
 
-- DPR is capped at 2 on desktop and 1.5 on coarse pointers. Phones also get the lighter mesh and 2× MSAA.
+- DPR is capped at 2 on desktop and 2.5 on coarse pointers (so the woven type and the Z stay sharp on 3× phone screens). Phones also get the lighter mesh and 2× MSAA.
 - The loop runs only while a `[data-gl]` section intersects the viewport and the tab is visible, and no popup is open. With motion off it renders on demand.
-- **Quality governor:** after warm-up, a sustained average frame time above 26ms (19ms on phones) for two consecutive seconds drops MSAA, caps DPR at 1.25 (1.0 on phones) and throttles to 30fps.
+- **Quality governor:** after warm-up, a sustained average frame time above 26ms (19ms on phones) for two consecutive seconds drops MSAA, caps DPR at 1.25 (1.5 on phones — the old phone default, so degraded quality never falls below the previous baseline) and throttles to 30fps.
 - Measured at 390px, DPR 3, on the shared integrated GPU: median frame interval 7.1ms, p95 about 14ms, idle and during touch scroll. Before the phone path it was 18–21ms.
 - The text texture is rebuilt only on resize or font load (debounced).
 

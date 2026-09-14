@@ -415,9 +415,12 @@
   /* ------------------------------------------------------------------ targets */
   let W = 0, H = 0, CW = 0, CH = 0, DPR = 1, samples = 0, lowQ = false;
   let msFbo, msColor, msDepth, rsFbo, rsTex, rsDepth, halfFbo, halfTex, HW = 1, HH = 1;
-  // phones: DPR 1.5, 2x MSAA, lighter mesh; the governor steps down sooner
-  const MAXDPR = coarse ? 1.5 : 2;
-  const LOWDPR = coarse ? 1 : 1.25;
+  // phones: DPR up to 2.5 so the woven type and the Z stay sharp on 3x screens,
+  // with 2x MSAA and the lighter mesh; the governor steps down sooner, and its
+  // low-quality floor (1.5) equals the old phone default, so no device ever
+  // renders worse than before — slow ones just settle where they used to be.
+  const MAXDPR = coarse ? 2.5 : 2;
+  const LOWDPR = coarse ? 1.5 : 1.25;
   const SLOW_FRAME = coarse ? 0.019 : 0.026;
   const colorTex = (w, h, levels, filter) => {
     const t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
@@ -633,23 +636,26 @@
     return { width: Math.max(r.height * 0.2, 16), mat: 'orange', closed: false, light: 0, cup: 0.45, streaks: 1, push: 1 };
   }
 
-  // Studio: a complete tilted ellipse around the chest. The front arc stays in the lower chest band,
-  // the back arc passes behind both shoulders; the face is a depth mask, the name tag a discard mask.
+  // Studio: a slim tilted orbit threading the portrait's TOP-LEFT corner (the owner's chosen
+  // spot) — most of the loop floats in the open paper beside the frame, and its lower arc
+  // passes in front of the corner while the upper arc dips behind the photo, so the ribbon
+  // appears to pierce the card. It never circles the person; the face depth mask still
+  // guarantees it can only ever pass behind the head.
   function studioPose(out, twist, t) {
     const r = portraitImg.getBoundingClientRect();
-    const cx = r.left + r.width * 0.5, cy = r.top + r.height * 0.745;
-    const rx = r.width * (mobile ? 0.6 : 0.63), ry = r.height * 0.075;
-    const roll = -0.07 + 0.04 * Math.sin(t * 0.3) + mouse.sx * 0.03;
-    const cr = Math.cos(roll), sr = Math.sin(roll), rz = rx * pxW * 0.7;
+    const cx = r.left + r.width * (mobile ? 0.05 : 0.03), cy = r.top + r.height * (mobile ? 0.10 : 0.11);
+    const rx = r.width * (mobile ? 0.42 : 0.50), ry = r.width * (mobile ? 0.16 : 0.19);
+    const roll = -0.35 + 0.04 * Math.sin(t * 0.3) + mouse.sx * 0.04;
+    const cr = Math.cos(roll), sr = Math.sin(roll), rz = rx * pxW * 0.8;
     for (let i = 0; i < NS; i++) {
       const u = i / (NS - 1), a = u * TAU;
-      const lx = Math.cos(a) * rx, ly = Math.sin(a) * ry * (1 + 0.08 * Math.sin(t * 0.4));
+      const lx = Math.cos(a) * rx, ly = Math.sin(a) * ry * (1 + 0.06 * Math.sin(t * 0.4));
       out[i * 3] = wx(cx + lx * cr - ly * sr);
       out[i * 3 + 1] = wy(cy + lx * sr + ly * cr);
       out[i * 3 + 2] = Math.sin(a) * rz;
       twist[i] = 0.32 * Math.sin(2 * a + t * 0.5);
     }
-    return { width: Math.max(r.width * 0.07, 14), mat: 'orange', closed: true, light: 1, cup: 0.5, streaks: 1, push: 0 };
+    return { width: Math.max(r.width * 0.05, 12), mat: 'orange', closed: true, light: 1, cup: 0.5, streaks: 1, push: 0 };
   }
 
   function zPose(out, twist, t) {
